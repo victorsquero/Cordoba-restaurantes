@@ -23,17 +23,22 @@ h1,h2,h3{font-family:'Rozha One',Georgia,serif;font-weight:400}
 .kicker{font-size:3.2cqw;letter-spacing:.25em;text-transform:uppercase;color:var(--albero);font-weight:700}
 .portal h1{margin:0;font-size:10cqw;line-height:.95}
 .portal h1 em{font-style:normal;color:var(--albero)}
-.portal p{margin:0;font-size:3.7cqw;max-width:34ch;color:#e6ebf8}
+.portal p{margin:0;font-size:3.3cqw;max-width:30ch;color:#e6ebf8}
 .ledge{position:relative;margin-top:-6px}
 .pots{display:block;width:100%;height:78px}
 .plan{max-width:1240px;margin:0 auto;padding:22px 16px 6px}
-.plan h2{margin:0 0 12px;font-size:26px;color:var(--anil2)}
-.plan ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.plan li{border:3px solid var(--anil);box-shadow:inset 0 0 0 4px #fff,inset 0 0 0 5px var(--albero);background:#fff;padding:16px 18px;display:flex;flex-direction:column;gap:2px}
-.plan .when{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--geranio)}
+.plan h2{margin:0 0 14px;font-size:26px;color:var(--anil2)}
+.plan ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.plan li{display:flex;flex-direction:column;background:#fff;border:3px solid var(--anil)}
+.plan .head{background:var(--anil);color:#fff;padding:12px 16px 14px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cg fill='none' stroke='%23ffffff22' stroke-width='1.2'%3E%3Crect x='6' y='6' width='14' height='14'/%3E%3Crect x='6' y='6' width='14' height='14' transform='rotate(45 13 13)'/%3E%3C/g%3E%3C/svg%3E")}
+.plan .day{display:inline-block;background:var(--albero);color:var(--anil2);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:2px 10px}
+.plan .time{display:block;font-family:'Rozha One',serif;font-size:clamp(30px,5vw,40px);line-height:1.05;margin-top:8px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.plan .time small{font-family:'Alegreya Sans',sans-serif;font-size:15px;font-weight:700;letter-spacing:.04em;color:#dbe4f7;margin-right:6px;text-transform:uppercase}
+.plan .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
 .plan .what{font-family:'Rozha One',serif;font-size:21px;color:var(--anil2);line-height:1.15}
-.plan .det{color:var(--mute);font-size:15px}
-.plan a{color:var(--anil);font-weight:700;font-size:14px;margin-top:4px}
+.plan .det{color:var(--ink);font-size:15px}
+.plan .acts{display:flex;gap:6px 16px;flex-wrap:wrap;margin-top:6px}
+.plan a{color:var(--anil);font-weight:700;font-size:14px}
 /* BARRA */
 .bar{position:sticky;top:0;z-index:1000;background:var(--cal);border-bottom:3px double var(--anil);padding:10px 16px}
 .bar-in{max-width:1240px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -101,11 +106,18 @@ footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px
 <div class="band"></div>
 <section class="plan" aria-label="Nuestro plan">
   <h2>Nuestro fin de semana</h2>
-  <ul>
-    <li><span class="when">Vie 9 a dom 11 de octubre</span><span class="what">Medina Suites Córdoba</span><span class="det">Apartamento de 2 dormitorios para 4 adultos, 2 noches. Calle Frías, 4, 14002 Córdoba.</span><span class="det">Entrada de 16:00 a 20:00 · salida hasta las 11:00. Sin parking, Wi-Fi gratis. Tel. +34 606 59 77 08.</span><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=37.88313,-4.76888">Ver en Google Maps ↗</a></li>
-    <li><span class="when">Sábado · 12:30 a 14:15</span><span class="what">Free tour</span><span class="det">Visita guiada por la ciudad, 1 h 45 min.</span></li>
-      <li><span class="when">Domingo 11 · 11:40 a 13:49</span><span class="what">Tren de vuelta a Madrid</span><span class="det">Avlo 02109, de Córdoba-Jerez Ángel a Madrid Puerta de Atocha. Coche 2. El acceso al tren cierra 2 minutos antes de la salida.</span><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/15PsgJmHkPteRRHnaHrJDC3QNMrv49tYd/view?usp=drive_link">Ver billetes ↗</a></li>
-  </ul>
+  <ol>
+    <li><div class="head"><span class="day">Viernes 9</span><span class="time"><small>de</small>16:00–20:00</span></div>
+      <div class="body"><span class="what">Entrada al apartamento</span><span class="det">Medina Suites Córdoba, Calle Frías, 4. Apartamento de 2 dormitorios para 4 personas. Sin parking, Wi-Fi gratis. Tel. +34 606 59 77 08.</span>
+      <div class="acts"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=37.88313,-4.76888">Ver en Google Maps ↗</a></div></div></li>
+    <li><div class="head"><span class="day">Sábado 10</span><span class="time">12:30–14:15</span></div>
+      <div class="body"><span class="what">Free tour</span><span class="det">Visita guiada por la ciudad, 1 h 45 min.</span></div></li>
+    <li><div class="head"><span class="day">Domingo 11</span><span class="time"><small>hasta las</small>11:00</span></div>
+      <div class="body"><span class="what">Salida del apartamento</span><span class="det">Hay que dejar el apartamento antes de las 11:00. El tren sale a las 11:40.</span></div></li>
+    <li><div class="head"><span class="day">Domingo 11</span><span class="time">11:40–13:49</span></div>
+      <div class="body"><span class="what">Tren a Madrid</span><span class="det">Avlo 02109, de Córdoba-Jerez Ángel a Madrid Puerta de Atocha. Coche 2. El acceso cierra 2 minutos antes de la salida.</span>
+      <div class="acts"><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/15PsgJmHkPteRRHnaHrJDC3QNMrv49tYd/view?usp=drive_link">Ver billetes ↗</a></div></div></li>
+  </ol>
 </section>
 <div class="bar"><div class="bar-in">
   <b>Ver</b>
