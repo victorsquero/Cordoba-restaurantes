@@ -143,7 +143,7 @@ main{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,
 .card.s .star rect{fill:var(--naranjo)}
 .note{grid-column:1/-1;font-size:13px;color:var(--mute);margin:0}
 footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px;font-size:14px}
-@media(max-width:860px){main{grid-template-columns:1fr}.mapwrap{position:relative;top:0;height:46vh;order:-1}.bar{padding:8px 12px}}
+@media(max-width:860px){main{grid-template-columns:1fr}.mapwrap{position:sticky;top:var(--bar,56px);height:36vh;min-height:220px;order:-1;z-index:5}.card{scroll-margin-top:calc(var(--bar,56px) + 36vh + 14px)}.bar{padding:4px 10px}.bar-in{gap:4px 8px}button.tab{font-size:16px;padding:2px 10px}button.f{padding:3px 10px;font-size:14px}.sep,#count{display:none}.filters{flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding-bottom:2px}.filters button{flex:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -301,7 +301,7 @@ const NOTES={f:'Posiciones aproximadas; usa el enlace de Google Maps para la ubi
 let mode='f',filt='all';
 function select(k,pan){
   Object.values(cards).forEach(c=>c.classList.remove('sel'));cards[k].classList.add('sel');
-  if(pan){map.setView(markers[k].getLatLng(),17);markers[k].openPopup();if(innerWidth<=860)window.scrollTo({top:0,behavior:'smooth'})}
+  if(pan){map.setView(markers[k].getLatLng(),17);markers[k].openPopup()}
   else cards[k].scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 function match(p){
@@ -477,6 +477,10 @@ buildFilters();apply();
     window.open('https://wa.me/?text='+encodeURIComponent(data.text+' '+data.url),'_blank','noopener');
   });
 })();
+</script>
+<script>
+// Mide la barra de filtros para dejar el mapa fijo justo debajo en el móvil.
+(function(){const b=document.querySelector('.bar');if(!b)return;const set=()=>document.documentElement.style.setProperty('--bar',b.offsetHeight+'px');set();addEventListener('resize',set);if(window.ResizeObserver)new ResizeObserver(set).observe(b)})();
 </script>
 </body>
 </html>
