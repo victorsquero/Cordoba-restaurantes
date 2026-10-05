@@ -50,6 +50,18 @@ button.f{font:inherit;font-weight:700;border:2px solid var(--anil);background:va
 button.f.on{background:var(--anil);color:var(--cal)}
 button.f:focus-visible,.card:focus-visible{outline:3px solid var(--geranio);outline-offset:2px}
 #count{margin-left:auto;color:var(--mute);font-size:14px}
+.tabs{display:flex}
+button.tab{font:inherit;font-family:'Rozha One',serif;font-size:19px;border:0;border-bottom:4px solid transparent;background:none;color:var(--mute);padding:4px 14px;cursor:pointer}
+button.tab.on{color:var(--anil2);border-bottom-color:var(--geranio)}
+button.tab:focus-visible{outline:3px solid var(--geranio)}
+.sep{width:2px;height:26px;background:var(--albero);margin:0 6px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.card.sight .pr{align-self:flex-start;font-family:'Rozha One',serif;font-size:24px;line-height:1;padding:6px 12px;margin-top:4px;background:var(--albero);color:var(--anil2)}
+.card.sight .pr.free{background:var(--naranjo);color:#fff}
+.card.sight .hr{border-left:4px solid var(--anil);padding:2px 0 2px 10px;margin:4px 0}
+.card.sight .hr b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--geranio)}
+.card.sight .hr span{font-weight:700;font-size:15px;color:var(--anil2)}
+.card.sight .tip{font-size:14px;color:var(--mute)}
 /* CONTENIDO */
 main{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;padding:20px 16px 40px}
 #list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px 16px;align-content:start;padding-top:18px}
@@ -121,11 +133,12 @@ footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px
   </div>
 </section>
 <div class="bar"><div class="bar-in">
-  <b>Ver</b>
-  <button class="f on" data-k="all">Todos</button>
-  <button class="f" data-k="comer">Restaurantes</button>
-  <button class="f" data-k="shisha">Shisha y té</button>
-  <button class="f" data-k="top">Los 3 mejores</button>
+  <div class="tabs" role="tablist">
+    <button class="tab on" role="tab" data-m="f">Dónde comer</button>
+    <button class="tab" role="tab" data-m="v">Qué ver</button>
+  </div>
+  <span class="sep"></span>
+  <div id="filters" class="filters"></div>
   <span id="count"></span>
 </div></div>
 <main>
@@ -159,6 +172,19 @@ const P=[
 {n:"S4",name:"Salón de Té",cat:["shisha"],zone:"Buen Pastor · Judería",desc:"Más de 2.300 reseñas. Para té y ambiente; no para buscar la mejor cachimba.",ll:[37.8808,-4.7810]}
 ];
 (function(){let h='';for(let x=-6,i=0;x<1220;x+=64,i++)h+='<use href="#maceta" x="'+x+'" y="'+(i%2?0:0)+'"/>';document.getElementById('fila').innerHTML=h})();
+const V=[
+{n:1,name:"Mezquita-Catedral",free:false,price:"13 €",hours:"Lun–sáb 10:00–19:00 · Dom 8:30–11:30 y 15:00–19:00",tip:"Gratis de lunes a sábado de 8:30 a 9:30 (entrada por orden de llegada). Reserva online para evitar colas.",desc:"El gran monumento de Córdoba: el bosque de arcos de herradura rojos y blancos y el Patio de los Naranjos. Imprescindible.",zone:"Centro histórico",ll:[37.87894,-4.77953]},
+{n:2,name:"Alcázar de los Reyes Cristianos",free:false,price:"5 €",hours:"Mar–sáb 8:30–20:00 · Dom y lun hasta las 14:30",tip:"Jardines con estanques y torres con vistas. Tiene días de entrada gratuita: consulta la web oficial.",desc:"Fortaleza de los reyes católicos junto al río, con mosaicos romanos y unos jardines muy bonitos.",zone:"Junto a la Mezquita",ll:[37.87667,-4.78250]},
+{n:3,name:"Puente Romano",free:true,price:"Gratis",hours:"Abierto las 24 h",tip:"Mejor al atardecer, con la Mezquita iluminada al fondo.",desc:"Puente del siglo I sobre el Guadalquivir, entre la Puerta del Puente y la Torre de la Calahorra.",zone:"Ribera",ll:[37.87620,-4.77830]},
+{n:4,name:"Torre de la Calahorra",free:false,price:"4,50 €",hours:"Todos los días 10:00–18:00",tip:"Alberga el museo vivo de Al-Ándalus. Las mejores vistas del puente y de la Mezquita.",desc:"Torre fortificada al final del Puente Romano, convertida en museo.",zone:"Ribera",ll:[37.87470,-4.77680]},
+{n:5,name:"Calleja de las Flores",free:true,price:"Gratis",hours:"Siempre accesible",tip:"Haz la foto del patio con la torre de la Mezquita al fondo. Se llena a media mañana.",desc:"Callejón blanco lleno de macetas azules con la torre campanario enmarcada al fondo.",zone:"Judería",ll:[37.87985,-4.78125]},
+{n:6,name:"Sinagoga de Córdoba",free:true,price:"Gratis",hours:"Mar–sáb por la mañana hasta ~15:00 · Dom hasta ~13:30 · Lun cerrado",tip:"Gratis para ciudadanos de la UE; el resto paga una tarifa simbólica. Es muy pequeña: 15 minutos.",desc:"Una de las pocas sinagogas medievales que se conservan en España, del siglo XIV.",zone:"Judería",ll:[37.88065,-4.78360]},
+{n:7,name:"Baños Califales",free:false,price:"~2,50 €",hours:"Consultar horario en la web oficial",tip:"Visita corta. Comprueba el horario antes de ir.",desc:"Baños públicos del siglo X con bóvedas de estrellas, junto a la Mezquita.",zone:"Junto a la Mezquita",ll:[37.87905,-4.78010]},
+{n:8,name:"Plaza de la Corredera",free:true,price:"Gratis",hours:"Siempre accesible",tip:"Rodeada de bares y terrazas. Buena para tomar algo después del free tour.",desc:"Plaza porticada del siglo XVII, de las pocas plazas castellanas de Andalucía.",zone:"Centro",ll:[37.88399,-4.77808]},
+{n:9,name:"Templo Romano",free:true,price:"Gratis",hours:"Se ve desde la calle, siempre",tip:"Parada rápida de 5 minutos junto al Ayuntamiento.",desc:"Restos de un templo del siglo I, con columnas reconstruidas en la calle Claudio Marcelo.",zone:"Centro",ll:[37.88290,-4.77730]},
+{n:10,name:"Palacio de Viana",free:false,price:"6 € patios · ~10 € visita completa",hours:"Mar–sáb 10:00–19:00 · Dom 10:00–15:00 · Lun cerrado",tip:"Doce patios, con jardines. Se ve en una hora. Entrada diferente para los patios solos.",desc:"Palacio señorial con doce patios, el mejor lugar para ver cómo es un patio cordobés.",zone:"Zona San Agustín",ll:[37.88820,-4.77730]},
+{n:11,name:"Medina Azahara",free:true,price:"Gratis (UE)",hours:"Mar–dom mañana y tarde · Lun cerrado",tip:"A unos 8 km. El autobús desde Córdoba cuesta unos 2–3 €. No cabe en un fin de semana corto si ya llevas mucho plan.",desc:"Ciudad palatina califal del siglo X, patrimonio mundial. Sale de la ruta habitual.",zone:"A 8 km, al oeste",far:1,ll:[37.88580,-4.86670]}
+];
 const map=L.map('map').setView([37.8805,-4.7795],15);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
 const list=document.getElementById('list');
@@ -167,34 +193,55 @@ const gm=p=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponen
 const star=(n,fill,sz)=>`<svg class="star" width="${sz}" height="${sz}" viewBox="0 0 44 44" aria-hidden="true"><rect x="8" y="8" width="28" height="28" fill="${fill}" stroke="#fff" stroke-width="2.5"/><rect x="8" y="8" width="28" height="28" fill="${fill}" stroke="#fff" stroke-width="2.5" transform="rotate(45 22 22)"/><rect x="9.2" y="9.2" width="25.6" height="25.6" fill="${fill}"/><text x="22" y="27.5" text-anchor="middle" font-family="Rozha One,serif" font-size="16" fill="#fff">${n}</text></svg>`;
 const HOME=[37.88313,-4.76888];
 L.marker(HOME,{zIndexOffset:1000,icon:L.divIcon({className:'',iconSize:[38,38],iconAnchor:[19,19],popupAnchor:[0,-16],html:'<svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true" style="filter:drop-shadow(0 2px 2px #0007)"><circle cx="19" cy="19" r="17" fill="#d9a441" stroke="#fff" stroke-width="2.5"/><path d="M9 19 19 10l10 9h-3v9h-5v-6h-4v6h-5v-9z" fill="#14296a"/></svg>'})}).addTo(map).bindPopup('<b>Nuestro apartamento</b><br>Medina Suites Córdoba<br>Calle Frías, 4<br>Vie 9 a dom 11 de octubre');
+const ALL=P.map(p=>({...p,kind:'f'})).concat(V.map(v=>({...v,kind:'v'})));
 const markers={},cards={};
-P.forEach(p=>{
-  const sh=!p.cat.includes('comer');
-  const col=sh?'#3a6b35':((p.top||p.res)?'#c2185b':'#1d3f8f');
+ALL.forEach(p=>{
+  const k=p.kind+p.n,sh=p.kind==='f'&&!p.cat.includes('comer'),sg=p.kind==='v';
+  const col=sg?'#b3261e':sh?'#3a6b35':((p.top||p.res)?'#c2185b':'#1d3f8f');
   const icon=L.divIcon({className:'',iconSize:[36,36],iconAnchor:[18,18],popupAnchor:[0,-16],html:star(p.n,col,36).replace('class="star"','style="filter:drop-shadow(0 2px 2px #0007)"')});
-  markers[p.n]=L.marker(p.ll,{icon}).bindPopup(`<b>${esc(p.name)}</b><br>${p.price?esc(p.price)+' · ':''}${esc(p.zone)}<br><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps</a>`).on('click',()=>select(p.n,false));
-  const c=document.createElement('article');c.className='card'+(sh?' s':'');c.tabIndex=0;
-  c.innerHTML=`${star(p.n,sh?'#3a6b35':'#1d3f8f',44)}${p.tag?`<span class="cin">${esc(p.tag)}</span>`:''}
-  <h3>${esc(p.name)}</h3><div class="meta">${p.price?`<span>${esc(p.price)}</span>`:''}<span>${esc(p.zone)}</span></div><p>${esc(p.desc)}</p><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps ↗</a>`;
-  c.addEventListener('click',e=>{if(e.target.tagName!=='A')select(p.n,true)});
-  c.addEventListener('keydown',e=>{if(e.key==='Enter')select(p.n,true)});
-  cards[p.n]=c;list.appendChild(c);
+  const sub=sg?`${esc(p.price)} · ${esc(p.hours)}`:`${p.price?esc(p.price)+' · ':''}${esc(p.zone)}`;
+  markers[k]=L.marker(p.ll,{icon}).bindPopup(`<b>${esc(p.name)}</b><br>${sub}<br><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps</a>`).on('click',()=>select(k,false));
+  const c=document.createElement('article');c.className='card'+(sh?' s':'')+(sg?' sight':'');c.tabIndex=0;
+  c.innerHTML=sg
+   ?`${star(p.n,col,44)}<h3>${esc(p.name)}</h3><span class="pr ${p.free?'free':''}">${esc(p.price)}</span><div class="hr"><b>Horario</b><span>${esc(p.hours)}</span></div><p>${esc(p.desc)}</p><span class="tip">${esc(p.tip)}</span><div class="meta"><span>${esc(p.zone)}</span></div><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps ↗</a>`
+   :`${star(p.n,col,44)}${p.tag?`<span class="cin">${esc(p.tag)}</span>`:''}<h3>${esc(p.name)}</h3><div class="meta">${p.price?`<span>${esc(p.price)}</span>`:''}<span>${esc(p.zone)}</span></div><p>${esc(p.desc)}</p><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps ↗</a>`;
+  c.addEventListener('click',e=>{if(e.target.tagName!=='A')select(k,true)});
+  c.addEventListener('keydown',e=>{if(e.key==='Enter')select(k,true)});
+  cards[k]=c;list.appendChild(c);
 });
-const note=document.createElement('p');note.className='note';note.textContent='Posiciones aproximadas; usa el enlace de Google Maps para la ubicación exacta.';list.appendChild(note);
-function select(n,pan){
-  Object.values(cards).forEach(c=>c.classList.remove('sel'));cards[n].classList.add('sel');
-  if(pan){map.setView(markers[n].getLatLng(),17);markers[n].openPopup();if(innerWidth<=860)window.scrollTo({top:0,behavior:'smooth'})}
-  else cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});
+const note=document.createElement('p');note.className='note';list.appendChild(note);
+const FILTERS={f:[['all','Todos'],['comer','Restaurantes'],['shisha','Shisha y té'],['top','Los 3 mejores']],v:[['all','Todos'],['gratis','Gratis'],['pago','De pago']]};
+const NOTES={f:'Posiciones aproximadas; usa el enlace de Google Maps para la ubicación exacta.',v:'Precios y horarios orientativos, sacados de memoria: confírmalos en la web oficial de cada sitio antes de ir. Las posiciones del mapa son aproximadas.'};
+let mode='f',filt='all';
+function select(k,pan){
+  Object.values(cards).forEach(c=>c.classList.remove('sel'));cards[k].classList.add('sel');
+  if(pan){map.setView(markers[k].getLatLng(),17);markers[k].openPopup();if(innerWidth<=860)window.scrollTo({top:0,behavior:'smooth'})}
+  else cards[k].scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-function apply(k){
+function match(p){
+  if(p.kind!==mode)return false;
+  if(filt==='all')return true;
+  if(mode==='v')return filt==='gratis'?p.free:!p.free;
+  return filt==='top'?p.top:p.cat.includes(filt);
+}
+function apply(){
   const vis=[];
-  P.forEach(p=>{const ok=k==='all'||(k==='top'?p.top:p.cat.includes(k));cards[p.n].style.display=ok?'':'none';
-    if(ok){markers[p.n].addTo(map);vis.push(p.ll)}else markers[p.n].remove()});
-  document.getElementById('count').textContent=vis.length+' sitios';
+  ALL.forEach(p=>{const k=p.kind+p.n,ok=match(p);cards[k].style.display=ok?'':'none';
+    if(ok){markers[k].addTo(map);if(!p.far)vis.push(p.ll)}else markers[k].remove()});
+  document.getElementById('count').textContent=ALL.filter(match).length+' sitios';
+  note.textContent=NOTES[mode];
   if(vis.length)map.fitBounds(vis.concat([HOME]),{padding:[40,40],maxZoom:16});
 }
-document.querySelectorAll('button.f').forEach(b=>b.onclick=()=>{document.querySelectorAll('button.f').forEach(x=>x.classList.remove('on'));b.classList.add('on');apply(b.dataset.k)});
-apply('all');
+function buildFilters(){
+  const box=document.getElementById('filters');box.innerHTML='';
+  FILTERS[mode].forEach(([k,l])=>{const b=document.createElement('button');b.className='f'+(k===filt?' on':'');b.textContent=l;
+    b.onclick=()=>{filt=k;buildFilters();apply()};box.appendChild(b)});
+}
+document.querySelectorAll('button.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('button.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');
+  mode=t.dataset.m;filt='all';buildFilters();apply();
+});
+buildFilters();apply();
 </script>
 </body>
 </html>
