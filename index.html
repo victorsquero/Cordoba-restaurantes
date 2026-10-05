@@ -40,9 +40,8 @@ main{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(0,
 .card{background:#fff;border:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
 .card:hover{transform:translateY(-2px);box-shadow:0 8px 20px #14213d1f}
 .card.sel{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue)}
-.ph{position:relative;height:150px;background:var(--blue) ;overflow:hidden}
+.ph{position:relative;height:96px;background:var(--blue) ;overflow:hidden}
 .ph svg{position:absolute;inset:0;width:100%;height:100%}
-.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ph .num{position:absolute;left:10px;bottom:6px;font:800 44px/1 'Bodoni Moda',serif;color:#fff;text-shadow:0 2px 8px #0008}
 .ph.s{background:var(--teal)}
 .ph .tag{position:absolute;right:8px;top:8px;background:var(--lemon);color:var(--ink);font-size:11px;font-weight:700;padding:2px 8px;letter-spacing:.04em}
@@ -62,7 +61,7 @@ main{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(0,
 </style>
 </head>
 <body>
-<header class="hero" id="hero" style="background-image:url(fotos/hero.jpg)">
+<header class="hero" id="hero">
   <div class="hero-in">
     <div class="eyebrow">Guía personal · Córdoba</div>
     <h1>Mesa puesta<br>junto a la <em>Mezquita</em></h1>
@@ -92,7 +91,7 @@ main{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(0,
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
-// Las coordenadas son aproximadas. Fotos: pon fotos/01.jpg … fotos/15.jpg, fotos/S1.jpg … S4.jpg y fotos/hero.jpg.
+// Las coordenadas son aproximadas.
 const P=[
 {n:1,name:"Taberna La Montillana",tag:"MI Nº1",top:1,cat:["comer"],price:"~25–35 €",zone:"Centro",desc:"Cocina cordobesa con un punto más elaborado. Flamenquín, salmorejo y rabo de toro. Combinación excepcional de valoración y volumen de opiniones.",ll:[37.8803,-4.7787]},
 {n:2,name:"Taberna Salinas",tag:"MUY CLARA PARA TI",top:1,cat:["comer"],price:"~20–30 €",zone:"Centro",desc:"Taberna cordobesa tradicional: salmorejo, berenjenas, rabo de toro… Funciona desde 1879.",ll:[37.8830,-4.7788]},
@@ -121,15 +120,14 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,att
 const list=document.getElementById('list');
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const gm=p=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.name+' Córdoba España');
-const arch='<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="#ffffff22" stroke-width="7"><path d="M10 70V40a18 18 0 1 1 36 0V70"/><path d="M54 70V40a18 18 0 1 1 36 0V70"/></g></svg>';
+const arch='<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="#ffffff30" stroke-width="7"><path d="M10 70V40a18 18 0 1 1 36 0V70"/><path d="M54 70V40a18 18 0 1 1 36 0V70"/></g></svg>';
 const markers={},cards={};
 P.forEach(p=>{
   const sh=!p.cat.includes('comer');
-  const pad=String(p.n).padStart(2,'0');
   const icon=L.divIcon({className:'',iconSize:[30,30],iconAnchor:[15,30],popupAnchor:[0,-28],html:`<div class="pin ${sh?'s':''} ${p.top?'top':''}"><i>${p.n}</i></div>`});
   markers[p.n]=L.marker(p.ll,{icon}).bindPopup(`<b>${esc(p.name)}</b><br>${p.price?esc(p.price)+' · ':''}${esc(p.zone)}<br><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps</a>`).on('click',()=>select(p.n,false));
   const c=document.createElement('article');c.className='card';c.tabIndex=0;
-  c.innerHTML=`<div class="ph ${sh?'s':''}">${arch}<img src="fotos/${pad}.jpg" alt="${esc(p.name)}" loading="lazy" onerror="this.remove()"><span class="num">${p.n}</span>${p.tag?`<span class="tag">${esc(p.tag)}</span>`:''}</div>
+  c.innerHTML=`<div class="ph ${sh?'s':''}">${arch}<span class="num">${p.n}</span>${p.tag?`<span class="tag">${esc(p.tag)}</span>`:''}</div>
   <div class="body"><h3>${esc(p.name)}</h3><div class="meta">${p.price?`<span>${esc(p.price)}</span>`:''}<span>${esc(p.zone)}</span></div><p>${esc(p.desc)}</p><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps ↗</a></div>`;
   c.addEventListener('click',e=>{if(e.target.tagName!=='A')select(p.n,true)});
   c.addEventListener('keydown',e=>{if(e.key==='Enter')select(p.n,true)});
