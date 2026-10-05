@@ -3,6 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Guía de Córdoba: dónde comer, qué ver y el plan del fin de semana.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Córdoba a mesa puesta">
+<meta property="og:title" content="Córdoba a mesa puesta">
+<meta property="og:description" content="Guía de Córdoba: dónde comer y qué ver.">
+<meta property="og:url" content="https://victorsquero.github.io/Cordoba-restaurantes/">
+<meta property="og:image" content="https://victorsquero.github.io/Cordoba-restaurantes/preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Arco de la Mezquita con macetas de geranios y el título Mesa puesta junto a la Mezquita">
+<meta name="twitter:card" content="summary_large_image">
 <title>Córdoba a mesa puesta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Alegreya+Sans:wght@400;500;700&display=swap">
@@ -64,6 +76,13 @@ h1,h2,h3{font-family:'Rozha One',Georgia,serif;font-weight:400}
 .wxs a{color:var(--anil);font-weight:700}
 .wxcred{margin:12px 0 0;font-size:13px;color:var(--mute)}
 .wxcred a{color:var(--anil)}
+.acts2{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+.btn{font:inherit;font-weight:700;padding:9px 18px;border:2px solid var(--anil);background:var(--anil);color:#fff;cursor:pointer;text-decoration:none;display:inline-block;line-height:1.2;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px)}
+.btn.alt{background:#fff;color:var(--anil)}
+.btn:hover{filter:brightness(1.1)}
+.btn:focus-visible{outline:3px solid var(--geranio);outline-offset:2px}
+#share-msg{min-height:20px;margin:-8px 0 12px;font-size:14px;color:var(--mute)}
+.day a.cal{color:var(--mute);font-weight:500;font-size:13px}
 /* BARRA */
 .bar{position:sticky;top:0;z-index:1000;background:var(--cal);border-bottom:3px double var(--anil);padding:10px 16px}
 .bar-in{max-width:1240px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -135,18 +154,13 @@ footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px
 <div class="band"></div>
 <section class="plan" aria-label="Nuestro plan">
   <h2>Nuestro fin de semana</h2>
-  <div class="days">
-    <article class="day"><header><h3>Viernes</h3><span>9 de octubre</span></header>
-      <ol><li><span class="t">09:50 a 11:34</span><span class="w">Tren a Córdoba (3 personas)</span><span class="d">De Madrid Puerta de Atocha a Córdoba, 1 h 44 min. Coche 6.</span><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Estaci%C3%B3n+de+C%C3%B3rdoba+Central">Ver estación en Google Maps ↗</a></li>
-      <li><span class="t">12:35 a 14:19</span><span class="w">Tren de Víctor</span><span class="d">AVE de Madrid Puerta de Atocha a Córdoba, 1 h 44 min. Llega por su cuenta y se une al grupo.</span><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Estaci%C3%B3n+de+C%C3%B3rdoba+Central">Ver estación en Google Maps ↗</a></li>
-      <li><span class="t"><em>de</em>16:00 a 20:00</span><span class="w">Entrada al apartamento</span><span class="d">Medina Suites Córdoba, Calle Frías, 4. Para 4 personas. Sin parking, Wi-Fi gratis. Tel. +34 606 59 77 08.</span><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=37.88313,-4.76888">Ver en Google Maps ↗</a></li></ol></article>
-    <article class="day"><header><h3>Sábado</h3><span>10 de octubre</span></header>
-      <ol><li><span class="t">12:30 a 14:15</span><span class="w">Free tour</span><span class="d">Visita guiada por la ciudad, 1 h 45 min.</span></li>
-      <li><span class="t">14:30</span><span class="w">Comida reservada para 4</span><span class="d">Taberna La Herencia by El Pisto, Plaza de San Pedro, 1. Mesas altas. Tel. +34 604 94 99 06.</span><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=37.8828264,-4.7724149">Ver en Google Maps ↗</a></li></ol></article>
-    <article class="day"><header><h3>Domingo</h3><span>11 de octubre</span></header>
-      <ol><li><span class="t"><em>hasta las</em>11:00</span><span class="w">Salida del apartamento</span><span class="d">El tren sale a las 11:40.</span></li>
-      <li><span class="t">11:40 a 13:49</span><span class="w">Tren a Madrid</span><span class="d">Avlo 02109, de la estación de Córdoba a Madrid Puerta de Atocha. Coche 2. El acceso cierra 2 minutos antes.</span><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Estaci%C3%B3n+de+C%C3%B3rdoba+Central">Ver estación en Google Maps ↗</a></li></ol></article>
+  <div class="acts2">
+    <button class="btn" id="btn-ics" type="button">Añadir todo al calendario</button>
+    <a class="btn alt" id="btn-wa-plan" target="_blank" rel="noopener" href="https://wa.me/">Enviar el plan por WhatsApp</a>
+    <button class="btn alt" id="btn-share" type="button">Compartir la web</button>
   </div>
+  <p id="share-msg" role="status"></p>
+  <div class="days" id="plan-days"></div>
 </section>
 <section class="wx" id="tiempo" aria-label="El tiempo en Córdoba">
   <h2>El tiempo en Córdoba</h2>
@@ -330,6 +344,81 @@ buildFilters();apply();
        +'<ul class="wxl"><li><b>Lluvia</b><span>'+r(d.precipitation_probability_max[i])+' % · '+d.precipitation_sum[i]+' mm</span></li><li><b>Viento</b><span>hasta '+r(d.wind_speed_10m_max[i])+' km/h</span></li><li><b>Amanece</b><span>'+hm(d.sunrise[i])+'</span></li><li><b>Atardece</b><span>'+hm(d.sunset[i])+'</span></li></ul>'+tip+'</article>';
     }).join('');
   }).catch(fail);
+})();
+</script>
+<script>
+// Plan del fin de semana: una sola lista de eventos alimenta las tarjetas, el calendario y el mensaje de WhatsApp.
+(function(){
+  const SITE='https://victorsquero.github.io/Cordoba-restaurantes/';
+  const MAPS=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+  const ESTACION=MAPS('Estación de Córdoba Central'),CASA=MAPS('37.88313,-4.76888'),COMIDA=MAPS('37.8828264,-4.7724149');
+  const E=[
+    {day:'2026-10-09',s:'09:50',e:'11:34',em:'',t:'09:50 a 11:34',w:'Tren a Córdoba (3 personas)',d:'De Madrid Puerta de Atocha a Córdoba, 1 h 44 min. Coche 6.',loc:'Estación de Madrid Puerta de Atocha',links:[['Ver estación en Google Maps ↗',ESTACION]],alarm:120,wa:'09:50 Tren Madrid → Córdoba (llega 11:34)'},
+    {day:'2026-10-09',s:'12:35',e:'14:19',em:'',t:'12:35 a 14:19',w:'Tren de Víctor',d:'AVE de Madrid Puerta de Atocha a Córdoba, 1 h 44 min. Llega por su cuenta y se une al grupo.',loc:'Estación de Madrid Puerta de Atocha',links:[['Ver estación en Google Maps ↗',ESTACION]],alarm:120,wa:'12:35 Tren de Víctor (llega 14:19)'},
+    {day:'2026-10-09',s:'16:00',e:'20:00',em:'de',t:'16:00 a 20:00',w:'Entrada al apartamento',d:'Medina Suites Córdoba, Calle Frías, 4. Para 4 personas. Sin parking, Wi-Fi gratis. Tel. +34 606 59 77 08.',loc:'Calle Frías, 4, 14002 Córdoba, España',links:[['Ver en Google Maps ↗',CASA]],alarm:0,wa:'16:00 Entrada al apartamento, Calle Frías, 4 (hasta las 20:00)'},
+    {day:'2026-10-10',s:'12:30',e:'14:15',em:'',t:'12:30 a 14:15',w:'Free tour',d:'Visita guiada por la ciudad, 1 h 45 min.',loc:'Córdoba, España',cdesc:'Revisa el punto de encuentro en la reserva del tour.',links:[],alarm:30,wa:'12:30 Free tour (hasta las 14:15)'},
+    {day:'2026-10-10',s:'14:30',e:'15:45',em:'',t:'14:30',w:'Comida reservada para 4',d:'Taberna La Herencia by El Pisto, Plaza de San Pedro, 1. Mesas altas. Tel. +34 604 94 99 06.',loc:'Taberna La Herencia By El Pisto, Plaza de San Pedro, 1, 14002 Córdoba, España',cdesc:'Mesa para 4 en mesas altas. Tel. +34 604 94 99 06.',links:[['Ver en Google Maps ↗',COMIDA]],alarm:60,wa:'14:30 Comida en Taberna La Herencia by El Pisto, mesa para 4'},
+    {day:'2026-10-11',s:'10:30',e:'11:00',em:'hasta las',t:'11:00',w:'Salida del apartamento',d:'El tren sale a las 11:40.',loc:'Calle Frías, 4, 14002 Córdoba, España',cw:'Dejar el apartamento (antes de las 11:00)',links:[],alarm:0,wa:'Dejar el apartamento antes de las 11:00'},
+    {day:'2026-10-11',s:'11:40',e:'13:49',em:'',t:'11:40 a 13:49',w:'Tren a Madrid',d:'Avlo 02109, de la estación de Córdoba a Madrid Puerta de Atocha. Coche 2. El acceso cierra 2 minutos antes.',loc:'Estación de Córdoba Central',links:[['Ver estación en Google Maps ↗',ESTACION]],alarm:120,wa:'11:40 Tren Córdoba → Madrid (llega 13:49)'}
+  ];
+  const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const pad=n=>String(n).padStart(2,'0');
+  // Horas de España en octubre de 2026 (horario de verano, UTC+2) pasadas a UTC.
+  const utc=(day,hm)=>{const [y,m,d]=day.split('-').map(Number),[h,mi]=hm.split(':').map(Number);const t=new Date(Date.UTC(y,m-1,d,h-2,mi));return t.getUTCFullYear()+pad(t.getUTCMonth()+1)+pad(t.getUTCDate())+'T'+pad(t.getUTCHours())+pad(t.getUTCMinutes())+'00Z'};
+  const title=x=>x.cw||x.w;
+  const desc=x=>(x.cdesc||x.d)+'\n\nMás información: '+SITE;
+  const gcal=x=>'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(title(x))+'&dates='+utc(x.day,x.s)+'/'+utc(x.day,x.e)+'&details='+encodeURIComponent(desc(x))+'&location='+encodeURIComponent(x.loc);
+
+  // Tarjetas del plan
+  const days=[...new Set(E.map(x=>x.day))];
+  document.getElementById('plan-days').innerHTML=days.map(day=>{
+    const dt=new Date(day+'T12:00:00');
+    return '<article class="day"><header><h3>'+DIAS[dt.getDay()]+'</h3><span>'+dt.getDate()+' de '+MES[dt.getMonth()]+'</span></header><ol>'
+     +E.filter(x=>x.day===day).map(x=>'<li><span class="t">'+(x.em?'<em>'+x.em+'</em>':'')+x.t+'</span><span class="w">'+esc(x.w)+'</span><span class="d">'+esc(x.d)+'</span>'
+       +x.links.map(l=>'<a target="_blank" rel="noopener" href="'+l[1]+'">'+l[0]+'</a>').join('')
+       +'<a class="cal" target="_blank" rel="noopener" href="'+gcal(x)+'">+ Google Calendar</a></li>').join('')
+     +'</ol></article>';
+  }).join('');
+
+  // Archivo de calendario (.ics)
+  const icsEsc=s=>s.replace(/\\/g,'\\\\').replace(/;/g,'\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n');
+  const enc=new TextEncoder();
+  const fold=l=>{let out='',cur='',n=0;for(const ch of l){const b=enc.encode(ch).length;if(n+b>74){out+=cur+'\r\n ';cur='';n=1}cur+=ch;n+=b}return out+cur};
+  function ics(){
+    const now=new Date(),stamp=now.getUTCFullYear()+pad(now.getUTCMonth()+1)+pad(now.getUTCDate())+'T'+pad(now.getUTCHours())+pad(now.getUTCMinutes())+pad(now.getUTCSeconds())+'Z';
+    const L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Cordoba a mesa puesta//ES','CALSCALE:GREGORIAN','X-WR-CALNAME:Córdoba, fin de semana','X-WR-TIMEZONE:Europe/Madrid'];
+    E.forEach((x,i)=>{
+      L.push('BEGIN:VEVENT','UID:cordoba-2026-'+i+'@victorsquero.github.io','DTSTAMP:'+stamp,'DTSTART:'+utc(x.day,x.s),'DTEND:'+utc(x.day,x.e),'SUMMARY:'+icsEsc(title(x)),'LOCATION:'+icsEsc(x.loc),'DESCRIPTION:'+icsEsc(desc(x)));
+      if(x.alarm)L.push('BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+icsEsc(title(x)),'TRIGGER:-PT'+x.alarm+'M','END:VALARM');
+      L.push('END:VEVENT');
+    });
+    L.push('END:VCALENDAR');
+    return L.map(fold).join('\r\n')+'\r\n';
+  }
+  const msg=document.getElementById('share-msg');
+  const say=t=>{msg.textContent=t;setTimeout(()=>{if(msg.textContent===t)msg.textContent=''},6000)};
+  document.getElementById('btn-ics').addEventListener('click',()=>{
+    try{
+      const url=URL.createObjectURL(new Blob([ics()],{type:'text/calendar;charset=utf-8'}));
+      const a=document.createElement('a');a.href=url;a.download='cordoba-fin-de-semana.ics';document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),4000);
+      say('Calendario descargado. Ábrelo para añadir los 7 eventos.');
+    }catch(_){say('No se ha podido crear el calendario. Usa los botones «+ Google Calendar» de cada evento.')}
+  });
+
+  // WhatsApp
+  const planText=()=>{
+    const out=['*Plan Córdoba · 9 a 11 de octubre*'];
+    days.forEach(day=>{const dt=new Date(day+'T12:00:00');out.push('','*'+DIAS[dt.getDay()]+' '+dt.getDate()+'*');E.filter(x=>x.day===day).forEach(x=>out.push('• '+x.wa))});
+    out.push('','Más información: '+SITE);return out.join('\n');
+  };
+  document.getElementById('btn-wa-plan').href='https://wa.me/?text='+encodeURIComponent(planText());
+  document.getElementById('btn-share').addEventListener('click',async()=>{
+    const data={title:'Córdoba a mesa puesta',text:'Guía de Córdoba: dónde comer y qué ver.',url:SITE};
+    if(navigator.share){try{await navigator.share(data);return}catch(e){if(e&&e.name==='AbortError')return}}
+    window.open('https://wa.me/?text='+encodeURIComponent(data.text+' '+data.url),'_blank','noopener');
+  });
 })();
 </script>
 </body>
