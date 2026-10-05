@@ -102,7 +102,7 @@ footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px
 <section class="plan" aria-label="Nuestro plan">
   <h2>Nuestro fin de semana</h2>
   <ul>
-    <li><span class="when">Viernes a domingo</span><span class="what">Alojamiento reservado</span><span class="det">Calle Frías, 4, 14002 Córdoba. Entrada el viernes, salida el domingo.</span><a target="_blank" rel="noopener" href="https://www.booking.com/Share-Pb2x74">Ver reserva en Booking ↗</a><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Calle%20Fr%C3%ADas%204%2C%2014002%20C%C3%B3rdoba%2C%20Espa%C3%B1a">Ver en Google Maps ↗</a></li>
+    <li><span class="when">Vie 9 a dom 11 de octubre</span><span class="what">Medina Suites Córdoba</span><span class="det">Apartamento de 2 dormitorios para 4 adultos, 2 noches. Calle Frías, 4, 14002 Córdoba.</span><span class="det">Entrada de 16:00 a 20:00 · salida hasta las 11:00. Sin parking, Wi-Fi gratis. Tel. +34 606 59 77 08.</span><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=37.88313,-4.76888">Ver en Google Maps ↗</a></li>
     <li><span class="when">Sábado · 12:30 a 14:15</span><span class="what">Free tour</span><span class="det">Visita guiada por la ciudad, 1 h 45 min.</span></li>
   </ul>
 </section>
@@ -150,6 +150,8 @@ const list=document.getElementById('list');
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const gm=p=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.name+' Córdoba España');
 const star=(n,fill,sz)=>`<svg class="star" width="${sz}" height="${sz}" viewBox="0 0 44 44" aria-hidden="true"><rect x="8" y="8" width="28" height="28" fill="${fill}" stroke="#fff" stroke-width="2.5"/><rect x="8" y="8" width="28" height="28" fill="${fill}" stroke="#fff" stroke-width="2.5" transform="rotate(45 22 22)"/><rect x="9.2" y="9.2" width="25.6" height="25.6" fill="${fill}"/><text x="22" y="27.5" text-anchor="middle" font-family="Rozha One,serif" font-size="16" fill="#fff">${n}</text></svg>`;
+const HOME=[37.88313,-4.76888];
+L.marker(HOME,{zIndexOffset:1000,icon:L.divIcon({className:'',iconSize:[38,38],iconAnchor:[19,19],popupAnchor:[0,-16],html:'<svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true" style="filter:drop-shadow(0 2px 2px #0007)"><circle cx="19" cy="19" r="17" fill="#d9a441" stroke="#fff" stroke-width="2.5"/><path d="M9 19 19 10l10 9h-3v9h-5v-6h-4v6h-5v-9z" fill="#14296a"/></svg>'})}).addTo(map).bindPopup('<b>Nuestro apartamento</b><br>Medina Suites Córdoba<br>Calle Frías, 4<br>Vie 9 a dom 11 de octubre');
 const markers={},cards={};
 P.forEach(p=>{
   const sh=!p.cat.includes('comer');
@@ -174,7 +176,7 @@ function apply(k){
   P.forEach(p=>{const ok=k==='all'||(k==='top'?p.top:p.cat.includes(k));cards[p.n].style.display=ok?'':'none';
     if(ok){markers[p.n].addTo(map);vis.push(p.ll)}else markers[p.n].remove()});
   document.getElementById('count').textContent=vis.length+' sitios';
-  if(vis.length)map.fitBounds(vis,{padding:[40,40],maxZoom:16});
+  if(vis.length)map.fitBounds(vis.concat([HOME]),{padding:[40,40],maxZoom:16});
 }
 document.querySelectorAll('button.f').forEach(b=>b.onclick=()=>{document.querySelectorAll('button.f').forEach(x=>x.classList.remove('on'));b.classList.add('on');apply(b.dataset.k)});
 apply('all');
