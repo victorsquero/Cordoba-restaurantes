@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Córdoba · Guía de fin de semana</title>
+<meta name="description" content="Guía de viaje de Córdoba: itinerario, qué ver, dónde comer y té, con mapa y previsión del tiempo.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Córdoba · Guía de fin de semana">
+<meta property="og:description" content="Itinerario, qué ver, dónde comer y mapa.">
+<meta property="og:url" content="https://victorsquero.github.io/Cordoba-restaurantes/guia/">
+<meta property="og:image" content="https://victorsquero.github.io/Cordoba-restaurantes/guia/preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Portada azul con el título Córdoba y arcos de herradura">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<style>
+/* Guía de viaje: portada azul, capítulos con banda de color, cajas laterales y mapa numerado por categoría */
+:root{--navy:#10294f;--blue:#1767b3;--orange:#d9701a;--purple:#7d4a9e;--green:#23875f;--gray:#5b6675;--yellow:#f2b134;--paper:#fff;--tint:#eef4fb;--rule:#cfd8e3;--ink:#1a2233;--mute:#55627a;
+  --anil:var(--blue);--anil2:var(--navy);--albero:var(--yellow);--geranio:var(--orange);--line:var(--rule);--cal:#fff;color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 'Source Sans 3',system-ui,sans-serif}
+h1,h2,h3,h4{font-family:'Archivo',system-ui,sans-serif;margin:0;line-height:1.1}
+a{color:var(--blue)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 18px}
+/* PORTADA */
+.cover{background:var(--navy);color:#fff;position:relative;overflow:hidden;padding:46px 0 0}
+.cover::after{content:"";display:block;height:96px;margin-top:26px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='96' viewBox='0 0 84 96'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.28' stroke-width='3'%3E%3Cpath d='M8 96V58a34 34 0 1 1 68 0V96'/%3E%3Cpath d='M18 96V58a24 24 0 1 1 48 0V96'/%3E%3C/g%3E%3C/svg%3E") repeat-x center bottom/84px 96px}
+.edi{font:800 13px 'Archivo',sans-serif;letter-spacing:.28em;text-transform:uppercase;color:var(--yellow);margin:0 0 24px}
+.cover h1{font-weight:900;font-size:clamp(58px,15vw,150px);letter-spacing:.02em;line-height:.9}
+.cover .tag{font-size:clamp(19px,3vw,26px);font-weight:600;margin:14px 0 4px;max-width:30ch}
+.cover .date{margin:0;color:#b9c9e6}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0;padding:0;list-style:none}
+.toc a{display:block;background:rgba(255,255,255,.12);color:#fff;text-decoration:none;font:700 14px 'Archivo',sans-serif;padding:7px 12px;border-radius:2px}
+.toc a:hover{background:rgba(255,255,255,.22)}
+nav.top{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:3px solid var(--navy)}
+nav.top .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav.top a{flex:none;text-decoration:none;color:var(--navy);font:800 13px 'Archivo',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:14px 12px;border-bottom:4px solid transparent;margin-bottom:-3px}
+nav.top a:hover,nav.top a.on{border-bottom-color:var(--c,var(--navy))}
+/* CAPÍTULOS */
+.chap{padding:34px 0 10px}
+.band{display:flex;align-items:center;gap:12px;background:var(--c,var(--navy));color:#fff;font-weight:900;font-size:clamp(22px,4vw,34px);letter-spacing:.04em;text-transform:uppercase;padding:12px 18px;margin:0 0 20px}
+.band small{margin-left:auto;font:700 13px 'Source Sans 3',sans-serif;letter-spacing:.04em;text-transform:none;opacity:.9}
+.lead{font-size:20px;max-width:62ch;margin:0 0 18px}
+.cols{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:26px;align-items:start}
+.box{background:var(--tint);border-top:5px solid var(--navy);padding:16px 18px}
+.box h3{font-size:15px;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px;color:var(--navy)}
+.box dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:16px}
+.box dt{font:800 13px 'Archivo',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);padding-top:2px}
+.box dd{margin:0}
+.tip{border:2px solid var(--yellow);background:#fff9e8;padding:12px 16px;margin:18px 0;display:flex;gap:12px}
+.tip b{flex:none;font:900 12px 'Archivo',sans-serif;letter-spacing:.14em;text-transform:uppercase;background:var(--yellow);color:var(--navy);padding:3px 8px;align-self:flex-start}
+.tip p{margin:0}
+.top5{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.top5 li{border-top:5px solid var(--blue);background:#fff;box-shadow:0 0 0 1px var(--rule);padding:12px 14px}
+.top5 b{display:block;font:900 30px 'Archivo',sans-serif;color:var(--blue);line-height:1}
+.top5 h3{font-size:18px;margin:4px 0 4px;color:var(--navy)}
+.top5 p{margin:0;font-size:15px;color:var(--mute)}
+/* ITINERARIO */
+.days{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px}
+.day h3{font-size:26px;color:var(--navy);border-bottom:3px solid var(--navy);padding-bottom:6px;margin-bottom:6px}
+.day h3 small{font:700 14px 'Source Sans 3',sans-serif;color:var(--mute);margin-left:6px;text-transform:uppercase;letter-spacing:.08em}
+.day ol{list-style:none;margin:0;padding:0}
+.it{padding:12px 0 12px;border-bottom:1px solid var(--rule)}
+.it .t{font:800 21px 'Archivo',sans-serif;color:var(--navy);font-variant-numeric:tabular-nums}
+.badge{display:inline-block;font:800 11px 'Archivo',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;margin-left:8px;vertical-align:3px}
+.badge.res{background:var(--green);color:#fff}
+.badge.sug{border:2px solid var(--blue);color:var(--blue)}
+.it .w{display:block;font-weight:700;font-size:18px;margin-top:2px}
+.it .d{display:block;color:var(--mute);font-size:16px}
+.it a{font-size:15px;font-weight:600;margin-right:12px}
+.wx{max-width:1240px;margin:0 auto;padding:10px 16px 26px}
+.wx h2{margin:0 0 4px;font-size:26px;color:var(--anil2)}
+.wx .sub{margin:0 0 14px;color:var(--mute);font-size:15px}
+.wxg{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.wxc{background:#fff;border-top:8px solid var(--albero);box-shadow:0 0 0 1px var(--line);padding:14px 18px 16px;display:flex;flex-direction:column;gap:10px}
+.wxc header{display:flex;align-items:baseline;gap:10px}
+.wxc h3{margin:0;font-size:26px;line-height:1;color:var(--anil2)}
+.wxc header span{color:var(--geranio);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:13px}
+.wxm{display:flex;align-items:center;gap:14px}
+.wxm svg{width:64px;height:64px;flex:none}
+.wxt{font-family:'Archivo',sans-serif;font-size:46px;line-height:1;color:var(--anil);font-variant-numeric:tabular-nums}
+.wxt small{font-family:'Source Sans 3',sans-serif;font-size:20px;font-weight:700;color:var(--mute);margin-left:8px}
+.wxd{font-weight:700;color:var(--anil2);font-size:17px}
+.wxl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:15px}
+.wxl li{display:flex;flex-direction:column}
+.wxl b{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--geranio)}
+.wxl span{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.wxtip{margin:0;padding:8px 10px;border-left:4px solid var(--anil);background:#f4f6fb;font-size:15px}
+.wxs{color:var(--mute);font-size:15px}
+.wxs a{color:var(--anil);font-weight:700}
+.wxcred{margin:12px 0 0;font-size:13px;color:var(--mute)}
+.wxcred a{color:var(--anil)}
+.acts2{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+.btn{font:inherit;font-weight:700;padding:9px 18px;border:2px solid var(--anil);background:var(--anil);color:#fff;cursor:pointer;text-decoration:none;display:inline-block;line-height:1.2;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px)}
+.btn.alt{background:#fff;color:var(--anil)}
+.btn:hover{filter:brightness(1.1)}
+.btn:focus-visible{outline:3px solid var(--geranio);outline-offset:2px}
+#share-msg{min-height:20px;margin:-8px 0 12px;font-size:14px;color:var(--mute)}
+.wxtog{display:inline-flex;margin:0 0 14px;border:2px solid var(--anil)}
+.wxtog button{font:inherit;font-weight:700;padding:6px 16px;border:0;background:#fff;color:var(--anil);cursor:pointer}
+.wxtog button+button{border-left:2px solid var(--anil)}
+.wxtog button[aria-pressed="true"]{background:var(--anil);color:#fff}
+.wxtog button:focus-visible{outline:3px solid var(--geranio);outline-offset:-3px}
+.wxg.hourly{grid-template-columns:1fr}
+.wxh{background:#fff;border-top:8px solid var(--albero);box-shadow:0 0 0 1px var(--line);padding:12px 16px 14px;min-width:0}
+.wxh header{display:flex;align-items:baseline;gap:6px 10px;flex-wrap:wrap;margin-bottom:8px}
+.wxh h3{margin:0;font-size:24px;line-height:1;color:var(--anil2)}
+.wxh header span{color:var(--geranio);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:13px}
+.wxh header em{font-style:normal;margin-left:auto;color:var(--mute);font-size:15px}
+.wxstrip{display:flex;overflow-x:auto;gap:2px;padding-bottom:6px;scroll-snap-type:x proximity}
+.wxhr{flex:1 0 62px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;scroll-snap-align:start;border-bottom:3px solid transparent}
+.wxhr b{font-size:13px;color:var(--mute);font-variant-numeric:tabular-nums}
+.wxhr svg{width:34px;height:34px}
+.wxhr .tt{font-family:'Archivo',sans-serif;font-size:21px;color:var(--anil);line-height:1.1}
+.wxhr .rr{font-size:13px;font-weight:700;color:var(--mute);font-variant-numeric:tabular-nums}
+.wxhr .rr.lluv{color:var(--anil)}
+.wxhint{display:none;margin:2px 0 0;font-size:13px}
+@media(max-width:760px){.wxhint{display:block}}
+.wxhr.hl{background:#fff4d6;border-bottom-color:var(--albero)}
+.acts2{margin:6px 0 4px}
+.btn{clip-path:none;border-radius:2px;font-family:'Archivo',sans-serif;border-color:var(--navy);background:var(--navy)}
+.btn.alt{background:#fff;color:var(--navy)}
+/* LISTAS */
+.sub{font:800 15px 'Archivo',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--c);border-bottom:2px solid var(--c);padding-bottom:4px;margin:26px 0 12px}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:14px 22px}
+.entry{display:flex;gap:12px;padding:12px 0 14px;border-bottom:1px solid var(--rule);scroll-margin-top:70px}
+.entry:target{background:#fff9e8;outline:3px solid var(--yellow)}
+.num{flex:none;width:34px;height:34px;border-radius:50%;background:var(--c);color:#fff;font:800 14px/34px 'Archivo',sans-serif;text-align:center}
+.entry h4{font-size:19px;color:var(--navy);margin-bottom:4px}
+.pk{font:800 11px 'Archivo',sans-serif;letter-spacing:.1em;text-transform:uppercase;background:var(--yellow);color:var(--navy);padding:2px 7px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+.pk.res{background:var(--green);color:#fff}
+.meta{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-wrap:wrap;gap:2px 14px;font-size:15px;color:var(--mute)}
+.meta li{display:flex;align-items:center;gap:5px}
+.meta svg{width:14px;height:14px;flex:none}
+.meta .pr{font-weight:800;color:var(--ink)}
+.meta .free{color:#fff;background:var(--green);padding:0 7px;font-weight:700}
+.entry p{margin:0 0 4px;font-size:16px}
+.entry .tipx{font-size:15px;color:var(--mute)}
+.entry .tipx b{color:var(--orange);font-weight:800}
+.act{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:15px;margin-top:4px}
+.act button{font:inherit;font-weight:700;color:var(--blue);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chip{font:700 14px 'Archivo',sans-serif;border:2px solid var(--c,var(--navy));background:#fff;color:var(--c,var(--navy));padding:6px 14px;cursor:pointer;border-radius:2px}
+.chip[aria-pressed="true"]{background:var(--c,var(--navy));color:#fff}
+.chip:focus-visible,.btn:focus-visible,.act button:focus-visible,a:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+/* MAPA */
+.mapbox{position:relative;z-index:0}
+#map{height:min(72vh,620px);min-height:380px;border:3px solid var(--navy)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:10px 0 0;padding:0;list-style:none;font-size:15px;color:var(--mute)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--c);vertical-align:-2px;margin-right:6px}
+.mk{width:30px;height:30px;border-radius:50%;background:var(--c);color:#fff;font:800 12px/26px 'Archivo',sans-serif;text-align:center;border:2px solid #fff;box-shadow:0 1px 4px #0006;cursor:pointer}
+.mk.res{box-shadow:0 0 0 3px var(--green),0 1px 4px #0006}
+.mk.sq{border-radius:6px;font-size:13px}
+.maplibregl-popup-content{font-family:'Source Sans 3',sans-serif;color:var(--ink);padding:10px 14px;border-radius:2px;font-size:15px}
+.maplibregl-popup-content b{font-family:'Archivo',sans-serif}
+footer{background:var(--navy);color:#b9c9e6;margin-top:40px;padding:26px 0;font-size:15px}
+footer a{color:#fff}
+@media(max-width:820px){.cols{grid-template-columns:1fr}.band small{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="cover">
+  <div class="wrap">
+    <p class="edi">Guía de viaje · Fin de semana</p>
+    <h1>CÓRDOBA</h1>
+    <p class="tag">Mezquita, patios y tabernas en tres días</p>
+    <p class="date">9 a 11 de octubre de 2026 · 4 viajeros</p>
+    <ul class="toc">
+      <li><a href="#planifica">Planifica el viaje</a></li><li><a href="#itinerario">Itinerario</a></li><li><a href="#ver">Qué ver</a></li><li><a href="#comer">Dónde comer</a></li><li><a href="#te">Té y shisha</a></li><li><a href="#mapa">Mapa</a></li><li><a href="#tiempo">El tiempo</a></li>
+    </ul>
+  </div>
+</header>
+<nav class="top" aria-label="Capítulos"><div class="wrap">
+  <a href="#planifica" style="--c:var(--navy)">Planifica</a><a href="#itinerario" style="--c:var(--green)">Itinerario</a><a href="#ver" style="--c:var(--blue)">Ver</a><a href="#comer" style="--c:var(--orange)">Comer</a><a href="#te" style="--c:var(--purple)">Té</a><a href="#mapa" style="--c:var(--navy)">Mapa</a><a href="#tiempo" style="--c:var(--gray)">Tiempo</a>
+</div></nav>
+
+<main class="wrap">
+<section class="chap" id="planifica">
+  <h2 class="band" style="--c:var(--navy)">Planifica el viaje</h2>
+  <div class="cols">
+    <div>
+      <p class="lead">Córdoba se recorre a pie. En un fin de semana caben la Mezquita-Catedral, la Judería, el Puente Romano sobre el Guadalquivir y un par de tabernas de las de salmorejo y rabo de toro.</p>
+      <h3 style="font-size:20px;margin:0 0 10px;color:var(--navy)">Los 5 imprescindibles</h3>
+      <ol class="top5">
+        <li><b>1</b><h3>Mezquita-Catedral</h3><p>El bosque de arcos rojos y blancos y el Patio de los Naranjos.</p></li>
+        <li><b>2</b><h3>Judería y Calleja de las Flores</h3><p>Calles blancas, macetas azules y la torre al fondo.</p></li>
+        <li><b>3</b><h3>Puente Romano</h3><p>Mejor al atardecer, con la Mezquita iluminada.</p></li>
+        <li><b>4</b><h3>Alcázar de los Reyes Cristianos</h3><p>Jardines con estanques y vistas desde las torres.</p></li>
+        <li><b>5</b><h3>Una comida de taberna</h3><p>Salmorejo, flamenquín y rabo de toro.</p></li>
+      </ol>
+      <div class="tip"><b>Consejo</b><p>En España se come tarde: el almuerzo suele ser entre las 14:00 y las 16:00 y la cena a partir de las 21:00. En los sitios más conocidos conviene reservar.</p></div>
+    </div>
+    <aside class="box" aria-label="Lo que hay que saber">
+      <h3>Lo que hay que saber</h3>
+      <dl>
+        <dt>Cuándo</dt><dd>9 a 11 de octubre. Mira la previsión en <a href="#tiempo">El tiempo</a>.</dd>
+        <dt>Llegar</dt><dd>Tren Madrid–Córdoba en 1 h 44 min.</dd>
+        <dt>Moverse</dt><dd>A pie por el casco histórico. Medina Azahara queda a unos 8 km.</dd>
+        <dt>Dormir</dt><dd>Medina Suites, Calle Frías, 4. Entrada de 16:00 a 20:00 y salida antes de las 11:00. Tel. +34 606 59 77 08.</dd>
+        <dt>Moneda</dt><dd>Euro. Se paga con tarjeta casi en todas partes.</dd>
+        <dt>Idioma</dt><dd>Español.</dd>
+        <dt>Emergencias</dt><dd>112, gratuito.</dd>
+      </dl>
+    </aside>
+  </div>
+</section>
+
+<section class="chap" id="itinerario">
+  <h2 class="band" style="--c:var(--green)">Itinerario <small>Reservado = ya tenéis billete o mesa · Sugerencia = idea nuestra</small></h2>
+  <div class="acts2">
+    <button class="btn" id="btn-ics" type="button">Añadir lo reservado al calendario</button>
+    <a class="btn alt" id="btn-wa-plan" target="_blank" rel="noopener" href="https://wa.me/">Enviar el plan por WhatsApp</a>
+    <button class="btn alt" id="btn-share" type="button">Compartir la guía</button>
+  </div>
+  <p id="share-msg" role="status"></p>
+  <div class="days" id="plan-days"></div>
+</section>
+
+<section class="chap" id="ver">
+  <h2 class="band" style="--c:var(--blue)">Qué ver <small>11 sitios</small></h2>
+  <p class="lead">Precios y horarios orientativos: confírmalos en la web oficial de cada sitio antes de ir.</p>
+  <div class="chips" id="chips-v"></div>
+  <div class="list" id="list-v" style="--c:var(--blue)"></div>
+</section>
+
+<section class="chap" id="comer">
+  <h2 class="band" style="--c:var(--orange)">Dónde comer <small>€ hasta ~30 € · €€ hasta ~35 € · €€€ hasta ~40 € por persona</small></h2>
+  <div id="list-f"></div>
+</section>
+
+<section class="chap" id="te">
+  <h2 class="band" style="--c:var(--purple)">Té y shisha</h2>
+  <p class="lead">Para el té, la elección es el Salón de Té. Para la cachimba hay que salir un poco del centro.</p>
+  <div class="list" id="list-s" style="--c:var(--purple)"></div>
+</section>
+
+<section class="chap" id="mapa">
+  <h2 class="band" style="--c:var(--navy)">Mapa</h2>
+  <div class="chips" id="chips-m"></div>
+  <div class="mapbox"><div id="map"></div></div>
+  <ul class="legend">
+    <li style="--c:var(--blue)"><i></i>Qué ver</li><li style="--c:var(--orange)"><i></i>Dónde comer</li><li style="--c:var(--purple)"><i></i>Té y shisha</li><li style="--c:var(--green)"><i></i>Apartamento</li><li style="--c:var(--gray)"><i></i>Estación</li><li>Anillo verde: reservado</li>
+  </ul>
+  <p class="lead" style="font-size:15px;margin-top:8px">Las posiciones son aproximadas. Usa el enlace «Google Maps» de cada ficha para la ubicación exacta.</p>
+</section>
+
+<section class="chap" id="tiempo">
+  <h2 class="band" style="--c:var(--gray)">El tiempo</h2>
+  <div class="wxtog" role="group" aria-label="Tipo de previsión"><button type="button" id="wx-d" aria-pressed="true">Por días</button><button type="button" id="wx-h" aria-pressed="false">Por horas</button></div>
+  <div class="wxg" id="wxg"><p class="wxs">Cargando la previsión…</p></div>
+  <p class="wxcred">Datos de <a target="_blank" rel="noopener" href="https://open-meteo.com/">Open-Meteo.com</a>. Consulta también la previsión oficial de la <a target="_blank" rel="noopener" href="https://www.aemet.es/es/eltiempo/prediccion/municipios/cordoba-id14021">AEMET</a>.</p>
+</section>
+</main>
+<footer><div class="wrap">Guía personal de Córdoba · <a href="../">Ver la otra versión de la web</a> · Mapa © <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> y OpenFreeMap</div></footer>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+const P=[
+{n:1,name:"Taberna La Montillana",tag:"MI Nº1",top:1,cat:["comer"],price:"~25–35 €",zone:"Centro",desc:"Cocina cordobesa con un punto más elaborado. Flamenquín, salmorejo y rabo de toro. Combinación excepcional de valoración y volumen de opiniones.",ll:[37.8803,-4.7787]},
+{n:2,name:"Taberna Salinas",tag:"MUY CLARA PARA TI",top:1,cat:["comer"],price:"~20–30 €",zone:"Centro",desc:"Taberna cordobesa tradicional: salmorejo, berenjenas, rabo de toro… Funciona desde 1879.",ll:[37.8830,-4.7788]},
+{n:3,name:"Bodegas Mezquita Céspedes",top:1,cat:["comer"],price:"~25–35 €",zone:"A unos pasos de la Mezquita",desc:"Salmorejo, rabo de toro, berenjenas y cocina tradicional. La apuesta más segura por calidad + ubicación + opiniones.",ll:[37.8800,-4.7795]},
+{n:4,name:"El Rincón de Carmen",cat:["comer"],price:"~25–35 €",zone:"Judería",desc:"Cocina andaluza y un entorno especialmente bonito. Para una comida más tranquila.",ll:[37.8805,-4.7820]},
+{n:5,name:"Casa Pedro Ximénez",cat:["comer"],price:"~25–35 €",zone:"Deanes / Judería",desc:"Entre los mejores alrededor del casco histórico según Tripadvisor, con miles de opiniones.",ll:[37.8786,-4.7815]},
+{n:6,name:"Casa Pepe de la Judería",cat:["comer"],price:"~30–40 €",zone:"Judería",desc:"Un clásico. Por ubicación, ambiente y cocina cordobesa más que por calidad-precio.",ll:[37.8806,-4.7822]},
+{n:7,name:"Bodegas Mezquita Corregidor",cat:["comer"],price:"~25–35 €",zone:"Mezquita",desc:"Otra sede extraordinariamente bien valorada de Bodegas Mezquita; más de 16.000 reseñas.",ll:[37.8789,-4.7807]},
+{n:8,name:"Bodegas Mezquita Ribera",cat:["comer"],price:"~25–35 €",zone:"Ribera",desc:"Ideal si luego queréis pasear por el Puente Romano. Más de 20.000 opiniones y 4,8/5.",ll:[37.8775,-4.7790]},
+{n:9,name:"Taberna Góngora",cat:["comer"],price:"~20–30 €",zone:"Centro",desc:"Más taberna y menos restaurante turístico. Comer contundente sin disparar la cuenta.",ll:[37.8850,-4.7790]},
+{n:10,name:"La Compañía – Vinos y Tapas",cat:["comer"],price:"~25–35 €",zone:"Centro",desc:"Para compartir platos con vino. 4,7/5 y más de 1.000 reseñas.",ll:[37.8830,-4.7805]},
+{n:11,name:"Bodegas Mezquita Cruz del Rastro",cat:["comer"],price:"~25–35 €",zone:"Centro / Ribera",desc:"Alternativa si las otras Bodegas Mezquita están llenas: 4,8 y unas 6.000 opiniones.",ll:[37.8770,-4.7765]},
+{n:12,name:"Garum 2.1 Bistró",cat:["comer"],price:"~30–40 €",zone:"San Fernando",desc:"Para salir de la cocina cordobesa estrictamente tradicional y probar algo más creativo.",ll:[37.8815,-4.7755]},
+{n:13,name:"Taberna La Cuarta",cat:["comer"],price:"~25–35 €",zone:"Capitulares",desc:"Cocina de fusión y unas 4.700 opiniones. Buena para cambiar de registro.",ll:[37.8840,-4.7780]},
+{n:14,name:"Taberna El Abanico Patio",cat:["comer"],price:"~20–30 €",zone:"Judería",desc:"Tapas y platos cordobeses en pleno casco histórico.",ll:[37.8815,-4.7815]},
+{n:15,name:"Tetería-Comida Árabe «Halal» PETRA",cat:["comer","shisha"],price:"~15–25 €",zone:"Judería · Calleja de la Hoguera",desc:"Comida árabe, tés y ambiente acorde con la zona histórica. También entra en té/shisha: 4,5/5 con ~1.860 opiniones.",ll:[37.8788,-4.7822]},
+{n:16,name:"Taberna La Herencia by El Pisto",tag:"RESERVADO",res:1,cat:["comer"],zone:"Plaza de San Pedro, 1 · Sábado 14:30",desc:"Mesa reservada para 4 el sábado a las 14:30, en mesas altas. Tel. +34 604 94 99 06.",ll:[37.8828264,-4.7724149]},
+{n:"S1",name:"Aryä Shisha Club",tag:"🥇 Shisha",cat:["shisha"],zone:"Av. Manolete",desc:"Primera opción específica de cachimbas. 4,6/5. No está en pleno casco histórico, pero merece el desplazamiento.",ll:[37.8890,-4.7770]},
+{n:"S2",name:"Aryä Lounge Bar",cat:["shisha"],zone:"Isla Fuerteventura",desc:"También especializado en narguiles; abre hasta bastante tarde. 4,6/5.",ll:[37.8960,-4.7930]},
+{n:"S3",name:"Aryä Gold Hookah Bar – DeTapas",cat:["shisha"],zone:"Centro",desc:"En el Centro, pero con muy pocas opiniones y solo 3,8/5: por detrás de los dos anteriores.",ll:[37.8845,-4.7795]},
+{n:"S4",name:"Salón de Té",tag:"TETERÍA RECOMENDADA",rec:1,cat:["shisha"],zone:"Buen Pastor · Judería",desc:"Nuestra tetería recomendada: más de 2.300 reseñas, ambiente árabe y buen té en pleno casco histórico. Para té y ambiente; no para buscar la mejor cachimba.",ll:[37.8806566,-4.7815226]},
+];
+const V=[
+{n:1,name:"Mezquita-Catedral",free:false,price:"13 €",hours:"Lun–sáb 10:00–19:00 · Dom 8:30–11:30 y 15:00–19:00",tip:"Gratis de lunes a sábado de 8:30 a 9:30 (entrada por orden de llegada). Reserva online para evitar colas.",desc:"El gran monumento de Córdoba: el bosque de arcos de herradura rojos y blancos y el Patio de los Naranjos. Imprescindible.",zone:"Centro histórico",ll:[37.87894,-4.77953]},
+{n:2,name:"Alcázar de los Reyes Cristianos",free:false,price:"5 €",hours:"Mar–sáb 8:30–20:00 · Dom y lun hasta las 14:30",tip:"Jardines con estanques y torres con vistas. Tiene días de entrada gratuita: consulta la web oficial.",desc:"Fortaleza de los reyes católicos junto al río, con mosaicos romanos y unos jardines muy bonitos.",zone:"Junto a la Mezquita",ll:[37.87667,-4.78250]},
+{n:3,name:"Puente Romano",free:true,price:"Gratis",hours:"Abierto las 24 h",tip:"Mejor al atardecer, con la Mezquita iluminada al fondo.",desc:"Puente del siglo I sobre el Guadalquivir, entre la Puerta del Puente y la Torre de la Calahorra.",zone:"Ribera",ll:[37.87620,-4.77830]},
+{n:4,name:"Torre de la Calahorra",free:false,price:"4,50 €",hours:"Todos los días 10:00–18:00",tip:"Alberga el museo vivo de Al-Ándalus. Las mejores vistas del puente y de la Mezquita.",desc:"Torre fortificada al final del Puente Romano, convertida en museo.",zone:"Ribera",ll:[37.87470,-4.77680]},
+{n:5,name:"Calleja de las Flores",free:true,price:"Gratis",hours:"Siempre accesible",tip:"Haz la foto del patio con la torre de la Mezquita al fondo. Se llena a media mañana.",desc:"Callejón blanco lleno de macetas azules con la torre campanario enmarcada al fondo.",zone:"Judería",ll:[37.87985,-4.78125]},
+{n:6,name:"Sinagoga de Córdoba",free:true,price:"Gratis",hours:"Mar–sáb por la mañana hasta ~15:00 · Dom hasta ~13:30 · Lun cerrado",tip:"Gratis para ciudadanos de la UE; el resto paga una tarifa simbólica. Es muy pequeña: 15 minutos.",desc:"Una de las pocas sinagogas medievales que se conservan en España, del siglo XIV.",zone:"Judería",ll:[37.88065,-4.78360]},
+{n:7,name:"Baños Califales",free:false,price:"~2,50 €",hours:"Consultar horario en la web oficial",tip:"Visita corta. Comprueba el horario antes de ir.",desc:"Baños públicos del siglo X con bóvedas de estrellas, junto a la Mezquita.",zone:"Junto a la Mezquita",ll:[37.87905,-4.78010]},
+{n:8,name:"Plaza de la Corredera",free:true,price:"Gratis",hours:"Siempre accesible",tip:"Rodeada de bares y terrazas. Buena para tomar algo después del free tour.",desc:"Plaza porticada del siglo XVII, de las pocas plazas castellanas de Andalucía.",zone:"Centro",ll:[37.88399,-4.77808]},
+{n:9,name:"Templo Romano",free:true,price:"Gratis",hours:"Se ve desde la calle, siempre",tip:"Parada rápida de 5 minutos junto al Ayuntamiento.",desc:"Restos de un templo del siglo I, con columnas reconstruidas en la calle Claudio Marcelo.",zone:"Centro",ll:[37.88290,-4.77730]},
+{n:10,name:"Palacio de Viana",free:false,price:"6 € patios · ~10 € visita completa",hours:"Mar–sáb 10:00–19:00 · Dom 10:00–15:00 · Lun cerrado",tip:"Doce patios, con jardines. Se ve en una hora. Entrada diferente para los patios solos.",desc:"Palacio señorial con doce patios, el mejor lugar para ver cómo es un patio cordobés.",zone:"Zona San Agustín",ll:[37.88820,-4.77730]},
+{n:11,name:"Medina Azahara",free:true,price:"Gratis (UE)",hours:"Mar–dom mañana y tarde · Lun cerrado",tip:"A unos 8 km. El autobús desde Córdoba cuesta unos 2–3 €. No cabe en un fin de semana corto si ya llevas mucho plan.",desc:"Ciudad palatina califal del siglo X, patrimonio mundial. Sale de la ruta habitual.",zone:"A 8 km, al oeste",far:1,ll:[37.88580,-4.86670]}
+];
+(function(){
+  const SITE='https://victorsquero.github.io/Cordoba-restaurantes/guia/';
+  const HOME=[37.88313,-4.76888],STN=[37.8921,-4.7895];
+  const COL={v:'#1767b3',f:'#d9701a',s:'#7d4a9e'};
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const gm=p=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.name+' Córdoba España');
+  const MAPS=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+  const I={
+    clock:'<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5V8l2.5 1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+    pin:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.5s5-4.5 5-8.5a5 5 0 0 0-10 0c0 4 5 8.5 5 8.5z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6" r="1.8" fill="currentColor"/></svg>',
+    walk:'<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="9" cy="2.8" r="1.6" fill="currentColor"/><path d="M9 5.5 7 8.6l2.6 2.1V15M7 8.6 4.6 10M9.4 7.2l2 2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+  // Distancia en línea recta al apartamento, convertida a minutos andando (≈ 4,8 km/h, +25 % por las curvas).
+  const dist=(a,b)=>{const t=Math.PI/180,R=6371,dl=(b[0]-a[0])*t,dn=(b[1]-a[1])*t,x=Math.sin(dl/2)**2+Math.cos(a[0]*t)*Math.cos(b[0]*t)*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(x))};
+  const walk=p=>{const d=dist(HOME,p.ll);return d>3?'≈ '+Math.round(d)+' km del apartamento':'≈ '+Math.max(1,Math.round(d*1.25/4.8*60))+' min a pie del apartamento'};
+  const euros=pr=>{const m=(pr||'').match(/(\d+)\D+(\d+)/);if(!m)return '';const hi=+m[2];return hi<=30?'€':hi<=35?'€€':'€€€'};
+
+  // Elementos
+  const items=[];
+  P.forEach(p=>{const k=!p.cat.includes('comer')?'s':'f';items.push({...p,kind:k,key:k+p.n})});
+  V.forEach(v=>items.push({...v,kind:'v',key:'v'+v.n}));
+
+  function entry(p){
+    const c=COL[p.kind],res=p.res,sg=p.kind==='v';
+    const tag=p.tag?'<span class="pk'+(res?' res':'')+'">'+esc(p.tag)+'</span>':'';
+    let meta='';
+    if(sg)meta+='<li>'+(p.free?'<span class="free">'+esc(p.price)+'</span>':'<span class="pr">'+esc(p.price)+'</span>')+'</li><li>'+I.clock+esc(p.hours)+'</li>';
+    else meta+=(p.price?'<li><span class="pr">'+euros(p.price)+'</span>&nbsp;'+esc(p.price)+'</li>':'');
+    meta+='<li>'+I.pin+esc(p.zone)+'</li><li>'+I.walk+walk(p)+'</li>';
+    return '<article class="entry" id="e-'+p.key+'" data-k="'+p.key+'" style="--c:'+c+'"><div class="num">'+p.n+'</div><div><h4>'+esc(p.name)+tag+'</h4><ul class="meta">'+meta+'</ul><p>'+esc(p.desc)+'</p>'
+      +(sg?'<p class="tipx"><b>Consejo.</b> '+esc(p.tip)+'</p>':'')
+      +'<div class="act"><button type="button" data-map="'+p.key+'">Ver en el mapa</button><a target="_blank" rel="noopener" href="'+gm(p)+'">Google Maps ↗</a></div></div></article>';
+  }
+  // Qué ver (con filtro)
+  const ver=items.filter(p=>p.kind==='v');
+  const listV=document.getElementById('list-v');
+  listV.innerHTML=ver.map(entry).join('');
+  function chips(box,opts,on,cb){box.innerHTML='';opts.forEach(([k,l,c])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.style.setProperty('--c',c||'#10294f');b.textContent=l;b.setAttribute('aria-pressed',String(k===on));b.onclick=()=>{[...box.children].forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');cb(k)};box.appendChild(b)})}
+  chips(document.getElementById('chips-v'),[['all','Todos'],['free','Gratis'],['paid','De pago']],'all',k=>{
+    ver.forEach(p=>{document.getElementById('e-'+p.key).style.display=k==='all'||(k==='free'?p.free:!p.free)?'':'none'});
+  });
+  // Dónde comer, por grupos
+  const G=[['Nuestra reserva',[16]],['Los imprescindibles',[1,2,3]],['Judería y casco histórico',[4,5,6,14,15]],['Junto a la Mezquita y el río',[7,8,11]],['Centro y Capitulares',[9,10,13]],['Para cambiar de registro',[12]]];
+  const fm=items.filter(p=>p.kind==='f');
+  document.getElementById('list-f').innerHTML=G.map(([t,ns])=>'<h3 class="sub" style="--c:var(--orange)">'+t+'</h3><div class="list" style="--c:var(--orange)">'+ns.map(n=>fm.find(p=>p.n===n)).filter(Boolean).map(entry).join('')+'</div>').join('');
+  document.getElementById('list-s').innerHTML=items.filter(p=>p.kind==='s').map(entry).join('');
+
+  // Mapa
+  const map=new maplibregl.Map({container:'map',style:'https://tiles.openfreemap.org/styles/positron',center:[-4.7795,37.8805],zoom:14.6,attributionControl:{compact:true}});
+  map.addControl(new maplibregl.NavigationControl(),'top-right');
+  const mk={};
+  function el(c,txt,cls){const d=document.createElement('div');d.className='mk'+(cls?' '+cls:'');d.style.setProperty('--c',c);d.textContent=txt;return d}
+  items.forEach(p=>{
+    const e=el(COL[p.kind],p.n,p.res?'res':'');
+    const sub=p.kind==='v'?esc(p.price)+' · '+esc(p.hours):(p.price?esc(p.price)+' · ':'')+esc(p.zone);
+    const m=new maplibregl.Marker({element:e}).setLngLat([p.ll[1],p.ll[0]]).setPopup(new maplibregl.Popup({offset:18,closeButton:false,maxWidth:'260px'}).setHTML('<b>'+esc(p.name)+'</b><br>'+sub+'<br><a href="#e-'+p.key+'">Ver ficha</a> · <a target="_blank" rel="noopener" href="'+gm(p)+'">Google Maps</a>'));
+    mk[p.key]={m,p,on:false};
+  });
+  const fixed=[
+    {ll:HOME,c:'#23875f',t:'⌂',name:'Nuestro apartamento',sub:'Medina Suites, Calle Frías, 4'},
+    {ll:STN,c:'#5b6675',t:'T',name:'Estación de tren y AVE',sub:'Córdoba Central'}
+  ].map(f=>new maplibregl.Marker({element:el(f.c,f.t,'sq')}).setLngLat([f.ll[1],f.ll[0]]).setPopup(new maplibregl.Popup({offset:18,closeButton:false}).setHTML('<b>'+f.name+'</b><br>'+f.sub)).addTo(map));
+  function showMap(filter){
+    const pts=[HOME,STN];
+    Object.values(mk).forEach(o=>{const ok=filter==='all'||o.p.kind===filter;if(ok&&!o.on){o.m.addTo(map);o.on=true}else if(!ok&&o.on){o.m.remove();o.on=false}if(ok&&!o.p.far)pts.push(o.p.ll)});
+    const b=new maplibregl.LngLatBounds();pts.forEach(q=>b.extend([q[1],q[0]]));
+    map.fitBounds(b,{padding:50,maxZoom:16,duration:600});
+  }
+  chips(document.getElementById('chips-m'),[['all','Todo','#10294f'],['v','Qué ver',COL.v],['f','Dónde comer',COL.f],['s','Té y shisha',COL.s]],'all',showMap);
+  showMap('all');
+  document.addEventListener('click',ev=>{
+    const b=ev.target.closest('[data-map]');if(!b)return;
+    const o=mk[b.dataset.map];if(!o)return;
+    if(!o.on){o.m.addTo(map);o.on=true}
+    document.getElementById('mapa').scrollIntoView({behavior:'smooth'});
+    setTimeout(()=>{map.flyTo({center:[o.p.ll[1],o.p.ll[0]],zoom:17,essential:true});if(!o.m.getPopup().isOpen())o.m.togglePopup()},350);
+  });
+
+  // Itinerario: lo reservado lleva todos los datos del calendario; las sugerencias son ideas.
+  const ESTACION=MAPS('Estación de Córdoba Central'),CASA=MAPS('37.88313,-4.76888'),COMIDA=MAPS('37.8828264,-4.7724149');
+  const E=[
+    {day:'2026-10-09',res:1,s:'09:50',e:'11:34',t:'09:50 a 11:34',w:'Tren a Córdoba (3 personas)',d:'De Madrid Puerta de Atocha a Córdoba, 1 h 44 min. Coche 6.',loc:'Estación de Madrid Puerta de Atocha',links:[['Ver estación ↗',ESTACION]],alarm:120,wa:'09:50 Tren Madrid → Córdoba (llega 11:34)'},
+    {day:'2026-10-09',s:'11:35',t:'Mañana',w:'Maletas, desayuno y primer paseo',d:'Pregunta en el apartamento si os guardan el equipaje (+34 606 59 77 08) o usa una consigna de la estación. Buen momento para desayunar y pasear por la Judería.'},
+    {day:'2026-10-09',res:1,s:'12:35',e:'14:19',t:'12:35 a 14:19',w:'Tren de Víctor',d:'AVE de Madrid Puerta de Atocha a Córdoba, 1 h 44 min. Llega por su cuenta y se une al grupo.',loc:'Estación de Madrid Puerta de Atocha',links:[['Ver estación ↗',ESTACION]],alarm:120,wa:'12:35 Tren de Víctor (llega 14:19)'},
+    {day:'2026-10-09',s:'14:30',t:'Comida',w:'Comer todos juntos (sin reservar)',d:'Con Víctor ya en la ciudad. Mira «Dónde comer»: Bodegas Mezquita Céspedes o Taberna Salinas encajan bien.'},
+    {day:'2026-10-09',res:1,s:'16:00',e:'20:00',t:'16:00 a 20:00',w:'Entrada al apartamento',d:'Medina Suites Córdoba, Calle Frías, 4. Para 4 personas. Sin parking, Wi-Fi gratis.',loc:'Calle Frías, 4, 14002 Córdoba, España',links:[['Ver en Google Maps ↗',CASA]],alarm:0,wa:'16:00 Entrada al apartamento, Calle Frías, 4 (hasta las 20:00)'},
+    {day:'2026-10-09',s:'17:30',t:'Tarde',w:'Judería y Calleja de las Flores',d:'Paseo sin prisas por las calles blancas hasta el Puente Romano, para verlo al atardecer.'},
+    {day:'2026-10-09',s:'21:30',t:'Cena',w:'Cena (sin reservar)',d:'Tabernas del centro como Taberna Góngora o La Compañía.'},
+    {day:'2026-10-10',s:'08:30',t:'8:30 a 9:30',w:'Mezquita-Catedral, hora gratuita',d:'De lunes a sábado hay una hora de entrada gratis, por orden de llegada. Confírmalo en la web oficial. Si no, entrada de pago reservando antes.'},
+    {day:'2026-10-10',res:1,s:'12:30',e:'14:15',t:'12:30 a 14:15',w:'Free tour',d:'Visita guiada por la ciudad, 1 h 45 min.',loc:'Córdoba, España',cdesc:'Revisa el punto de encuentro en la reserva del tour.',links:[],alarm:30,wa:'12:30 Free tour (hasta las 14:15)'},
+    {day:'2026-10-10',res:1,s:'14:30',e:'15:45',t:'14:30',w:'Comida reservada para 4',d:'Taberna La Herencia by El Pisto, Plaza de San Pedro, 1. Mesas altas. Tel. +34 604 94 99 06.',loc:'Taberna La Herencia By El Pisto, Plaza de San Pedro, 1, 14002 Córdoba, España',cdesc:'Mesa para 4 en mesas altas. Tel. +34 604 94 99 06.',links:[['Ver en Google Maps ↗',COMIDA]],alarm:60,wa:'14:30 Comida en Taberna La Herencia by El Pisto, mesa para 4'},
+    {day:'2026-10-10',s:'16:30',t:'Tarde',w:'Té, Corredera y Alcázar',d:'Té en el Salón de Té, vuelta por la Plaza de la Corredera y, si queda tiempo, el Alcázar de los Reyes Cristianos.'},
+    {day:'2026-10-10',s:'21:00',t:'Cena',w:'Cena (sin reservar)',d:'Para cambiar de registro: Garum 2.1 Bistró o Taberna La Cuarta.'},
+    {day:'2026-10-11',s:'09:00',t:'Mañana',w:'Desayuno y maletas',d:'Tostada con aceite y tomate. Hay que dejar el apartamento antes de las 11:00.'},
+    {day:'2026-10-11',res:1,s:'10:30',e:'11:00',t:'Hasta las 11:00',w:'Salida del apartamento',d:'El tren sale a las 11:40.',loc:'Calle Frías, 4, 14002 Córdoba, España',cw:'Dejar el apartamento (antes de las 11:00)',links:[],alarm:0,wa:'Dejar el apartamento antes de las 11:00'},
+    {day:'2026-10-11',res:1,s:'11:40',e:'13:49',t:'11:40 a 13:49',w:'Tren a Madrid',d:'Avlo 02109, de la estación de Córdoba a Madrid Puerta de Atocha. Coche 2. El acceso cierra 2 minutos antes.',loc:'Estación de Córdoba Central',links:[['Ver estación ↗',ESTACION]],alarm:120,wa:'11:40 Tren Córdoba → Madrid (llega 13:49)'}
+  ];
+  const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const days=[...new Set(E.map(x=>x.day))];
+  const pad=n=>String(n).padStart(2,'0');
+  const utc=(day,hm)=>{const [y,m,d]=day.split('-').map(Number),[h,mi]=hm.split(':').map(Number);const t=new Date(Date.UTC(y,m-1,d,h-2,mi));return t.getUTCFullYear()+pad(t.getUTCMonth()+1)+pad(t.getUTCDate())+'T'+pad(t.getUTCHours())+pad(t.getUTCMinutes())+'00Z'};
+  const title=x=>x.cw||x.w;
+  const desc=x=>(x.cdesc||x.d)+'\n\nMás información: '+SITE;
+  const gcal=x=>'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(title(x))+'&dates='+utc(x.day,x.s)+'/'+utc(x.day,x.e)+'&details='+encodeURIComponent(desc(x))+'&location='+encodeURIComponent(x.loc);
+  document.getElementById('plan-days').innerHTML=days.map(day=>{
+    const dt=new Date(day+'T12:00:00');
+    return '<article class="day"><h3>'+DIAS[dt.getDay()]+'<small>'+dt.getDate()+' de '+MES[dt.getMonth()]+'</small></h3><ol>'
+      +E.filter(x=>x.day===day).map(x=>'<li class="it"><span class="t">'+(x.t.length<14?'':'')+esc(x.t)+'</span><span class="badge '+(x.res?'res':'sug')+'">'+(x.res?'Reservado':'Sugerencia')+'</span><span class="w">'+esc(x.w)+'</span><span class="d">'+esc(x.d)+'</span>'
+        +(x.res?(x.links.map(l=>'<a target="_blank" rel="noopener" href="'+l[1]+'">'+l[0]+'</a>').join('')+'<a target="_blank" rel="noopener" href="'+gcal(x)+'">+ Google Calendar</a>'):'')+'</li>').join('')
+      +'</ol></article>';
+  }).join('');
+  const R=E.filter(x=>x.res);
+  const icsEsc=s=>s.replace(/\\/g,'\\\\').replace(/;/g,'\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n');
+  const enc=new TextEncoder();
+  const fold=l=>{let out='',cur='',n=0;for(const ch of l){const b=enc.encode(ch).length;if(n+b>74){out+=cur+'\r\n ';cur='';n=1}cur+=ch;n+=b}return out+cur};
+  function ics(){
+    const now=new Date(),stamp=now.getUTCFullYear()+pad(now.getUTCMonth()+1)+pad(now.getUTCDate())+'T'+pad(now.getUTCHours())+pad(now.getUTCMinutes())+pad(now.getUTCSeconds())+'Z';
+    const L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Cordoba guia//ES','CALSCALE:GREGORIAN','X-WR-CALNAME:Córdoba, fin de semana','X-WR-TIMEZONE:Europe/Madrid'];
+    R.forEach((x,i)=>{
+      L.push('BEGIN:VEVENT','UID:cordoba-guia-2026-'+i+'@victorsquero.github.io','DTSTAMP:'+stamp,'DTSTART:'+utc(x.day,x.s),'DTEND:'+utc(x.day,x.e),'SUMMARY:'+icsEsc(title(x)),'LOCATION:'+icsEsc(x.loc),'DESCRIPTION:'+icsEsc(desc(x)));
+      if(x.alarm)L.push('BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+icsEsc(title(x)),'TRIGGER:-PT'+x.alarm+'M','END:VALARM');
+      L.push('END:VEVENT');
+    });
+    L.push('END:VCALENDAR');return L.map(fold).join('\r\n')+'\r\n';
+  }
+  const msg=document.getElementById('share-msg');
+  const say=t=>{msg.textContent=t;setTimeout(()=>{if(msg.textContent===t)msg.textContent=''},6000)};
+  document.getElementById('btn-ics').addEventListener('click',()=>{
+    try{const url=URL.createObjectURL(new Blob([ics()],{type:'text/calendar;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='cordoba-fin-de-semana.ics';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);say('Calendario descargado. Ábrelo para añadir los '+R.length+' eventos reservados.')}
+    catch(_){say('No se ha podido crear el calendario. Usa los enlaces «+ Google Calendar» de cada evento.')}
+  });
+  const planText=()=>{const out=['*Plan Córdoba · 9 a 11 de octubre*'];days.forEach(day=>{const dt=new Date(day+'T12:00:00');out.push('','*'+DIAS[dt.getDay()]+' '+dt.getDate()+'*');R.filter(x=>x.day===day).forEach(x=>out.push('• '+x.wa))});out.push('','Más información: '+SITE);return out.join('\n')};
+  document.getElementById('btn-wa-plan').href='https://wa.me/?text='+encodeURIComponent(planText());
+  document.getElementById('btn-share').addEventListener('click',async()=>{
+    const data={title:'Córdoba · Guía de fin de semana',text:'Guía de Córdoba: itinerario, qué ver y dónde comer.',url:SITE};
+    if(navigator.share){try{await navigator.share(data);return}catch(e){if(e&&e.name==='AbortError')return}}
+    window.open('https://wa.me/?text='+encodeURIComponent(data.text+' '+data.url),'_blank','noopener');
+  });
+  // Marca el capítulo visible en la barra
+  const links=[...document.querySelectorAll('nav.top a')];
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-30% 0px -60% 0px'});
+  document.querySelectorAll('.chap').forEach(s=>io.observe(s));
+})();
+</script>
+<script>
+// Previsión en directo de Open-Meteo (sin clave). Fechas del viaje: vie 9 a dom 11 de octubre de 2026.
+(function(){
+  const box=document.getElementById('wxg');if(!box)return;
+  const D0='2026-10-09',D1='2026-10-11';
+  const url='https://api.open-meteo.com/v1/forecast?latitude=37.8882&longitude=-4.7794&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,sunrise,sunset&hourly=temperature_2m,precipitation_probability,weather_code&timezone=Europe%2FMadrid&start_date='+D0+'&end_date='+D1;
+  const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const kind=c=>c===0?'sol':c<=2?'parcial':c===3?'nubes':(c===45||c===48)?'niebla':(c>=51&&c<=67)||(c>=80&&c<=82)?'lluvia':c>=95?'tormenta':c>=71&&c<=77?'nieve':'nubes';
+  const TXT={sol:'Despejado',parcial:'Poco nuboso',nubes:'Nublado',niebla:'Niebla',lluvia:'Lluvia',tormenta:'Tormenta',nieve:'Nieve'};
+  const SUN='<circle cx="32" cy="32" r="12" fill="#d9a441"/><g stroke="#d9a441" stroke-width="4" stroke-linecap="round"><path d="M32 6v7M32 51v7M6 32h7M51 32h7M13.6 13.6l5 5M45.4 45.4l5 5M13.6 50.4l5-5M45.4 18.6l5-5"/></g>';
+  const MOON='<path d="M40 10a22 22 0 1 0 14 38A18 18 0 0 1 40 10z" fill="#d9a441"/>';
+  const CLOUD='<path d="M20 48a10 10 0 0 1-1-20 14 14 0 0 1 27 3 8.5 8.5 0 0 1-1 17z" fill="#fff" stroke="#1d3f8f" stroke-width="3" stroke-linejoin="round"/>';
+  const ICON={
+    sol:SUN,luna:MOON,
+    parcial:'<circle cx="24" cy="24" r="9" fill="#d9a441"/><g stroke="#d9a441" stroke-width="3.5" stroke-linecap="round"><path d="M24 6v5M6 24h5M11 11l3.5 3.5M37 11l-3.5 3.5"/></g><g transform="translate(4 8)">'+CLOUD+'</g>',
+    nubes:CLOUD,
+    niebla:CLOUD+'<g stroke="#5b6075" stroke-width="3" stroke-linecap="round"><path d="M14 54h36M20 60h24"/></g>',
+    lluvia:CLOUD+'<g stroke="#1d3f8f" stroke-width="3.5" stroke-linecap="round"><path d="M22 54l-3 7M33 54l-3 7M44 54l-3 7"/></g>',
+    tormenta:CLOUD+'<path d="M34 46l-7 10h7l-4 8 10-12h-7z" fill="#d9a441"/>',
+    nieve:CLOUD+'<g fill="#1d3f8f"><circle cx="22" cy="56" r="2.5"/><circle cx="33" cy="58" r="2.5"/><circle cx="44" cy="56" r="2.5"/></g>'
+  };
+  const svg=k=>'<svg viewBox="0 0 64 64" aria-hidden="true">'+ICON[k]+'</svg>';
+  const hm=t=>t.slice(11,16),r=n=>Math.round(n);
+  let J=null,view='d';
+  try{if(localStorage.getItem('wxview')==='h')view='h'}catch(_){}
+  const AEMET='https://www.aemet.es/es/eltiempo/prediccion/municipios/cordoba-id14021';
+  function fail(){box.className='wxg';box.innerHTML='<p class="wxs">No se ha podido cargar la previsión ahora. Consúltala en la <a target="_blank" rel="noopener" href="'+AEMET+'">AEMET</a>.</p>'}
+
+  function tipSabado(h,t){
+    const ix=h.time.map((x,n)=>x.slice(0,10)===t&&+x.slice(11,13)>=12&&+x.slice(11,13)<=15?n:-1).filter(n=>n>=0);
+    if(!ix.length)return '';
+    const T=ix.map(n=>h.temperature_2m[n]),P=ix.map(n=>h.precipitation_probability[n]);
+    return '<p class="wxtip"><b>Free tour y comida (12:00–15:00):</b> '+r(Math.min(...T))+'–'+r(Math.max(...T))+' °C, '+r(Math.max(...P))+' % de probabilidad de lluvia.</p>';
+  }
+  function porDias(){
+    const d=J.daily,h=J.hourly;box.className='wxg';
+    box.innerHTML=d.time.map((t,i)=>{
+      const dt=new Date(t+'T12:00:00'),k=kind(d.weather_code[i]);
+      return '<article class="wxc"><header><h3>'+DIAS[dt.getDay()]+'</h3><span>'+dt.getDate()+' de '+MES[dt.getMonth()]+'</span></header>'
+       +'<div class="wxm">'+svg(k)+'<div><div class="wxt">'+r(d.temperature_2m_max[i])+'°<small>'+r(d.temperature_2m_min[i])+'°</small></div><div class="wxd">'+TXT[k]+'</div></div></div>'
+       +'<ul class="wxl"><li><b>Lluvia</b><span>'+r(d.precipitation_probability_max[i])+' % · '+d.precipitation_sum[i]+' mm</span></li><li><b>Viento</b><span>hasta '+r(d.wind_speed_10m_max[i])+' km/h</span></li><li><b>Amanece</b><span>'+hm(d.sunrise[i])+'</span></li><li><b>Atardece</b><span>'+hm(d.sunset[i])+'</span></li></ul>'
+       +(dt.getDay()===6&&h?tipSabado(h,t):'')+'</article>';
+    }).join('');
+  }
+  function porHoras(){
+    const d=J.daily,h=J.hourly;box.className='wxg hourly';
+    box.innerHTML=d.time.map((t,i)=>{
+      const dt=new Date(t+'T12:00:00'),sab=dt.getDay()===6,sr=hm(d.sunrise[i]),ss=hm(d.sunset[i]);
+      const cells=h.time.map((x,n)=>({x,n})).filter(o=>o.x.slice(0,10)===t&&+o.x.slice(11,13)>=7).map(o=>{
+        const hh=+o.x.slice(11,13),hr=o.x.slice(11,16),noche=hr<sr||hr>ss;
+        let k=kind(h.weather_code[o.n]);if(noche&&k==='sol')k='luna';
+        const p=h.precipitation_probability[o.n],hl=sab&&hh>=12&&hh<=14;
+        return '<div class="wxhr'+(hl?' hl':'')+'" title="'+hr+' · '+TXT[k==='luna'?'sol':k]+(hl?' · free tour y comida':'')+'"><b>'+hr+'</b>'+svg(k)+'<span class="tt">'+r(h.temperature_2m[o.n])+'°</span><span class="rr'+(p>=40?' lluv':'')+'">'+r(p)+' %</span></div>';
+      }).join('');
+      return '<article class="wxh"><header><h3>'+DIAS[dt.getDay()]+'</h3><span>'+dt.getDate()+' de '+MES[dt.getMonth()]+'</span><em>Máx. '+r(d.temperature_2m_max[i])+'° · mín. '+r(d.temperature_2m_min[i])+'° · amanece '+sr+' · atardece '+ss+'</em></header>'
+        +'<div class="wxstrip" tabindex="0" role="group" aria-label="Previsión por horas del '+DIAS[dt.getDay()].toLowerCase()+'">'+cells+'</div><p class="wxs wxhint">Desliza hacia los lados para ver todas las horas ↔</p>'
+        +(sab?'<p class="wxs">Resaltado en amarillo: el free tour y la comida (12:00 a 15:00). Debajo de cada temperatura va la probabilidad de lluvia.</p>':'')+'</article>';
+    }).join('');
+  }
+  function pintar(){
+    document.getElementById('wx-d').setAttribute('aria-pressed',view==='d');
+    document.getElementById('wx-h').setAttribute('aria-pressed',view==='h');
+    if(!J)return;
+    try{view==='h'?porHoras():porDias()}catch(_){fail()}
+  }
+  function elegir(v){view=v;try{localStorage.setItem('wxview',v)}catch(_){}pintar()}
+  document.getElementById('wx-d').addEventListener('click',()=>elegir('d'));
+  document.getElementById('wx-h').addEventListener('click',()=>elegir('h'));
+  pintar();
+  fetch(url).then(x=>{if(!x.ok)throw 0;return x.json()}).then(j=>{
+    if(!j.daily||!j.daily.time||!j.daily.time.length)throw 0;J=j;pintar();
+  }).catch(fail);
+})();
+
+</script>
+</body>
+</html>
