@@ -42,6 +42,28 @@ h1,h2,h3{font-family:'Rozha One',Georgia,serif;font-weight:400}
 .day .w{display:block;font-weight:700;font-size:17px;margin-top:6px}
 .day .d{display:block;color:var(--mute);font-size:15px;margin-top:2px}
 .day a{display:inline-block;margin-top:6px;margin-right:14px;color:var(--anil);font-weight:700;font-size:14px}
+.wx{max-width:1240px;margin:0 auto;padding:10px 16px 26px}
+.wx h2{margin:0 0 4px;font-size:26px;color:var(--anil2)}
+.wx .sub{margin:0 0 14px;color:var(--mute);font-size:15px}
+.wxg{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.wxc{background:#fff;border-top:8px solid var(--albero);box-shadow:0 0 0 1px var(--line);padding:14px 18px 16px;display:flex;flex-direction:column;gap:10px}
+.wxc header{display:flex;align-items:baseline;gap:10px}
+.wxc h3{margin:0;font-size:26px;line-height:1;color:var(--anil2)}
+.wxc header span{color:var(--geranio);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:13px}
+.wxm{display:flex;align-items:center;gap:14px}
+.wxm svg{width:64px;height:64px;flex:none}
+.wxt{font-family:'Rozha One',serif;font-size:46px;line-height:1;color:var(--anil);font-variant-numeric:tabular-nums}
+.wxt small{font-family:'Alegreya Sans',sans-serif;font-size:20px;font-weight:700;color:var(--mute);margin-left:8px}
+.wxd{font-weight:700;color:var(--anil2);font-size:17px}
+.wxl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:15px}
+.wxl li{display:flex;flex-direction:column}
+.wxl b{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--geranio)}
+.wxl span{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.wxtip{margin:0;padding:8px 10px;border-left:4px solid var(--anil);background:#f4f6fb;font-size:15px}
+.wxs{color:var(--mute);font-size:15px}
+.wxs a{color:var(--anil);font-weight:700}
+.wxcred{margin:12px 0 0;font-size:13px;color:var(--mute)}
+.wxcred a{color:var(--anil)}
 /* BARRA */
 .bar{position:sticky;top:0;z-index:1000;background:var(--cal);border-bottom:3px double var(--anil);padding:10px 16px}
 .bar-in{max-width:1240px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -125,6 +147,12 @@ footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px
       <ol><li><span class="t"><em>hasta las</em>11:00</span><span class="w">Salida del apartamento</span><span class="d">El tren sale a las 11:40.</span></li>
       <li><span class="t">11:40 a 13:49</span><span class="w">Tren a Madrid</span><span class="d">Avlo 02109, de la estación de Córdoba a Madrid Puerta de Atocha. Coche 2. El acceso cierra 2 minutos antes.</span><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Estaci%C3%B3n+de+C%C3%B3rdoba+Central">Ver estación en Google Maps ↗</a></li></ol></article>
   </div>
+</section>
+<section class="wx" id="tiempo" aria-label="El tiempo en Córdoba">
+  <h2>El tiempo en Córdoba</h2>
+  <p class="sub">Previsión para el fin de semana del viaje.</p>
+  <div class="wxg" id="wxg"><p class="wxs">Cargando la previsión…</p></div>
+  <p class="wxcred">Datos de <a target="_blank" rel="noopener" href="https://open-meteo.com/">Open-Meteo.com</a>. Consulta también la previsión oficial de la <a target="_blank" rel="noopener" href="https://www.aemet.es/es/eltiempo/prediccion/municipios/cordoba-id14021">AEMET</a>.</p>
 </section>
 <div class="bar"><div class="bar-in">
   <div class="tabs" role="tablist">
@@ -264,6 +292,45 @@ document.querySelectorAll('button.tab').forEach(t=>t.onclick=()=>{
   mode=t.dataset.m;filt='all';buildFilters();apply();
 });
 buildFilters();apply();
+</script>
+<script>
+// Previsión en directo de Open-Meteo (sin clave). Fechas del viaje: vie 9 a dom 11 de octubre de 2026.
+(function(){
+  const box=document.getElementById('wxg');if(!box)return;
+  const D0='2026-10-09',D1='2026-10-11';
+  const url='https://api.open-meteo.com/v1/forecast?latitude=37.8882&longitude=-4.7794&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,sunrise,sunset&hourly=temperature_2m,precipitation_probability&timezone=Europe%2FMadrid&start_date='+D0+'&end_date='+D1;
+  const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const kind=c=>c===0?'sol':c<=2?'parcial':c===3?'nubes':(c===45||c===48)?'niebla':(c>=51&&c<=67)||(c>=80&&c<=82)?'lluvia':c>=95?'tormenta':c>=71&&c<=77?'nieve':'nubes';
+  const TXT={sol:'Despejado',parcial:'Poco nuboso',nubes:'Nublado',niebla:'Niebla',lluvia:'Lluvia',tormenta:'Tormenta',nieve:'Nieve'};
+  const SUN='<circle cx="32" cy="32" r="12" fill="#d9a441"/><g stroke="#d9a441" stroke-width="4" stroke-linecap="round"><path d="M32 6v7M32 51v7M6 32h7M51 32h7M13.6 13.6l5 5M45.4 45.4l5 5M13.6 50.4l5-5M45.4 18.6l5-5"/></g>';
+  const CLOUD='<path d="M20 48a10 10 0 0 1-1-20 14 14 0 0 1 27 3 8.5 8.5 0 0 1-1 17z" fill="#fff" stroke="#1d3f8f" stroke-width="3" stroke-linejoin="round"/>';
+  const ICON={
+    sol:SUN,
+    parcial:'<circle cx="24" cy="24" r="9" fill="#d9a441"/><g stroke="#d9a441" stroke-width="3.5" stroke-linecap="round"><path d="M24 6v5M6 24h5M11 11l3.5 3.5M37 11l-3.5 3.5"/></g><g transform="translate(4 8)">'+CLOUD+'</g>',
+    nubes:CLOUD,
+    niebla:CLOUD+'<g stroke="#5b6075" stroke-width="3" stroke-linecap="round"><path d="M14 54h36M20 60h24"/></g>',
+    lluvia:CLOUD+'<g stroke="#1d3f8f" stroke-width="3.5" stroke-linecap="round"><path d="M22 54l-3 7M33 54l-3 7M44 54l-3 7"/></g>',
+    tormenta:CLOUD+'<path d="M34 46l-7 10h7l-4 8 10-12h-7z" fill="#d9a441"/>',
+    nieve:CLOUD+'<g fill="#1d3f8f"><circle cx="22" cy="56" r="2.5"/><circle cx="33" cy="58" r="2.5"/><circle cx="44" cy="56" r="2.5"/></g>'
+  };
+  const hm=t=>t.slice(11,16),r=n=>Math.round(n);
+  function fail(){box.innerHTML='<p class="wxs">No se ha podido cargar la previsión ahora. Consúltala en la <a target="_blank" rel="noopener" href="https://www.aemet.es/es/eltiempo/prediccion/municipios/cordoba-id14021">AEMET</a>.</p>'}
+  fetch(url).then(x=>{if(!x.ok)throw 0;return x.json()}).then(j=>{
+    const d=j.daily,h=j.hourly;if(!d||!d.time||!d.time.length)throw 0;
+    box.innerHTML=d.time.map((t,i)=>{
+      const dt=new Date(t+'T12:00:00'),k=kind(d.weather_code[i]);
+      let tip='';
+      if(dt.getDay()===6&&h){ // sábado: horas del free tour y la comida (12 a 15 h)
+        const ix=h.time.map((x,n)=>x.slice(0,10)===t&&+x.slice(11,13)>=12&&+x.slice(11,13)<=15?n:-1).filter(n=>n>=0);
+        if(ix.length){const T=ix.map(n=>h.temperature_2m[n]),P=ix.map(n=>h.precipitation_probability[n]);
+          tip='<p class="wxtip"><b>Free tour y comida (12:00–15:00):</b> '+r(Math.min(...T))+'–'+r(Math.max(...T))+' °C, '+r(Math.max(...P))+' % de probabilidad de lluvia.</p>'}
+      }
+      return '<article class="wxc"><header><h3>'+DIAS[dt.getDay()]+'</h3><span>'+dt.getDate()+' de '+MES[dt.getMonth()]+'</span></header>'
+       +'<div class="wxm"><svg viewBox="0 0 64 64" aria-hidden="true">'+ICON[k]+'</svg><div><div class="wxt">'+r(d.temperature_2m_max[i])+'°<small>'+r(d.temperature_2m_min[i])+'°</small></div><div class="wxd">'+TXT[k]+'</div></div></div>'
+       +'<ul class="wxl"><li><b>Lluvia</b><span>'+r(d.precipitation_probability_max[i])+' % · '+d.precipitation_sum[i]+' mm</span></li><li><b>Viento</b><span>hasta '+r(d.wind_speed_10m_max[i])+' km/h</span></li><li><b>Amanece</b><span>'+hm(d.sunrise[i])+'</span></li><li><b>Atardece</b><span>'+hm(d.sunset[i])+'</span></li></ul>'+tip+'</article>';
+    }).join('');
+  }).catch(fail);
+})();
 </script>
 </body>
 </html>
