@@ -26,6 +26,14 @@ h1,h2,h3{font-family:'Rozha One',Georgia,serif;font-weight:400}
 .portal p{margin:0;font-size:3.7cqw;max-width:34ch;color:#e6ebf8}
 .ledge{position:relative;margin-top:-6px}
 .pots{display:block;width:100%;height:78px}
+.plan{max-width:1240px;margin:0 auto;padding:22px 16px 6px}
+.plan h2{margin:0 0 12px;font-size:26px;color:var(--anil2)}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.plan li{border:3px solid var(--anil);box-shadow:inset 0 0 0 4px #fff,inset 0 0 0 5px var(--albero);background:#fff;padding:16px 18px;display:flex;flex-direction:column;gap:2px}
+.plan .when{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--geranio)}
+.plan .what{font-family:'Rozha One',serif;font-size:21px;color:var(--anil2);line-height:1.15}
+.plan .det{color:var(--mute);font-size:15px}
+.plan a{color:var(--anil);font-weight:700;font-size:14px;margin-top:4px}
 /* BARRA */
 .bar{position:sticky;top:0;z-index:1000;background:var(--cal);border-bottom:3px double var(--anil);padding:10px 16px}
 .bar-in{max-width:1240px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -91,6 +99,13 @@ footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px
   </svg></div>
 </header>
 <div class="band"></div>
+<section class="plan" aria-label="Nuestro plan">
+  <h2>Nuestro fin de semana</h2>
+  <ul>
+    <li><span class="when">Viernes a domingo</span><span class="what">Alojamiento reservado</span><span class="det">Entrada el viernes, salida el domingo.</span><a target="_blank" rel="noopener" href="https://www.booking.com/Share-Pb2x74">Ver reserva en Booking ↗</a></li>
+    <li><span class="when">Sábado · 12:30 a 14:15</span><span class="what">Free tour</span><span class="det">Visita guiada por la ciudad, 1 h 45 min.</span></li>
+  </ul>
+</section>
 <div class="bar"><div class="bar-in">
   <b>Ver</b>
   <button class="f on" data-k="all">Todos</button>
