@@ -17,15 +17,15 @@ h1,h2,h3{font-family:'Rozha One',Georgia,serif;font-weight:400}
 .band{height:26px;background:var(--anil) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cg fill='none' stroke='%23fffdf7' stroke-width='1.2'%3E%3Crect x='6' y='6' width='14' height='14'/%3E%3Crect x='6' y='6' width='14' height='14' transform='rotate(45 13 13)'/%3E%3C/g%3E%3Ccircle cx='13' cy='13' r='2' fill='%23d9a441'/%3E%3C/svg%3E") repeat-x}
 /* PORTADA */
 .hero{padding:34px 16px 0;text-align:center;background:linear-gradient(var(--cal),var(--cal2))}
-.portal{container-type:inline-size;position:relative;width:min(100%,620px);aspect-ratio:600/420;margin:0 auto}
+.portal{container-type:inline-size;position:relative;width:min(100%,600px);aspect-ratio:520/410;margin:0 auto}
 .portal svg{position:absolute;inset:0;width:100%;height:100%}
-.portal .txt{position:absolute;left:14%;right:14%;top:22%;color:var(--cal);display:flex;flex-direction:column;align-items:center;gap:1.5cqw}
-.kicker{font-size:3.2cqw;letter-spacing:.25em;text-transform:uppercase;color:var(--albero);font-weight:700}
-.portal h1{margin:0;font-size:10cqw;line-height:.95}
+.portal .txt{position:absolute;left:13%;right:13%;top:17%;color:var(--cal);display:flex;flex-direction:column;align-items:center;gap:1.2cqw}
+.kicker{font-size:max(10px,3.3cqw);letter-spacing:.22em;text-transform:uppercase;color:var(--albero);font-weight:700}
+.portal h1{margin:0;font-size:max(28px,10.5cqw);line-height:.95}
 .portal h1 em{font-style:normal;color:var(--albero)}
-.portal p{margin:0;font-size:3.3cqw;max-width:30ch;color:#e6ebf8}
+.portal p{margin:0;font-size:max(14px,3.9cqw);line-height:1.3;max-width:28ch;text-wrap:balance;color:#e6ebf8}
 .ledge{position:relative;margin-top:-6px}
-.pots{display:block;width:100%;height:78px}
+.pots{height:78px;background:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2264%22%20height=%2278%22%20viewBox=%22-2%200%2064%2078%22%3E%3Cpath%20d=%22M12%2042h36l-5%2032H17z%22%20fill=%22%231d3f8f%22/%3E%3Crect%20x=%229%22%20y=%2236%22%20width=%2242%22%20height=%229%22%20rx=%222%22%20fill=%22%232f5bc0%22/%3E%3Cpath%20d=%22M14%2056h32%22%20stroke=%22%23fffdf7%22%20stroke-width=%222%22/%3E%3Cpath%20d=%22M30%2036C22%2026%2014%2024%2012%2014c8%200%2016%206%2018%2022zM30%2036c8-10%2016-12%2018-22-8%200-16%206-18%2022z%22%20fill=%22%233a6b35%22/%3E%3Cg%20fill=%22%23c2185b%22%3E%3Ccircle%20cx=%2218%22%20cy=%2222%22%20r=%226%22/%3E%3Ccircle%20cx=%2230%22%20cy=%2214%22%20r=%226.5%22/%3E%3Ccircle%20cx=%2242%22%20cy=%2222%22%20r=%226%22/%3E%3Ccircle%20cx=%2230%22%20cy=%2227%22%20r=%225%22/%3E%3C/g%3E%3Cg%20fill=%22%23ffd1e3%22%3E%3Ccircle%20cx=%2230%22%20cy=%2214%22%20r=%222%22/%3E%3Ccircle%20cx=%2218%22%20cy=%2222%22%20r=%221.7%22/%3E%3Ccircle%20cx=%2242%22%20cy=%2222%22%20r=%221.7%22/%3E%3C/g%3E%3C/svg%3E") space no-repeat center bottom;background-size:auto 78px}
 .plan{max-width:1240px;margin:0 auto;padding:26px 16px 8px}
 .plan h2{margin:0 0 16px;font-size:26px;color:var(--anil2)}
 .days{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
@@ -89,7 +89,7 @@ footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px
 <div class="band"></div>
 <header class="hero">
   <div class="portal">
-    <svg viewBox="0 0 600 410" aria-hidden="true">
+    <svg viewBox="40 0 520 410" aria-hidden="true">
       <defs>
         <pattern id="tile" width="26" height="26" patternUnits="userSpaceOnUse">
           <rect width="26" height="26" fill="#1d3f8f"/>
@@ -108,15 +108,7 @@ footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px
       <p>Salmorejo, rabo de toro y flamenquín. Y una tarde de té y shisha.</p>
     </div>
   </div>
-  <div class="ledge"><svg class="pots" viewBox="0 0 1200 78" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <defs><g id="maceta">
-      <path d="M12 42h36l-5 32H17z" fill="#1d3f8f"/><rect x="9" y="36" width="42" height="9" rx="2" fill="#2f5bc0"/><path d="M14 56h32" stroke="#fffdf7" stroke-width="2"/>
-      <path d="M30 36C22 26 14 24 12 14c8 0 16 6 18 22zM30 36c8-10 16-12 18-22-8 0-16 6-18 22z" fill="#3a6b35"/>
-      <g fill="#c2185b"><circle cx="18" cy="22" r="6"/><circle cx="30" cy="14" r="6.5"/><circle cx="42" cy="22" r="6"/><circle cx="30" cy="27" r="5"/></g>
-      <g fill="#ffd1e3"><circle cx="30" cy="14" r="2"/><circle cx="18" cy="22" r="1.7"/><circle cx="42" cy="22" r="1.7"/></g>
-    </g></defs>
-    <g id="fila"></g>
-  </svg></div>
+  <div class="ledge"><div class="pots" aria-hidden="true"></div></div>
 </header>
 <div class="band"></div>
 <section class="plan" aria-label="Nuestro plan">
@@ -173,7 +165,6 @@ const P=[
 {n:"S3",name:"Aryä Gold Hookah Bar – DeTapas",cat:["shisha"],zone:"Centro",desc:"En el Centro, pero con muy pocas opiniones y solo 3,8/5: por detrás de los dos anteriores.",ll:[37.8845,-4.7795]},
 {n:"S4",name:"Salón de Té",tag:"TETERÍA RECOMENDADA",rec:1,cat:["shisha"],zone:"Buen Pastor · Judería",desc:"Nuestra tetería recomendada: más de 2.300 reseñas, ambiente árabe y buen té en pleno casco histórico. Para té y ambiente; no para buscar la mejor cachimba.",ll:[37.8806566,-4.7815226]},
 ];
-(function(){let h='';for(let x=-6,i=0;x<1220;x+=64,i++)h+='<use href="#maceta" x="'+x+'" y="'+(i%2?0:0)+'"/>';document.getElementById('fila').innerHTML=h})();
 const V=[
 {n:1,name:"Mezquita-Catedral",free:false,price:"13 €",hours:"Lun–sáb 10:00–19:00 · Dom 8:30–11:30 y 15:00–19:00",tip:"Gratis de lunes a sábado de 8:30 a 9:30 (entrada por orden de llegada). Reserva online para evitar colas.",desc:"El gran monumento de Córdoba: el bosque de arcos de herradura rojos y blancos y el Patio de los Naranjos. Imprescindible.",zone:"Centro histórico",ll:[37.87894,-4.77953]},
 {n:2,name:"Alcázar de los Reyes Cristianos",free:false,price:"5 €",hours:"Mar–sáb 8:30–20:00 · Dom y lun hasta las 14:30",tip:"Jardines con estanques y torres con vistas. Tiene días de entrada gratuita: consulta la web oficial.",desc:"Fortaleza de los reyes católicos junto al río, con mosaicos romanos y unos jardines muy bonitos.",zone:"Junto a la Mezquita",ll:[37.87667,-4.78250]},
