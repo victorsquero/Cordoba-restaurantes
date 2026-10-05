@@ -171,7 +171,7 @@ const P=[
 {n:"S1",name:"Aryä Shisha Club",tag:"🥇 Shisha",cat:["shisha"],zone:"Av. Manolete",desc:"Primera opción específica de cachimbas. 4,6/5. No está en pleno casco histórico, pero merece el desplazamiento.",ll:[37.8890,-4.7770]},
 {n:"S2",name:"Aryä Lounge Bar",cat:["shisha"],zone:"Isla Fuerteventura",desc:"También especializado en narguiles; abre hasta bastante tarde. 4,6/5.",ll:[37.8960,-4.7930]},
 {n:"S3",name:"Aryä Gold Hookah Bar – DeTapas",cat:["shisha"],zone:"Centro",desc:"En el Centro, pero con muy pocas opiniones y solo 3,8/5: por detrás de los dos anteriores.",ll:[37.8845,-4.7795]},
-{n:"S4",name:"Salón de Té",cat:["shisha"],zone:"Buen Pastor · Judería",desc:"Más de 2.300 reseñas. Para té y ambiente; no para buscar la mejor cachimba.",ll:[37.8808,-4.7810]}
+{n:"S4",name:"Salón de Té",tag:"TETERÍA RECOMENDADA",rec:1,cat:["shisha"],zone:"Buen Pastor · Judería",desc:"Nuestra tetería recomendada: más de 2.300 reseñas, ambiente árabe y buen té en pleno casco histórico. Para té y ambiente; no para buscar la mejor cachimba.",ll:[37.8806566,-4.7815226]},
 ];
 (function(){let h='';for(let x=-6,i=0;x<1220;x+=64,i++)h+='<use href="#maceta" x="'+x+'" y="'+(i%2?0:0)+'"/>';document.getElementById('fila').innerHTML=h})();
 const V=[
@@ -199,7 +199,7 @@ const ALL=P.map(p=>({...p,kind:'f'})).concat(V.map(v=>({...v,kind:'v'})));
 const markers={},cards={};
 ALL.forEach(p=>{
   const k=p.kind+p.n,sh=p.kind==='f'&&!p.cat.includes('comer'),sg=p.kind==='v';
-  const col=sg?'#b3261e':sh?'#3a6b35':((p.top||p.res)?'#c2185b':'#1d3f8f');
+  const col=sg?'#b3261e':sh?'#3a6b35':((p.top||p.res||p.rec)?'#c2185b':'#1d3f8f');
   const icon=L.divIcon({className:'',iconSize:[36,36],iconAnchor:[18,18],popupAnchor:[0,-16],html:star(p.n,col,36).replace('class="star"','style="filter:drop-shadow(0 2px 2px #0007)"')});
   const sub=sg?`${esc(p.price)} · ${esc(p.hours)}`:`${p.price?esc(p.price)+' · ':''}${esc(p.zone)}`;
   markers[k]=L.marker(p.ll,{icon}).bindPopup(`<b>${esc(p.name)}</b><br>${sub}<br><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps</a>`).on('click',()=>select(k,false));
