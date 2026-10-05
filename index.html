@@ -5,90 +5,105 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Córdoba a mesa puesta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,800&family=Figtree:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Alegreya+Sans:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
-:root{--blue:#173f8a;--blue2:#0e2a5e;--red:#b3261e;--lemon:#f4c430;--wash:#fbfaf6;--ink:#14213d;--mute:#5d6678;--line:#dfe3ea;--teal:#12806a}
+/* Patio cordobés: cal blanca, añil de azulejo, geranio, albero y naranjo */
+:root{--cal:#fffdf7;--cal2:#f6efe0;--anil:#1d3f8f;--anil2:#14296a;--geranio:#c2185b;--albero:#d9a441;--naranjo:#3a6b35;--rojo:#b3261e;--ink:#1b2340;--mute:#5b6075}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font:15px/1.45 Figtree,system-ui,sans-serif;background:var(--wash);color:var(--ink)}
-h1,h2,h3{font-family:'Bodoni Moda',Georgia,serif}
-/* HERO */
-.hero{position:relative;background:var(--blue2) center/cover;color:#fff;overflow:hidden;padding:40px 20px 0;min-height:300px}
-.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0e2a5ecc,#0e2a5e99 60%,#0e2a5eee)}
-.hero>*{position:relative}
-.hero-in{max-width:1100px;margin:0 auto}
-.eyebrow{letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--lemon);font-weight:700}
-.hero h1{font-size:clamp(38px,8vw,84px);line-height:.95;margin:10px 0 14px;font-weight:800}
-.hero h1 em{color:var(--lemon);font-style:italic;font-weight:500}
-.hero p{max-width:46ch;margin:0 0 26px;color:#dbe4f7;font-size:16px}
-.arches{display:block;width:100%;height:84px;margin-top:6px}
-/* BAR */
-.bar{position:sticky;top:0;z-index:1000;background:var(--wash);border-bottom:1px solid var(--line);padding:10px 20px}
-.bar-in{max-width:1100px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.bar b{font-size:13px;color:var(--mute);margin-right:6px}
-button.f{font:inherit;font-weight:500;border:2px solid var(--blue);background:transparent;color:var(--blue);padding:5px 14px;border-radius:4px;cursor:pointer}
-button.f:hover{background:#173f8a14}
-button.f.on{background:var(--blue);color:#fff}
-button.f:focus-visible,.card:focus-visible{outline:3px solid var(--lemon);outline-offset:2px}
-#count{margin-left:auto;font-size:13px;color:var(--mute)}
-/* MAIN */
-main{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0}
-#list{padding:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;align-content:start}
-.mapwrap{position:sticky;top:56px;height:calc(100vh - 56px)}
+body{margin:0;background:var(--cal);color:var(--ink);font:16px/1.45 'Alegreya Sans',system-ui,sans-serif}
+h1,h2,h3{font-family:'Rozha One',Georgia,serif;font-weight:400}
+.band{height:26px;background:var(--anil) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cg fill='none' stroke='%23fffdf7' stroke-width='1.2'%3E%3Crect x='6' y='6' width='14' height='14'/%3E%3Crect x='6' y='6' width='14' height='14' transform='rotate(45 13 13)'/%3E%3C/g%3E%3Ccircle cx='13' cy='13' r='2' fill='%23d9a441'/%3E%3C/svg%3E") repeat-x}
+/* PORTADA */
+.hero{padding:34px 16px 0;text-align:center;background:linear-gradient(var(--cal),var(--cal2))}
+.portal{container-type:inline-size;position:relative;width:min(100%,620px);aspect-ratio:600/420;margin:0 auto}
+.portal svg{position:absolute;inset:0;width:100%;height:100%}
+.portal .txt{position:absolute;left:14%;right:14%;top:22%;color:var(--cal);display:flex;flex-direction:column;align-items:center;gap:1.5cqw}
+.kicker{font-size:3.2cqw;letter-spacing:.25em;text-transform:uppercase;color:var(--albero);font-weight:700}
+.portal h1{margin:0;font-size:10cqw;line-height:.95}
+.portal h1 em{font-style:normal;color:var(--albero)}
+.portal p{margin:0;font-size:3.7cqw;max-width:34ch;color:#e6ebf8}
+.ledge{position:relative;margin-top:-6px}
+.pots{display:block;width:100%;height:78px}
+/* BARRA */
+.bar{position:sticky;top:0;z-index:1000;background:var(--cal);border-bottom:3px double var(--anil);padding:10px 16px}
+.bar-in{max-width:1240px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.bar b{font-family:'Rozha One',serif;font-weight:400;color:var(--anil);margin-right:4px}
+button.f{font:inherit;font-weight:700;border:2px solid var(--anil);background:var(--cal);color:var(--anil);padding:4px 14px;border-radius:0;cursor:pointer;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px)}
+button.f.on{background:var(--anil);color:var(--cal)}
+button.f:focus-visible,.card:focus-visible{outline:3px solid var(--geranio);outline-offset:2px}
+#count{margin-left:auto;color:var(--mute);font-size:14px}
+/* CONTENIDO */
+main{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;padding:20px 16px 40px}
+#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px 16px;align-content:start;padding-top:18px}
+.mapwrap{position:sticky;top:72px;height:calc(100vh - 92px);border:6px solid var(--anil);outline:2px solid var(--albero);outline-offset:-10px;background:var(--anil)}
 #map{height:100%}
-.card{background:#fff;border:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
-.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px #14213d1f}
-.card.sel{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue)}
-.ph{position:relative;height:96px;background:var(--blue) ;overflow:hidden}
-.ph svg{position:absolute;inset:0;width:100%;height:100%}
-.ph .num{position:absolute;left:10px;bottom:6px;font:800 44px/1 'Bodoni Moda',serif;color:#fff;text-shadow:0 2px 8px #0008}
-.ph.s{background:var(--teal)}
-.ph .tag{position:absolute;right:8px;top:8px;background:var(--lemon);color:var(--ink);font-size:11px;font-weight:700;padding:2px 8px;letter-spacing:.04em}
-.body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
-.body h3{margin:0;font-size:19px;line-height:1.15}
-.meta{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mute)}
-.meta span:first-child{color:var(--red);font-weight:700}
-.body p{margin:0;font-size:13.5px;flex:1}
-.body a{color:var(--blue);font-weight:700;font-size:13px}
-.pin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--blue);border:2px solid #fff;box-shadow:0 2px 5px #0006}
-.pin i{display:block;transform:rotate(45deg);color:#fff;font:700 12px/26px Figtree,sans-serif;text-align:center;font-style:normal}
-.pin.s{background:var(--teal)}.pin.top{background:var(--red)}
-.leaflet-container{font-family:Figtree,sans-serif}
-.note{grid-column:1/-1;font-size:12px;color:var(--mute)}
-@media(max-width:820px){main{grid-template-columns:1fr}.mapwrap{position:relative;top:0;height:46vh;order:-1}#list{padding:16px}.bar{top:0}}
+.leaflet-tile-pane{filter:sepia(.18) saturate(.9)}
+.card{position:relative;background:#fff;border:3px solid var(--anil);box-shadow:inset 0 0 0 4px #fff,inset 0 0 0 5px var(--albero);padding:30px 18px 14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.card.sel{background:#fff8e1;border-color:var(--geranio)}
+.star{position:absolute;left:14px;top:-18px;width:44px;height:44px;filter:drop-shadow(0 2px 0 #0003)}
+.cin{position:absolute;right:-3px;top:10px;background:var(--geranio);color:#fff;font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 10px 2px 12px;clip-path:polygon(0 0,100% 0,100% 100%,0 100%,6px 50%)}
+.card h3{margin:6px 0 0;font-size:21px;line-height:1.1;color:var(--anil2)}
+.meta{display:flex;gap:6px 12px;flex-wrap:wrap;font-size:14px;color:var(--mute)}
+.meta span:first-child{color:var(--geranio);font-weight:700}
+.card p{margin:0;font-size:15px;flex:1}
+.card a{color:var(--anil);font-weight:700;font-size:14px}
+.card.s .star rect{fill:var(--naranjo)}
+.note{grid-column:1/-1;font-size:13px;color:var(--mute);margin:0}
+footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px;font-size:14px}
+@media(max-width:860px){main{grid-template-columns:1fr}.mapwrap{position:relative;top:0;height:46vh;order:-1}.bar{padding:8px 12px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<header class="hero" id="hero">
-  <div class="hero-in">
-    <div class="eyebrow">Guía personal · Córdoba</div>
-    <h1>Mesa puesta<br>junto a la <em>Mezquita</em></h1>
-    <p>15 sitios para comer salmorejo, rabo de toro y flamenquín, y 4 para una tarde de shisha y té. Todo en el mapa.</p>
+<div class="band"></div>
+<header class="hero">
+  <div class="portal">
+    <svg viewBox="0 0 600 410" aria-hidden="true">
+      <defs>
+        <pattern id="tile" width="26" height="26" patternUnits="userSpaceOnUse">
+          <rect width="26" height="26" fill="#1d3f8f"/>
+          <g fill="none" stroke="#ffffff30" stroke-width="1.2"><rect x="6" y="6" width="14" height="14"/><rect x="6" y="6" width="14" height="14" transform="rotate(45 13 13)"/></g>
+        </pattern>
+        <path id="arco" d="M70 410V225A230 230 0 1 1 530 225V410"/>
+      </defs>
+      <use href="#arco" fill="url(#tile)" stroke="none"/>
+      <use href="#arco" fill="none" stroke="#fffdf7" stroke-width="34"/>
+      <use href="#arco" fill="none" stroke="#b3261e" stroke-width="34" stroke-dasharray="26 26"/>
+      <use href="#arco" fill="none" stroke="#14296a" stroke-width="3" transform="translate(0,0)"/>
+    </svg>
+    <div class="txt">
+      <div class="kicker">Guía de Córdoba</div>
+      <h1>Mesa puesta<br>junto a la <em>Mezquita</em></h1>
+      <p>Salmorejo, rabo de toro y flamenquín. Y una tarde de té y shisha.</p>
+    </div>
   </div>
-  <svg class="arches" viewBox="0 0 1200 84" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <defs>
-      <g id="arch">
-        <path d="M6 90V62a32 32 0 1 1 64 0V90" fill="none" stroke="#fbfaf6" stroke-width="14"/>
-        <path d="M6 90V62a32 32 0 1 1 64 0V90" fill="none" stroke="#b3261e" stroke-width="14" stroke-dasharray="9 9"/>
-      </g>
-    </defs>
-    <g id="row"></g>
-  </svg>
+  <div class="ledge"><svg class="pots" viewBox="0 0 1200 78" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs><g id="maceta">
+      <path d="M12 42h36l-5 32H17z" fill="#1d3f8f"/><rect x="9" y="36" width="42" height="9" rx="2" fill="#2f5bc0"/><path d="M14 56h32" stroke="#fffdf7" stroke-width="2"/>
+      <path d="M30 36C22 26 14 24 12 14c8 0 16 6 18 22zM30 36c8-10 16-12 18-22-8 0-16 6-18 22z" fill="#3a6b35"/>
+      <g fill="#c2185b"><circle cx="18" cy="22" r="6"/><circle cx="30" cy="14" r="6.5"/><circle cx="42" cy="22" r="6"/><circle cx="30" cy="27" r="5"/></g>
+      <g fill="#ffd1e3"><circle cx="30" cy="14" r="2"/><circle cx="18" cy="22" r="1.7"/><circle cx="42" cy="22" r="1.7"/></g>
+    </g></defs>
+    <g id="fila"></g>
+  </svg></div>
 </header>
+<div class="band"></div>
 <div class="bar"><div class="bar-in">
-  <b>Ver:</b>
+  <b>Ver</b>
   <button class="f on" data-k="all">Todos</button>
   <button class="f" data-k="comer">Restaurantes</button>
   <button class="f" data-k="shisha">Shisha y té</button>
-  <button class="f" data-k="top">Top 3</button>
+  <button class="f" data-k="top">Los 3 mejores</button>
   <span id="count"></span>
 </div></div>
 <main>
   <div id="list"></div>
   <div class="mapwrap"><div id="map"></div></div>
 </main>
+<footer>Córdoba · 15 sitios para comer y 4 para shisha y té</footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 // Las coordenadas son aproximadas.
@@ -113,22 +128,22 @@ const P=[
 {n:"S3",name:"Aryä Gold Hookah Bar – DeTapas",cat:["shisha"],zone:"Centro",desc:"En el Centro, pero con muy pocas opiniones y solo 3,8/5: por detrás de los dos anteriores.",ll:[37.8845,-4.7795]},
 {n:"S4",name:"Salón de Té",cat:["shisha"],zone:"Buen Pastor · Judería",desc:"Más de 2.300 reseñas. Para té y ambiente; no para buscar la mejor cachimba.",ll:[37.8808,-4.7810]}
 ];
-// fila de arcos de la cabecera
-(function(){const r=document.getElementById('row');let h='';for(let x=-10;x<1220;x+=76)h+='<use href="#arch" x="'+x+'" y="0"/>';r.innerHTML=h})();
+(function(){let h='';for(let x=-6,i=0;x<1220;x+=64,i++)h+='<use href="#maceta" x="'+x+'" y="'+(i%2?0:0)+'"/>';document.getElementById('fila').innerHTML=h})();
 const map=L.map('map').setView([37.8805,-4.7795],15);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
 const list=document.getElementById('list');
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const gm=p=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.name+' Córdoba España');
-const arch='<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="#ffffff30" stroke-width="7"><path d="M10 70V40a18 18 0 1 1 36 0V70"/><path d="M54 70V40a18 18 0 1 1 36 0V70"/></g></svg>';
+const star=(n,fill,sz)=>`<svg class="star" width="${sz}" height="${sz}" viewBox="0 0 44 44" aria-hidden="true"><rect x="8" y="8" width="28" height="28" fill="${fill}" stroke="#fff" stroke-width="2.5"/><rect x="8" y="8" width="28" height="28" fill="${fill}" stroke="#fff" stroke-width="2.5" transform="rotate(45 22 22)"/><rect x="9.2" y="9.2" width="25.6" height="25.6" fill="${fill}"/><text x="22" y="27.5" text-anchor="middle" font-family="Rozha One,serif" font-size="16" fill="#fff">${n}</text></svg>`;
 const markers={},cards={};
 P.forEach(p=>{
   const sh=!p.cat.includes('comer');
-  const icon=L.divIcon({className:'',iconSize:[30,30],iconAnchor:[15,30],popupAnchor:[0,-28],html:`<div class="pin ${sh?'s':''} ${p.top?'top':''}"><i>${p.n}</i></div>`});
+  const col=sh?'#3a6b35':(p.top?'#c2185b':'#1d3f8f');
+  const icon=L.divIcon({className:'',iconSize:[36,36],iconAnchor:[18,18],popupAnchor:[0,-16],html:star(p.n,col,36).replace('class="star"','style="filter:drop-shadow(0 2px 2px #0007)"')});
   markers[p.n]=L.marker(p.ll,{icon}).bindPopup(`<b>${esc(p.name)}</b><br>${p.price?esc(p.price)+' · ':''}${esc(p.zone)}<br><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps</a>`).on('click',()=>select(p.n,false));
-  const c=document.createElement('article');c.className='card';c.tabIndex=0;
-  c.innerHTML=`<div class="ph ${sh?'s':''}">${arch}<span class="num">${p.n}</span>${p.tag?`<span class="tag">${esc(p.tag)}</span>`:''}</div>
-  <div class="body"><h3>${esc(p.name)}</h3><div class="meta">${p.price?`<span>${esc(p.price)}</span>`:''}<span>${esc(p.zone)}</span></div><p>${esc(p.desc)}</p><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps ↗</a></div>`;
+  const c=document.createElement('article');c.className='card'+(sh?' s':'');c.tabIndex=0;
+  c.innerHTML=`${star(p.n,sh?'#3a6b35':'#1d3f8f',44)}${p.tag?`<span class="cin">${esc(p.tag)}</span>`:''}
+  <h3>${esc(p.name)}</h3><div class="meta">${p.price?`<span>${esc(p.price)}</span>`:''}<span>${esc(p.zone)}</span></div><p>${esc(p.desc)}</p><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps ↗</a>`;
   c.addEventListener('click',e=>{if(e.target.tagName!=='A')select(p.n,true)});
   c.addEventListener('keydown',e=>{if(e.key==='Enter')select(p.n,true)});
   cards[p.n]=c;list.appendChild(c);
@@ -136,7 +151,7 @@ P.forEach(p=>{
 const note=document.createElement('p');note.className='note';note.textContent='Posiciones aproximadas; usa el enlace de Google Maps para la ubicación exacta.';list.appendChild(note);
 function select(n,pan){
   Object.values(cards).forEach(c=>c.classList.remove('sel'));cards[n].classList.add('sel');
-  if(pan){map.setView(markers[n].getLatLng(),17);markers[n].openPopup();if(innerWidth<=820)window.scrollTo({top:0,behavior:'smooth'})}
+  if(pan){map.setView(markers[n].getLatLng(),17);markers[n].openPopup();if(innerWidth<=860)window.scrollTo({top:0,behavior:'smooth'})}
   else cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 function apply(k){
