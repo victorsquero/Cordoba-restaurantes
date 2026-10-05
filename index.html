@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Córdoba: comer y shisha</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--bg:#faf6f0;--card:#fff;--ink:#2b2118;--mute:#7a6a5a;--line:#e6dccd;--accent:#b5472a;--tea:#2f7d6b}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1814;--card:#27211b;--ink:#f3ebe0;--mute:#b3a592;--line:#3b332b;--accent:#e2785a;--tea:#52b69f}}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.4 system-ui,sans-serif;background:var(--bg);color:var(--ink);height:100vh;display:flex;flex-direction:column}
+header{padding:10px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+h1{font-size:18px;margin:0}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+button.f{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:5px 12px;border-radius:99px;cursor:pointer;font:inherit}
+button.f.on{background:var(--accent);border-color:var(--accent);color:#fff}
+main{flex:1;display:flex;min-height:0}
+#list{width:380px;overflow:auto;padding:10px;border-right:1px solid var(--line)}
+#map{flex:1}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.card.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.card h3{margin:0 0 4px;font-size:15px}
+.meta{color:var(--mute);font-size:13px;display:flex;gap:12px;flex-wrap:wrap}
+.card p{margin:6px 0 0;font-size:13.5px}
+.card a{color:var(--accent);font-size:13px}
+.tag{font-size:11px;padding:1px 7px;border-radius:99px;background:var(--accent);color:#fff;margin-left:4px;vertical-align:middle}
+.tag.t{background:var(--tea)}
+.pin{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font:700 12px/28px system-ui;text-align:center;border:2px solid #fff;box-shadow:0 1px 4px #0006}
+.pin.s{background:var(--tea)}
+.pin.top{background:#d4a017}
+small.note{display:block;color:var(--mute);padding:6px 4px 12px;font-size:12px}
+@media(max-width:760px){main{flex-direction:column-reverse}#list{width:100%;height:42%;border-right:0;border-top:1px solid var(--line)}#map{height:58%;flex:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🍽️ Córdoba · dónde comer y shisha</h1>
+  <div class="filters">
+    <button class="f on" data-k="all">Todos</button>
+    <button class="f" data-k="comer">Restaurantes</button>
+    <button class="f" data-k="shisha">Shisha / té</button>
+    <button class="f" data-k="top">⭐ Top 3</button>
+  </div>
+</header>
+<main>
+  <div id="list"></div>
+  <div id="map"></div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// NOTA: las coordenadas son aproximadas (por calle/zona). Usa "Abrir en Google Maps" para la ubicación exacta.
+const P=[
+{n:1,name:"Taberna La Montillana",tag:"MI Nº1",top:1,cat:["comer"],price:"~25–35 €",zone:"Centro",desc:"Cocina cordobesa con un punto más elaborado. Flamenquín, salmorejo y rabo de toro. Combinación excepcional de valoración y volumen de opiniones.",ll:[37.8803,-4.7787]},
+{n:2,name:"Taberna Salinas",tag:"MUY CLARA PARA TI",top:1,cat:["comer"],price:"~20–30 €",zone:"Centro",desc:"Taberna cordobesa tradicional: salmorejo, berenjenas, rabo de toro… Funciona desde 1879.",ll:[37.8830,-4.7788]},
+{n:3,name:"Bodegas Mezquita Céspedes",top:1,cat:["comer"],price:"~25–35 €",zone:"A unos pasos de la Mezquita",desc:"Salmorejo, rabo de toro, berenjenas y cocina tradicional. La apuesta más segura por calidad + ubicación + opiniones.",ll:[37.8800,-4.7795]},
+{n:4,name:"El Rincón de Carmen",cat:["comer"],price:"~25–35 €",zone:"Judería",desc:"Cocina andaluza y un entorno especialmente bonito. Para una comida más tranquila.",ll:[37.8805,-4.7820]},
+{n:5,name:"Casa Pedro Ximénez",cat:["comer"],price:"~25–35 €",zone:"Deanes / Judería",desc:"Entre los mejores alrededor del casco histórico según Tripadvisor, con miles de opiniones.",ll:[37.8786,-4.7815]},
+{n:6,name:"Casa Pepe de la Judería",cat:["comer"],price:"~30–40 €",zone:"Judería",desc:"Un clásico. Por ubicación, ambiente y cocina cordobesa más que por calidad-precio.",ll:[37.8806,-4.7822]},
+{n:7,name:"Bodegas Mezquita Corregidor",cat:["comer"],price:"~25–35 €",zone:"Mezquita",desc:"Otra sede extraordinariamente bien valorada de Bodegas Mezquita; más de 16.000 reseñas.",ll:[37.8789,-4.7807]},
+{n:8,name:"Bodegas Mezquita Ribera",cat:["comer"],price:"~25–35 €",zone:"Ribera",desc:"Ideal si luego queréis pasear por el Puente Romano. Más de 20.000 opiniones y 4,8/5.",ll:[37.8775,-4.7790]},
+{n:9,name:"Taberna Góngora",cat:["comer"],price:"~20–30 €",zone:"Centro",desc:"Más taberna y menos restaurante turístico. Comer contundente sin disparar la cuenta.",ll:[37.8850,-4.7790]},
+{n:10,name:"La Compañía – Vinos y Tapas",cat:["comer"],price:"~25–35 €",zone:"Centro",desc:"Para compartir platos con vino. 4,7/5 y más de 1.000 reseñas.",ll:[37.8830,-4.7805]},
+{n:11,name:"Bodegas Mezquita Cruz del Rastro",cat:["comer"],price:"~25–35 €",zone:"Centro / Ribera",desc:"Alternativa si las otras Bodegas Mezquita están llenas: 4,8 y unas 6.000 opiniones.",ll:[37.8770,-4.7765]},
+{n:12,name:"Garum 2.1 Bistró",cat:["comer"],price:"~30–40 €",zone:"San Fernando",desc:"Para salir de la cocina cordobesa estrictamente tradicional y probar algo más creativo.",ll:[37.8815,-4.7755]},
+{n:13,name:"Taberna La Cuarta",cat:["comer"],price:"~25–35 €",zone:"Capitulares",desc:"Cocina de fusión y unas 4.700 opiniones. Buena para cambiar de registro.",ll:[37.8840,-4.7780]},
+{n:14,name:"Taberna El Abanico Patio",cat:["comer"],price:"~20–30 €",zone:"Judería",desc:"Tapas y platos cordobeses en pleno casco histórico.",ll:[37.8815,-4.7815]},
+{n:15,name:"Tetería-Comida Árabe «Halal» PETRA",cat:["comer","shisha"],price:"~15–25 €",zone:"Judería · Calleja de la Hoguera",desc:"Comida árabe, tés y ambiente acorde con la zona histórica. También entra en té/shisha: 4,5/5 con ~1.860 opiniones.",ll:[37.8788,-4.7822]},
+{n:"S1",name:"Aryä Shisha Club",tag:"🥇 Shisha",cat:["shisha"],zone:"Av. Manolete",desc:"Primera opción específica de cachimbas. 4,6/5. No está en pleno casco histórico, pero merece el desplazamiento.",ll:[37.8890,-4.7770]},
+{n:"S2",name:"Aryä Lounge Bar",cat:["shisha"],zone:"Isla Fuerteventura",desc:"También especializado en narguiles; abre hasta bastante tarde. 4,6/5.",ll:[37.8960,-4.7930]},
+{n:"S3",name:"Aryä Gold Hookah Bar – DeTapas",cat:["shisha"],zone:"Centro",desc:"En el Centro, pero con muy pocas opiniones y solo 3,8/5: por detrás de los dos anteriores.",ll:[37.8845,-4.7795]},
+{n:"S4",name:"Salón de Té",cat:["shisha"],zone:"Buen Pastor · Judería",desc:"Más de 2.300 reseñas. Para té y ambiente; no para buscar la mejor cachimba.",ll:[37.8808,-4.7810]}
+];
+const map=L.map('map').setView([37.8805,-4.7795],15);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+const list=document.getElementById('list');
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const gm=p=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.name+' Córdoba España');
+const markers={},cards={};
+P.forEach(p=>{
+  const shisha=!p.cat.includes('comer');
+  const icon=L.divIcon({className:'',iconSize:[28,28],html:`<div class="pin ${shisha?'s':''} ${p.top?'top':''}">${p.n}</div>`});
+  const popup=`<b>${esc(p.name)}</b><br>${p.price?esc(p.price)+' · ':''}${esc(p.zone)}<br><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps</a>`;
+  markers[p.n]=L.marker(p.ll,{icon}).bindPopup(popup).on('click',()=>select(p.n,false));
+  const c=document.createElement('div');c.className='card';
+  c.innerHTML=`<h3>${p.n}. ${esc(p.name)}${p.tag?`<span class="tag ${shisha?'t':''}">${esc(p.tag)}</span>`:''}</h3>
+  <div class="meta">${p.price?`<span>💰 ${esc(p.price)}</span>`:''}<span>📍 ${esc(p.zone)}</span></div>
+  <p>${esc(p.desc)}</p><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps ↗</a>`;
+  c.addEventListener('click',e=>{if(e.target.tagName!=='A')select(p.n,true)});
+  cards[p.n]=c;list.appendChild(c);
+});
+const note=document.createElement('small');note.className='note';
+note.textContent='Las posiciones del mapa son aproximadas; usa el enlace de Google Maps para la ubicación exacta.';
+list.appendChild(note);
+function select(n,pan){
+  Object.values(cards).forEach(c=>c.classList.remove('sel'));
+  cards[n].classList.add('sel');
+  if(pan){map.setView(markers[n].getLatLng(),17);markers[n].openPopup()}
+  else cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function apply(k){
+  const vis=[];
+  P.forEach(p=>{
+    const ok=k==='all'||(k==='top'?p.top:p.cat.includes(k));
+    cards[p.n].style.display=ok?'':'none';
+    if(ok){markers[p.n].addTo(map);vis.push(p.ll)}else markers[p.n].remove();
+  });
+  if(vis.length)map.fitBounds(vis,{padding:[40,40],maxZoom:16});
+}
+document.querySelectorAll('button.f').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('button.f').forEach(x=>x.classList.remove('on'));b.classList.add('on');apply(b.dataset.k);
+});
+apply('all');
+</script>
+</body>
+</html>
