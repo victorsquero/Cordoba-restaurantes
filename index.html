@@ -112,8 +112,8 @@ button.f{font:inherit;font-weight:700;border:2px solid var(--anil);background:va
 button.f.on{background:var(--anil);color:var(--cal)}
 button.f:focus-visible,.card:focus-visible{outline:3px solid var(--geranio);outline-offset:2px}
 #count{margin-left:auto;color:var(--mute);font-size:14px}
-.tabs{display:flex}
-button.tab{font:inherit;font-family:'Rozha One',serif;font-size:19px;border:0;border-bottom:4px solid transparent;background:none;color:var(--mute);padding:4px 14px;cursor:pointer}
+.tabs{display:flex;max-width:100%;overflow-x:auto}
+button.tab{white-space:nowrap;flex:none;font:inherit;font-family:'Rozha One',serif;font-size:19px;border:0;border-bottom:4px solid transparent;background:none;color:var(--mute);padding:4px 14px;cursor:pointer}
 button.tab.on{color:var(--anil2);border-bottom-color:var(--geranio)}
 button.tab:focus-visible{outline:3px solid var(--geranio)}
 .sep{width:2px;height:26px;background:var(--albero);margin:0 6px}
@@ -194,6 +194,7 @@ footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px
   <div class="tabs" role="tablist">
     <button class="tab on" role="tab" data-m="f">Dónde comer</button>
     <button class="tab" role="tab" data-m="v">Qué ver</button>
+    <button class="tab" role="tab" data-m="m">Recomendación amigo Manu</button>
   </div>
   <span class="sep"></span>
   <div id="filters" class="filters"></div>
@@ -203,7 +204,7 @@ footer{background:var(--anil2);color:#cfd8f0;text-align:center;padding:18px 16px
   <div id="list"></div>
   <div class="mapwrap"><div id="map"></div></div>
 </main>
-<footer>Córdoba · 16 sitios para comer y 4 para shisha y té · <a href="guia/" style="color:#fff">Ver la versión tipo guía de viaje</a></footer>
+<footer>Córdoba · 16 sitios para comer, 4 para shisha y té y 4 recomendados por Manu · <a href="guia/" style="color:#fff">Ver la versión tipo guía de viaje</a></footer>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
 // Las coordenadas son aproximadas.
@@ -216,7 +217,7 @@ const P=[
 {n:6,name:"Casa Pepe de la Judería",cat:["comer"],price:"~30–40 €",zone:"Judería",desc:"Un clásico. Por ubicación, ambiente y cocina cordobesa más que por calidad-precio.",ll:[37.8806,-4.7822]},
 {n:7,name:"Bodegas Mezquita Corregidor",cat:["comer"],price:"~25–35 €",zone:"Mezquita",desc:"Otra sede extraordinariamente bien valorada de Bodegas Mezquita; más de 16.000 reseñas.",ll:[37.8789,-4.7807]},
 {n:8,name:"Bodegas Mezquita Ribera",cat:["comer"],price:"~25–35 €",zone:"Ribera",desc:"Ideal si luego queréis pasear por el Puente Romano. Más de 20.000 opiniones y 4,8/5.",ll:[37.8775,-4.7790]},
-{n:9,name:"Taberna Góngora",cat:["comer"],price:"~20–30 €",zone:"Centro",desc:"Más taberna y menos restaurante turístico. Comer contundente sin disparar la cuenta.",ll:[37.8850,-4.7790]},
+{n:9,name:"Taberna Góngora",tag:"TAMBIÉN LO RECOMIENDA MANU",manu:1,cat:["comer"],price:"~20–30 €",zone:"Centro",desc:"Más taberna y menos restaurante turístico. Comer contundente sin disparar la cuenta. Manu también lo recomienda.",ll:[37.8863758,-4.7786855]},
 {n:10,name:"La Compañía – Vinos y Tapas",cat:["comer"],price:"~25–35 €",zone:"Centro",desc:"Para compartir platos con vino. 4,7/5 y más de 1.000 reseñas.",ll:[37.8830,-4.7805]},
 {n:11,name:"Bodegas Mezquita Cruz del Rastro",cat:["comer"],price:"~25–35 €",zone:"Centro / Ribera",desc:"Alternativa si las otras Bodegas Mezquita están llenas: 4,8 y unas 6.000 opiniones.",ll:[37.8770,-4.7765]},
 {n:12,name:"Garum 2.1 Bistró",cat:["comer"],price:"~30–40 €",zone:"San Fernando",desc:"Para salir de la cocina cordobesa estrictamente tradicional y probar algo más creativo.",ll:[37.8815,-4.7755]},
@@ -224,6 +225,9 @@ const P=[
 {n:14,name:"Taberna El Abanico Patio",cat:["comer"],price:"~20–30 €",zone:"Judería",desc:"Tapas y platos cordobeses en pleno casco histórico.",ll:[37.8815,-4.7815]},
 {n:15,name:"Tetería-Comida Árabe «Halal» PETRA",cat:["comer","shisha"],price:"~15–25 €",zone:"Judería · Calleja de la Hoguera",desc:"Comida árabe, tés y ambiente acorde con la zona histórica. También entra en té/shisha: 4,5/5 con ~1.860 opiniones.",ll:[37.8788,-4.7822]},
 {n:16,name:"Taberna La Herencia by El Pisto",tag:"RESERVADO",res:1,cat:["comer"],zone:"Plaza de San Pedro, 1 · Sábado 14:30",desc:"Mesa reservada para 4 el sábado a las 14:30, en mesas altas. Tel. +34 604 94 99 06.",ll:[37.8828264,-4.7724149]},
+{n:"M1",k:"m",manu:1,name:"Taberna Las Beatillas",tag:"AMIGO MANU",cat:["comer"],zone:"Recomendación de Manu",desc:"Recomendación de nuestro amigo Manu.",ll:[37.8887197,-4.7723542]},
+{n:"M2",k:"m",manu:1,name:"Restaurante El Churrasco",tag:"AMIGO MANU",cat:["comer"],zone:"Judería",desc:"Recomendación de nuestro amigo Manu.",ll:[37.8800982,-4.7819095]},
+{n:"M3",k:"m",manu:1,name:"Bodega San Basilio",tag:"AMIGO MANU",cat:["comer"],zone:"Barrio de San Basilio",desc:"Recomendación de nuestro amigo Manu.",ll:[37.8759819,-4.7838821]},
 {n:"S1",name:"Aryä Shisha Club",tag:"🥇 Shisha",cat:["shisha"],zone:"Av. Manolete",desc:"Primera opción específica de cachimbas. 4,6/5. No está en pleno casco histórico, pero merece el desplazamiento.",ll:[37.8890,-4.7770]},
 {n:"S2",name:"Aryä Lounge Bar",cat:["shisha"],zone:"Isla Fuerteventura",desc:"También especializado en narguiles; abre hasta bastante tarde. 4,6/5.",ll:[37.8960,-4.7930]},
 {n:"S3",name:"Aryä Gold Hookah Bar – DeTapas",cat:["shisha"],zone:"Centro",desc:"En el Centro, pero con muy pocas opiniones y solo 3,8/5: por detrás de los dos anteriores.",ll:[37.8845,-4.7795]},
@@ -279,11 +283,11 @@ const HOME=[37.88313,-4.76888];
 L.marker(HOME,{zIndexOffset:1000,icon:L.divIcon({className:'',iconSize:[38,38],iconAnchor:[19,19],popupAnchor:[0,-16],html:'<svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true" style="filter:drop-shadow(0 2px 2px #0007)"><circle cx="19" cy="19" r="17" fill="#d9a441" stroke="#fff" stroke-width="2.5"/><path d="M9 19 19 10l10 9h-3v9h-5v-6h-4v6h-5v-9z" fill="#14296a"/></svg>'})}).addTo(map).bindPopup('<b>Nuestro apartamento</b><br>Medina Suites Córdoba<br>Calle Frías, 4<br>Vie 9 a dom 11 de octubre');
 const STATION=[37.8921,-4.7895];
 L.marker(STATION,{zIndexOffset:900,icon:L.divIcon({className:'',iconSize:[38,38],iconAnchor:[19,19],popupAnchor:[0,-16],html:'<svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true" style="filter:drop-shadow(0 2px 2px #0007)"><circle cx="19" cy="19" r="17" fill="#14296a" stroke="#fff" stroke-width="2.5"/><rect x="11" y="9" width="16" height="16" rx="4" fill="#fff"/><rect x="13.5" y="12" width="11" height="6" rx="1" fill="#14296a"/><circle cx="15.5" cy="22" r="1.5" fill="#14296a"/><circle cx="22.5" cy="22" r="1.5" fill="#14296a"/><path d="M13 29l3-4M25 29l-3-4" stroke="#fff" stroke-width="2"/></svg>'})}).addTo(map).bindPopup('<b>Estación de tren y AVE</b><br>Córdoba Central<br><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Estaci%C3%B3n+de+C%C3%B3rdoba+Central">Abrir en Google Maps</a>');
-const ALL=P.map(p=>({...p,kind:'f'})).concat(V.map(v=>({...v,kind:'v'})));
+const ALL=P.map(p=>({...p,kind:p.k||'f'})).concat(V.map(v=>({...v,kind:'v'})));
 const markers={},cards={};
 ALL.forEach(p=>{
   const k=p.kind+p.n,sh=p.kind==='f'&&!p.cat.includes('comer'),sg=p.kind==='v';
-  const col=sg?'#b3261e':sh?'#3a6b35':((p.top||p.res||p.rec)?'#c2185b':'#1d3f8f');
+  const col=sg?'#b3261e':p.kind==='m'?'#0e8a7d':sh?'#3a6b35':((p.top||p.res||p.rec)?'#c2185b':'#1d3f8f');
   const icon=L.divIcon({className:'',iconSize:[36,36],iconAnchor:[18,18],popupAnchor:[0,-16],html:star(p.n,col,36).replace('class="star"','style="filter:drop-shadow(0 2px 2px #0007)"')});
   const sub=sg?`${esc(p.price)} · ${esc(p.hours)}`:`${p.price?esc(p.price)+' · ':''}${esc(p.zone)}`;
   markers[k]=L.marker(p.ll,{icon}).bindPopup(`<b>${esc(p.name)}</b><br>${sub}<br><a target="_blank" rel="noopener" href="${gm(p)}">Abrir en Google Maps</a>`).on('click',()=>select(k,false));
@@ -296,8 +300,8 @@ ALL.forEach(p=>{
   cards[k]=c;list.appendChild(c);
 });
 const note=document.createElement('p');note.className='note';list.appendChild(note);
-const FILTERS={f:[['all','Todos'],['comer','Restaurantes'],['shisha','Shisha y té'],['top','Los 3 mejores']],v:[['all','Todos'],['gratis','Gratis'],['pago','De pago']]};
-const NOTES={f:'Posiciones aproximadas; usa el enlace de Google Maps para la ubicación exacta.',v:'Precios y horarios orientativos, sacados de memoria: confírmalos en la web oficial de cada sitio antes de ir. Las posiciones del mapa son aproximadas.'};
+const FILTERS={f:[['all','Todos'],['comer','Restaurantes'],['shisha','Shisha y té'],['top','Los 3 mejores']],v:[['all','Todos'],['gratis','Gratis'],['pago','De pago']],m:[['all','Todos']]};
+const NOTES={f:'Posiciones aproximadas; usa el enlace de Google Maps para la ubicación exacta.',v:'Precios y horarios orientativos, sacados de memoria: confírmalos en la web oficial de cada sitio antes de ir. Las posiciones del mapa son aproximadas.',m:'Sitios que nos ha recomendado nuestro amigo Manu, con la posición tomada de Google Maps. No he comprobado precios ni horarios.'};
 let mode='f',filt='all';
 function select(k,pan){
   Object.values(cards).forEach(c=>c.classList.remove('sel'));cards[k].classList.add('sel');
@@ -305,6 +309,7 @@ function select(k,pan){
   else cards[k].scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 function match(p){
+  if(mode==='m')return !!p.manu;
   if(p.kind!==mode)return false;
   if(filt==='all')return true;
   if(mode==='v')return filt==='gratis'?p.free:!p.free;
