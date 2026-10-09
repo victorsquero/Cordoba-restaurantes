@@ -295,8 +295,8 @@ const list=document.getElementById('list');
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const gm=p=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.name+' Córdoba España');
 const star=(n,fill,sz)=>`<svg class="star" width="${sz}" height="${sz}" viewBox="0 0 44 44" aria-hidden="true"><rect x="8" y="8" width="28" height="28" fill="${fill}" stroke="#fff" stroke-width="2.5"/><rect x="8" y="8" width="28" height="28" fill="${fill}" stroke="#fff" stroke-width="2.5" transform="rotate(45 22 22)"/><rect x="9.2" y="9.2" width="25.6" height="25.6" fill="${fill}"/><text x="22" y="27.5" text-anchor="middle" font-family="Rozha One,serif" font-size="16" fill="#fff">${n}</text></svg>`;
-const HOME=[37.88313,-4.76888];
-L.marker(HOME,{zIndexOffset:1000,icon:L.divIcon({className:'',iconSize:[38,38],iconAnchor:[19,19],popupAnchor:[0,-16],html:'<svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true" style="filter:drop-shadow(0 2px 2px #0007)"><circle cx="19" cy="19" r="17" fill="#d9a441" stroke="#fff" stroke-width="2.5"/><path d="M9 19 19 10l10 9h-3v9h-5v-6h-4v6h-5v-9z" fill="#14296a"/></svg>'})}).addTo(map).bindPopup('<b>Nuestro apartamento</b><br>Medina Suites Córdoba<br>Calle Frías, 4<br>Vie 9 a dom 11 de octubre');
+const HOME=null; // poner [lat,lng] cuando se conozcan las coordenadas del alojamiento
+if(HOME)L.marker(HOME,{zIndexOffset:1000,icon:L.divIcon({className:'',iconSize:[38,38],iconAnchor:[19,19],popupAnchor:[0,-16],html:'<svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true" style="filter:drop-shadow(0 2px 2px #0007)"><circle cx="19" cy="19" r="17" fill="#d9a441" stroke="#fff" stroke-width="2.5"/><path d="M9 19 19 10l10 9h-3v9h-5v-6h-4v6h-5v-9z" fill="#14296a"/></svg>'})}).addTo(map).bindPopup('<b>Nuestro alojamiento</b><br>Calle de los Alcaides, 17');
 const STATION=[37.8921,-4.7895];
 L.marker(STATION,{zIndexOffset:900,icon:L.divIcon({className:'',iconSize:[38,38],iconAnchor:[19,19],popupAnchor:[0,-16],html:'<svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true" style="filter:drop-shadow(0 2px 2px #0007)"><circle cx="19" cy="19" r="17" fill="#14296a" stroke="#fff" stroke-width="2.5"/><rect x="11" y="9" width="16" height="16" rx="4" fill="#fff"/><rect x="13.5" y="12" width="11" height="6" rx="1" fill="#14296a"/><circle cx="15.5" cy="22" r="1.5" fill="#14296a"/><circle cx="22.5" cy="22" r="1.5" fill="#14296a"/><path d="M13 29l3-4M25 29l-3-4" stroke="#fff" stroke-width="2"/></svg>'})}).addTo(map).bindPopup('<b>Estación de tren y AVE</b><br>Córdoba Central<br><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Estaci%C3%B3n+de+C%C3%B3rdoba+Central">Abrir en Google Maps</a>');
 const ALL=P.map(p=>({...p,kind:p.k||'f'})).concat(V.map(v=>({...v,kind:'v'})));
@@ -340,7 +340,7 @@ function apply(){
     if(ok){markers[k].addTo(map);if(!p.far)vis.push(p.ll)}else markers[k].remove()});
   document.getElementById('count').textContent=ALL.filter(match).length+' sitios';
   note.textContent=NOTES[mode];
-  if(vis.length)map.fitBounds(vis.concat([HOME,STATION]),{padding:[40,40],maxZoom:16});
+  if(vis.length)map.fitBounds(vis.concat(HOME?[HOME,STATION]:[STATION]),{padding:[40,40],maxZoom:16});
 }
 function buildFilters(){
   const box=document.getElementById('filters');box.innerHTML='';
@@ -432,14 +432,14 @@ buildFilters();apply();
 (function(){
   const SITE='https://victorsquero.github.io/Cordoba-restaurantes/';
   const MAPS=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
-  const ESTACION=MAPS('Estación de Córdoba Central'),CASA=MAPS('37.88313,-4.76888'),COMIDA=MAPS('37.8828264,-4.7724149');
+  const ESTACION=MAPS('Estación de Córdoba Central'),CASA=MAPS('Calle de los Alcaides 17 Córdoba España'),COMIDA=MAPS('37.8828264,-4.7724149');
   const E=[
     {day:'2026-10-09',s:'09:50',e:'11:34',em:'',t:'09:50 a 11:34',w:'Tren a Córdoba (3 personas)',d:'De Madrid Puerta de Atocha a Córdoba, 1 h 44 min. Coche 6.',loc:'Estación de Madrid Puerta de Atocha',links:[['Ver estación en Google Maps ↗',ESTACION]],alarm:120,wa:'09:50 Tren Madrid → Córdoba (llega 11:34)'},
     {day:'2026-10-09',s:'12:35',e:'14:19',em:'',t:'12:35 a 14:19',w:'Tren de Víctor',d:'AVE de Madrid Puerta de Atocha a Córdoba, 1 h 44 min. Llega por su cuenta y se une al grupo.',loc:'Estación de Madrid Puerta de Atocha',links:[['Ver estación en Google Maps ↗',ESTACION]],alarm:120,wa:'12:35 Tren de Víctor (llega 14:19)'},
-    {day:'2026-10-09',s:'16:00',e:'20:00',em:'de',t:'16:00 a 20:00',w:'Entrada al apartamento',d:'Medina Suites Córdoba, Calle Frías, 4. Para 4 personas. Sin parking, Wi-Fi gratis. Tel. +34 606 59 77 08.',loc:'Calle Frías, 4, 14002 Córdoba, España',links:[['Ver en Google Maps ↗',CASA]],alarm:0,wa:'16:00 Entrada al apartamento, Calle Frías, 4 (hasta las 20:00)'},
+    {day:'2026-10-09',s:'16:00',e:'20:00',em:'de',t:'16:00 a 20:00',w:'Entrada al alojamiento',d:'Calle de los Alcaides, 17, Córdoba. Para 4 personas.',loc:'Calle de los Alcaides, 17, Córdoba, España',links:[['Ver en Google Maps ↗',CASA]],alarm:0,wa:'16:00 Entrada al alojamiento, Calle de los Alcaides, 17 (hasta las 20:00)'},
     {day:'2026-10-10',s:'12:30',e:'14:15',em:'',t:'12:30 a 14:15',w:'Free tour',d:'Visita guiada por la ciudad, 1 h 45 min.',loc:'Córdoba, España',cdesc:'Revisa el punto de encuentro en la reserva del tour.',links:[],alarm:30,wa:'12:30 Free tour (hasta las 14:15)'},
     {day:'2026-10-10',s:'14:30',e:'15:45',em:'',t:'14:30',w:'Comida reservada para 4',d:'Taberna La Herencia by El Pisto, Plaza de San Pedro, 1. Mesas altas. Tel. +34 604 94 99 06.',loc:'Taberna La Herencia By El Pisto, Plaza de San Pedro, 1, 14002 Córdoba, España',cdesc:'Mesa para 4 en mesas altas. Tel. +34 604 94 99 06.',links:[['Ver en Google Maps ↗',COMIDA]],alarm:60,wa:'14:30 Comida en Taberna La Herencia by El Pisto, mesa para 4'},
-    {day:'2026-10-11',s:'10:30',e:'11:00',em:'hasta las',t:'11:00',w:'Salida del apartamento',d:'El tren sale a las 11:40.',loc:'Calle Frías, 4, 14002 Córdoba, España',cw:'Dejar el apartamento (antes de las 11:00)',links:[],alarm:0,wa:'Dejar el apartamento antes de las 11:00'},
+    {day:'2026-10-11',s:'10:30',e:'11:00',em:'hasta las',t:'11:00',w:'Salida del alojamiento',d:'El tren sale a las 11:40.',loc:'Calle de los Alcaides, 17, Córdoba, España',cw:'Dejar el alojamiento (antes de las 11:00)',links:[],alarm:0,wa:'Dejar el alojamiento antes de las 11:00'},
     {day:'2026-10-11',s:'11:40',e:'13:49',em:'',t:'11:40 a 13:49',w:'Tren a Madrid',d:'Avlo 02109, de la estación de Córdoba a Madrid Puerta de Atocha. Coche 2. El acceso cierra 2 minutos antes.',loc:'Estación de Córdoba Central',links:[['Ver estación en Google Maps ↗',ESTACION]],alarm:120,wa:'11:40 Tren Córdoba → Madrid (llega 13:49)'}
   ];
   const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
