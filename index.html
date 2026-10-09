@@ -138,6 +138,11 @@ button.tab:focus-visible{outline:3px solid var(--geranio)}
 details.cred{max-width:1240px;margin:0 auto;padding:6px 16px 18px;color:var(--mute);font-size:14px}
 details.cred summary{cursor:pointer;font-weight:700;color:var(--anil)}
 @media(max-width:860px){.gs figure{height:140px}}
+.maplibregl-ctrl-top-right .maplibregl-ctrl-group:has(.maplibregl-ctrl-geolocate){display:none}
+.locbtn{position:absolute;left:10px;bottom:10px;z-index:3;font:700 14px/1 system-ui,sans-serif;padding:9px 14px;border:2px solid #14296a;background:#fff;color:#14296a;cursor:pointer;box-shadow:0 1px 4px #0005}
+.locbtn.on{background:#14296a;color:#fff}
+.locbtn:focus-visible{outline:3px solid #c2185b;outline-offset:2px}
+.locmsg{position:absolute;left:10px;right:10px;bottom:52px;z-index:3;background:#fff;color:#b3261e;border:2px solid #b3261e;padding:8px 12px;font:600 14px/1.3 system-ui,sans-serif}
 /* CONTENIDO */
 main{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;padding:20px 16px 40px}
 #list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px 16px;align-content:start;padding-top:18px}
@@ -263,13 +268,28 @@ const V=[
 {n:11,name:"Medina Azahara",free:true,price:"Gratis (UE)",hours:"Mar–dom mañana y tarde · Lun cerrado",tip:"A unos 8 km. El autobús desde Córdoba cuesta unos 2–3 €. No cabe en un fin de semana corto si ya llevas mucho plan.",desc:"Ciudad palatina califal del siglo X, patrimonio mundial. Sale de la ruta habitual.",zone:"A 8 km, al oeste",far:1,ll:[37.88580,-4.86670]}
 ];
 // Capa mínima que traduce las llamadas de mapa a MapLibre GL (OpenFreeMap, sin clave)
+function addLocate(m){
+  // Botón «Dónde estoy»: pide permiso al navegador y marca tu posición en el mapa. La ubicación no sale de tu dispositivo.
+  const geo=new maplibregl.GeolocateControl({positionOptions:{enableHighAccuracy:true,timeout:20000},trackUserLocation:true,showUserLocation:true,showAccuracyCircle:true,fitBoundsOptions:{maxZoom:16}});
+  m.addControl(geo,'top-right');
+  const c=m.getContainer(),b=document.createElement('button'),msg=document.createElement('div');
+  b.type='button';b.className='locbtn';b.textContent='Dónde estoy';msg.className='locmsg';msg.setAttribute('role','status');msg.hidden=true;
+  const say=t=>{msg.textContent=t;msg.hidden=!t};
+  b.addEventListener('click',()=>{say('');geo.trigger()});
+  geo.on('trackuserlocationstart',()=>{b.textContent='Siguiendo tu posición';b.classList.add('on')});
+  geo.on('trackuserlocationend',()=>{b.textContent='Dónde estoy';b.classList.remove('on')});
+  geo.on('geolocate',()=>say(''));
+  geo.on('error',e=>{b.textContent='Dónde estoy';b.classList.remove('on');say(e&&e.code===1?'No tengo permiso para ver tu ubicación. Actívalo en los ajustes del navegador para esta web.':'No he podido obtener tu ubicación. Prueba al aire libre o con el GPS activado.')});
+  c.appendChild(b);c.appendChild(msg);
+}
 const L={
   map(id){
     const m=new maplibregl.Map({container:id,style:'https://tiles.openfreemap.org/styles/liberty',center:[-4.7795,37.8805],zoom:15,pitch:40,attributionControl:{compact:true}});
     m.addControl(new maplibregl.NavigationControl({visualizePitch:true}),'top-right');
+    addLocate(m);
     m.setView=(ll,z)=>{m.flyTo({center:[ll[1],ll[0]],zoom:z,essential:true});return m};
     const fb=m.fitBounds.bind(m);
-    m.fitBounds=(pts,o)=>{const b=new maplibregl.LngLatBounds();pts.forEach(p=>b.extend([p[1],p[0]]));fb(b,{padding:o&&o.padding?o.padding[0]:40,maxZoom:o&&o.maxZoom,duration:700});return m};
+    m.fitBounds=(pts,o)=>{if(!Array.isArray(pts))return fb(pts,o);const b=new maplibregl.LngLatBounds();pts.forEach(p=>b.extend([p[1],p[0]]));fb(b,{padding:o&&o.padding?o.padding[0]:40,maxZoom:o&&o.maxZoom,duration:700});return m};
     return m;
   },
   tileLayer(){return{addTo(){}}},
