@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de palet europeo</title>
+<meta name="description" content="Calcula cuántas cajas caben en un palet europeo (1200 × 800 mm) por largo, ancho y altura, con dibujo en planta, alzado y 3D, y los pesos y medidas totales.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Herramienta de logística: gris pizarra, cartón kraft y naranja de señalización. Planta, alzado y 3D comparten colores. */
+:root{--bg:#eceff2;--panel:#fff;--ink:#18212b;--mute:#5a6675;--line:#d3d9e0;--slate:#1c2733;--orange:#f26a00;--orange2:#c95500;--kraft:#e3bb82;--kraft2:#d2a265;--kraftln:#7a5628;--wood:#c9a06a;--woodln:#8a6232;--warn:#b3261e;--ok:#1f7a45;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 'IBM Plex Sans',system-ui,sans-serif}
+h1,h2,h3{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:700;margin:0;line-height:1.05;letter-spacing:.01em}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+header{background:var(--slate);color:#fff;border-bottom:6px solid var(--orange)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 18px}
+header .wrap{display:flex;align-items:center;gap:18px;padding-block:18px}
+header svg{flex:none;width:64px;height:48px}
+header h1{font-size:clamp(30px,5vw,46px);text-transform:uppercase}
+header p{margin:4px 0 0;color:#b9c4d0}
+main.wrap{display:grid;grid-template-columns:minmax(300px,380px) minmax(0,1fr);gap:20px;padding-block:20px 40px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--slate);padding:16px 18px}
+.panel h2{font-size:24px;text-transform:uppercase;margin-bottom:12px;color:var(--slate)}
+.panel h2 small{font:500 13px 'IBM Plex Sans',sans-serif;text-transform:none;color:var(--mute);letter-spacing:0;margin-left:6px}
+.inputs{position:sticky;top:12px}
+fieldset{border:0;margin:0 0 14px;padding:0}
+legend{font:700 13px 'Barlow Condensed',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--orange2);padding:0;margin-bottom:6px;border-bottom:2px solid var(--line);width:100%}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+label.f{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--mute)}
+input[type=number],select{font:500 17px 'IBM Plex Mono',monospace;padding:8px 9px;border:2px solid var(--line);background:#fff;color:var(--ink);width:100%;border-radius:0}
+select{font-family:'IBM Plex Sans',sans-serif;font-size:15px}
+input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-offset:1px}
+.seg{display:inline-flex;border:2px solid var(--slate);margin-bottom:10px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{padding:6px 16px;font-weight:600;cursor:pointer;background:#fff;color:var(--slate)}
+.seg input:checked+label{background:var(--slate);color:#fff}
+.seg input:focus-visible+label{outline:3px solid var(--orange);outline-offset:-3px}
+.chk{display:flex;gap:9px;align-items:flex-start;margin:7px 0;font-size:15px;cursor:pointer}
+.chk input{width:18px;height:18px;margin-top:2px;accent-color:var(--orange)}
+.chk small{display:block;color:var(--mute);font-size:13px}
+.btn{font:600 15px 'IBM Plex Sans',sans-serif;border:2px solid var(--slate);background:var(--slate);color:#fff;padding:9px 16px;cursor:pointer;border-radius:0}
+.btn.alt{background:#fff;color:var(--slate)}
+.btn.go{background:var(--orange);border-color:var(--orange);color:#fff}
+.btn:hover{filter:brightness(1.08)}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+/* resultados */
+.headline{font:700 clamp(24px,3.6vw,38px)/1.12 'Barlow Condensed',sans-serif;color:var(--slate);margin:0 0 4px}
+.headline b{color:var(--orange2)}
+.sub{margin:0 0 14px;color:var(--mute)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px}
+.kpi{background:#fff;border:1px solid var(--line);border-left:6px solid var(--orange);padding:10px 12px}
+.kpi span{display:block;font:600 12px 'IBM Plex Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.kpi b{display:block;font:700 40px/1 'Barlow Condensed',sans-serif;color:var(--slate)}
+.kpi small{color:var(--mute);font-size:13px}
+.kpi.big{border-left-color:var(--slate);background:var(--slate)}
+.kpi.big span,.kpi.big small{color:#b9c4d0}.kpi.big b{color:#fff}
+.notes{margin:0 0 12px;padding:0;list-style:none;display:grid;gap:6px}
+.notes li{padding:9px 12px;border-left:5px solid var(--orange);background:#fff7ee;font-size:15px}
+.notes li.bad{border-left-color:var(--warn);background:#fdeceb;color:#7a1710;font-weight:600}
+.notes li.ok{border-left-color:var(--ok);background:#eaf6ef}
+.views{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.view{background:#fff;border:1px solid var(--line);padding:10px 12px 8px;min-width:0}
+.view.wide{grid-column:1/-1}
+.view h3{font-size:19px;text-transform:uppercase;margin-bottom:6px;color:var(--slate);display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.view h3 small{font:400 13px 'IBM Plex Sans',sans-serif;text-transform:none;color:var(--mute);letter-spacing:0}
+.view svg{display:block;width:100%;height:auto;max-height:560px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{width:42%;font-weight:600;color:var(--mute)}
+td{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+td small{font-family:'IBM Plex Sans',sans-serif;color:var(--mute)}
+tr.hl th,tr.hl td{background:#fff7ee;color:var(--ink);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:6px 0 0;font-size:13px;color:var(--mute)}
+.legend i{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:5px;border:1.5px solid var(--kraftln)}
+footer.wrap{padding-block:0 30px;color:var(--mute);font-size:13px}
+@keyframes pop{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+.anim .pop{animation:pop .32s ease-out both;animation-delay:var(--d,0ms)}
+@media(max-width:900px){main.wrap{grid-template-columns:1fr}.inputs{position:static}.views{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.anim .pop{animation:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <svg viewBox="0 0 64 48" aria-hidden="true"><rect x="2" y="30" width="60" height="5" fill="#c9a06a"/><rect x="6" y="35" width="9" height="8" fill="#8a6232"/><rect x="27.5" y="35" width="9" height="8" fill="#8a6232"/><rect x="49" y="35" width="9" height="8" fill="#8a6232"/><rect x="2" y="43" width="60" height="4" fill="#c9a06a"/><rect x="8" y="14" width="22" height="16" fill="#e3bb82" stroke="#7a5628" stroke-width="1.5"/><rect x="32" y="14" width="22" height="16" fill="#d2a265" stroke="#7a5628" stroke-width="1.5"/><rect x="18" y="1" width="22" height="13" fill="#e3bb82" stroke="#7a5628" stroke-width="1.5"/></svg>
+  <div><h1>Calculadora de palet</h1><p>Cuántas cajas caben, cómo se reparten y cuánto pesa la carga.</p></div>
+</div></header>
+
+<main class="wrap">
+  <section class="panel inputs" aria-label="Datos">
+    <h2>Datos</h2>
+    <div class="seg" role="radiogroup" aria-label="Unidades">
+      <input type="radio" name="unit" id="u-cm" value="cm" checked><label for="u-cm">cm</label>
+      <input type="radio" name="unit" id="u-mm" value="mm"><label for="u-mm">mm</label>
+    </div>
+    <fieldset>
+      <legend>Caja individual</legend>
+      <div class="grid3">
+        <label class="f">Largo<input id="l" type="number" inputmode="decimal" min="0" step="any" value="40"></label>
+        <label class="f">Ancho<input id="w" type="number" inputmode="decimal" min="0" step="any" value="30"></label>
+        <label class="f">Alto<input id="h" type="number" inputmode="decimal" min="0" step="any" value="25"></label>
+      </div>
+      <div class="grid2" style="margin-top:8px">
+        <label class="f">Peso por caja (kg)<input id="boxKg" type="number" inputmode="decimal" min="0" step="any" value="8"></label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Palet</legend>
+      <label class="f">Tipo<select id="pal">
+        <option value="eur">Europalet EUR · 1200 × 800 mm</option>
+        <option value="eur2">EUR 2 · 1200 × 1000 mm</option>
+        <option value="half">Medio palet EUR 6 · 800 × 600 mm</option>
+      </select></label>
+      <div class="grid2" style="margin-top:8px">
+        <label class="f">Altura máx. con palet (mm)<select id="maxH">
+          <option>1200</option><option>1400</option><option>1500</option><option>1650</option><option selected>1800</option><option>2000</option><option>2200</option><option>2400</option>
+        </select></label>
+        <label class="f">Carga máx. (kg)<input id="maxKg" type="number" inputmode="decimal" min="0" step="any" value="1500"></label>
+        <label class="f">Peso palet vacío (kg)<input id="palKg" type="number" inputmode="decimal" min="0" step="any" value="25"></label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Cómo se colocan</legend>
+      <label class="chk"><input type="checkbox" id="rotate" checked><span>Girar las cajas 90° en la capa<small>Permite mezclar orientaciones para aprovechar mejor el palet.</small></span></label>
+      <label class="chk"><input type="checkbox" id="anyFace"><span>Permitir apoyar la caja en otra cara<small>Prueba las tres posiciones y elige la que más cajas da. Úsalo si la caja no tiene «este lado arriba».</small></span></label>
+      <label class="chk"><input type="checkbox" id="interlock" checked><span>Capas entrelazadas<small>Las capas pares se giran 180° para dar más estabilidad (solo en el dibujo).</small></span></label>
+    </fieldset>
+    <div class="row">
+      <button class="btn go" id="play" type="button">Rellenar palet ▶</button>
+      <button class="btn alt" id="copy" type="button">Copiar resumen</button>
+    </div>
+    <p id="copied" role="status" style="min-height:20px;margin:6px 0 0;font-size:14px;color:var(--ok)"></p>
+  </section>
+
+  <section aria-label="Resultados">
+    <p class="headline" id="headline" aria-live="polite"></p>
+    <p class="sub" id="subline"></p>
+    <div class="kpis" id="kpis"></div>
+    <ul class="notes" id="notes"></ul>
+
+    <div class="views">
+      <div class="view wide"><h3>Planta <small id="planNote"></small></h3><div id="plan"></div>
+        <div class="legend"><span><i style="background:var(--kraft)"></i>Caja en posición normal</span><span><i style="background:var(--kraft2)"></i>Caja girada 90°</span><span><i style="background:var(--wood);border-color:var(--woodln)"></i>Palet</span></div></div>
+      <div class="view"><h3>3D <small id="isoNote"></small></h3><div id="iso"></div></div>
+      <div class="view"><h3>Alzado <small>vista frontal</small></h3><div id="front"></div></div>
+    </div>
+
+    <div class="panel">
+      <h2>Medidas y pesos totales</h2>
+      <table id="tbl"></table>
+    </div>
+  </section>
+</main>
+<footer class="wrap"><p>Las medidas del palet EUR (1200 × 800 × 144 mm) son las estándar. El peso del palet vacío y la carga máxima son orientativos: ajústalos a tu palet y transporte. El reparto es el mejor que encuentra con cortes rectos y puede haber alguna colocación no recta que quepa una caja más.</p></footer>
+
+<script src="pack.js"></script>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const PRESETS={eur:{L:1200,W:800,H:144,kg:25,max:1500,name:'Europalet EUR'},eur2:{L:1200,W:1000,H:162,kg:30,max:1500,name:'EUR 2'},half:{L:800,W:600,H:144,kg:12,max:750,name:'Medio palet EUR 6'}};
+const nf=(n,d=0)=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:d,minimumFractionDigits:0}).format(n);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let last=null;
+
+/* ---------- lectura de datos ---------- */
+function read(){
+  const mm=document.querySelector('input[name=unit]:checked').value==='mm'?1:10;
+  const num=id=>{const v=parseFloat(String($(id).value).replace(',','.'));return isFinite(v)&&v>0?v:0};
+  const p=PRESETS[$('pal').value];
+  return {mm,l:num('l')*mm,w:num('w')*mm,h:num('h')*mm,boxKg:num('boxKg'),L:p.L,W:p.W,palletH:p.H,maxH:num('maxH'),maxPayload:num('maxKg'),palletKg:num('palKg'),
+    rotate:$('rotate').checked,anyFace:$('anyFace').checked,interlock:$('interlock').checked,palName:p.name};
+}
+function save(){try{const d={};document.querySelectorAll('input,select').forEach(e=>{d[e.id||e.name]=e.type==='checkbox'?e.checked:(e.type==='radio'?(e.checked?e.value:d[e.name]):e.value)});localStorage.setItem('palet-v1',JSON.stringify(d))}catch(_){}}
+function load(){try{const d=JSON.parse(localStorage.getItem('palet-v1')||'null');if(!d)return;
+  ['l','w','h','boxKg','maxKg','palKg'].forEach(k=>{if(d[k]!=null)$(k).value=d[k]});
+  if(d.pal&&PRESETS[d.pal])$('pal').value=d.pal;if(d.maxH)$('maxH').value=d.maxH;
+  ['rotate','anyFace','interlock'].forEach(k=>{if(typeof d[k]==='boolean')$(k).checked=d[k]});
+  if(d.unit==='mm')$('u-mm').checked=true}catch(_){}}
+
+/* ---------- dibujo ---------- */
+const C=Math.cos(Math.PI/6),S=0.5;
+const iso=(x,y,z)=>[(x-y)*C,(x+y)*S-z];
+const pts=a=>a.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+function mirror(rects,L,W){return rects.map(r=>({x:L-r.x-r.w,y:W-r.y-r.h,w:r.w,h:r.h,r:r.r}))}
+/* Orden de pintado: una caja se pinta antes que las que tiene delante (más x o más y). */
+function paintOrder(rects){
+  const n=rects.length,e=1e-6,out=Array.from({length:n},()=>[]),deg=new Array(n).fill(0);
+  for(let i=0;i<n;i++)for(let j=0;j<n;j++){if(i===j)continue;const a=rects[i],b=rects[j];
+    const oy=a.y<b.y+b.h-e&&b.y<a.y+a.h-e,ox=a.x<b.x+b.w-e&&b.x<a.x+a.w-e;
+    if((a.x+a.w<=b.x+e&&oy)||(a.y+a.h<=b.y+e&&ox)){out[i].push(j);deg[j]++}}
+  const q=[],res=[];for(let i=0;i<n;i++)if(!deg[i])q.push(i);
+  q.sort((a,b)=>(rects[a].x+rects[a].y)-(rects[b].x+rects[b].y));
+  while(q.length){const i=q.shift();res.push(i);out[i].forEach(j=>{if(--deg[j]===0)q.push(j)});q.sort((a,b)=>(rects[a].x+rects[a].y)-(rects[b].x+rects[b].y))}
+  if(res.length<n)for(let i=0;i<n;i++)if(!res.includes(i))res.push(i);
+  return res;
+}
+function dimLineH(x1,x2,y,label,fs){const t=fs*.5;return `<g stroke="#18212b" stroke-width="${fs*.07}" fill="none"><path d="M${x1} ${y}H${x2}M${x1} ${y-t}V${y+t}M${x2} ${y-t}V${y+t}"/></g><text x="${(x1+x2)/2}" y="${y-fs*.45}" font-size="${fs}" text-anchor="middle" fill="#18212b" font-family="IBM Plex Mono,monospace">${label}</text>`}
+function dimLineV(x,y1,y2,label,fs,left){const t=fs*.5,tx=left?x-fs*.45:x+fs*.45;return `<g stroke="#18212b" stroke-width="${fs*.07}" fill="none"><path d="M${x} ${y1}V${y2}M${x-t} ${y1}H${x+t}M${x-t} ${y2}H${x+t}"/></g><text transform="translate(${tx},${(y1+y2)/2}) rotate(-90)" font-size="${fs}" text-anchor="middle" fill="#18212b" font-family="IBM Plex Mono,monospace">${label}</text>`}
+
+function drawPlan(o,r){
+  const L=o.L,W=o.W,pad=Math.max(L,W)*.11,fs=Math.max(L,W)*.034;
+  const vbW=L+pad*2,vbH=W+pad*2;
+  const rects=r.best.p.rects.slice(0,Math.max(r.total?Math.min(r.total,r.perLayer):0,0));
+  let s=`<svg viewBox="0 0 ${vbW} ${vbH}" role="img" aria-label="Planta del palet con ${rects.length} cajas por capa">`;
+  s+=`<rect x="${pad}" y="${pad}" width="${L}" height="${W}" fill="#c9a06a" stroke="#8a6232" stroke-width="${fs*.14}"/>`;
+  let g='';for(let x=100;x<L;x+=100)g+=`M${pad+x} ${pad}V${pad+W}`;for(let y=100;y<W;y+=100)g+=`M${pad} ${pad+y}H${pad+L}`;
+  s+=`<path d="${g}" stroke="#8a6232" stroke-opacity=".22" stroke-width="${fs*.05}" fill="none"/>`;
+  const n=rects.length||1;
+  rects.forEach((q,i)=>{
+    const fill=q.r?'#d2a265':'#e3bb82',d=Math.min(i*(1800/n),1800);
+    s+=`<rect class="pop" style="--d:${d.toFixed(0)}ms" x="${pad+q.x}" y="${pad+q.y}" width="${q.w}" height="${q.h}" fill="${fill}" stroke="#7a5628" stroke-width="${fs*.1}"/>`;
+    if(q.w>fs*5.2&&q.h>fs*1.7)s+=`<text x="${pad+q.x+q.w/2}" y="${pad+q.y+q.h/2+fs*.34}" font-size="${fs*.8}" text-anchor="middle" fill="#5a3f17" font-family="IBM Plex Mono,monospace" pointer-events="none">${nf((q.r?r.best.w:r.best.l)/o.mm,1)}×${nf((q.r?r.best.l:r.best.w)/o.mm,1)}</text>`;
+  });
+  s+=dimLineH(pad,pad+L,pad*.62,nf(L)+' mm',fs);
+  s+=dimLineV(pad*.62,pad,pad+W,nf(W)+' mm',fs,true);
+  if(r.bbL&&(r.bbL<L-0.5||r.bbW<W-0.5)){
+    s+=`<rect x="${pad}" y="${pad}" width="${r.bbL}" height="${r.bbW}" fill="none" stroke="#f26a00" stroke-width="${fs*.12}" stroke-dasharray="${fs*.5} ${fs*.35}"/>`;
+    s+=`<text x="${pad+L}" y="${pad+W+pad*.62}" font-size="${fs*.85}" text-anchor="end" fill="#c95500" font-family="IBM Plex Mono,monospace">carga: ${nf(r.bbL)} × ${nf(r.bbW)} mm</text>`;
+  }
+  return s+'</svg>';
+}
+
+function drawFront(o,r){
+  const L=o.L,fs=Math.max(L*.032,40),ph=o.palletH,h=r.best.h,top=ph+r.usedLayers*h;
+  const maxShow=Math.max(o.maxH,top);
+  const padL=fs*3.4,padR=fs*5,padT=fs*2.2,padB=fs*1.6;
+  const vbW=L+padL+padR,vbH=maxShow+padT+padB;
+  const Y=z=>padT+maxShow-z,X=x=>padL+x;
+  let s=`<svg viewBox="0 0 ${vbW} ${vbH}" role="img" aria-label="Alzado del palet con ${r.usedLayers} capas">`;
+  // palet
+  s+=`<rect x="${X(0)}" y="${Y(ph)}" width="${L}" height="${ph*.16}" fill="#c9a06a" stroke="#8a6232" stroke-width="${fs*.09}"/>`;
+  [0,(L-100)/2,L-100].forEach(bx=>{s+=`<rect x="${X(bx)}" y="${Y(ph*.84)}" width="100" height="${ph*.68}" fill="#a8803f" stroke="#8a6232" stroke-width="${fs*.09}"/>`});
+  s+=`<rect x="${X(0)}" y="${Y(ph*.16)}" width="${L}" height="${ph*.16}" fill="#c9a06a" stroke="#8a6232" stroke-width="${fs*.09}"/>`;
+  // capas
+  const base=r.best.p.rects,mir=mirror(base,o.L,o.W);
+  const maxY=base.length?Math.max.apply(null,base.map(q=>q.y+q.h)):0;
+  let idx=0;const N=r.total||1;
+  for(let k=0;k<r.usedLayers;k++){
+    const cnt=k<r.fullLayers?r.perLayer:r.rest;
+    const pat=(o.interlock&&k%2)?mir:base;
+    const place=pat.slice(0,cnt);
+    const my=place.length?Math.max.apply(null,place.map(q=>q.y+q.h)):0;
+    // todas las cajas de la capa, de atrás hacia delante; con muchísimas cajas, solo la fila delantera
+    const front=r.total>1500?place.filter(q=>q.y+q.h>=my-1e-6):place.slice().sort((p,q)=>(p.y+p.h)-(q.y+q.h));
+    const d=Math.min(k*(2200/Math.max(r.usedLayers,1)),2200);
+    front.forEach(q=>{s+=`<rect class="pop" style="--d:${d.toFixed(0)}ms" x="${X(q.x)}" y="${Y(ph+(k+1)*h)}" width="${q.w}" height="${h}" fill="${q.r?'#d2a265':'#e3bb82'}" stroke="#7a5628" stroke-width="${fs*.09}"/>`});
+    if(k===r.usedLayers-1&&r.rest)s+=`<text x="${X(L)+fs*.5}" y="${Y(ph+(k+.5)*h)+fs*.3}" font-size="${fs*.8}" fill="#c95500" font-family="IBM Plex Mono,monospace">capa incompleta</text>`;
+  }
+  // cotas
+  s+=dimLineV(X(L)+fs*1.2,Y(top),Y(0),nf(top)+' mm',fs,false);
+  s+=dimLineV(padL-fs*1.5,Y(ph),Y(0),nf(ph),fs*.85,true);
+  if(r.usedLayers)s+=dimLineV(padL-fs*1.5-fs*1.7,Y(ph+h),Y(ph),nf(h),fs*.85,true);
+  s+=`<line x1="${X(0)}" x2="${X(L)}" y1="${Y(o.maxH)}" y2="${Y(o.maxH)}" stroke="#b3261e" stroke-width="${fs*.09}" stroke-dasharray="${fs*.6} ${fs*.4}"/>`;
+  s+=`<text x="${X(0)}" y="${Y(o.maxH)-fs*.35}" font-size="${fs*.8}" fill="#b3261e" font-family="IBM Plex Mono,monospace">altura máx. ${nf(o.maxH)} mm</text>`;
+  s+=`<line x1="${X(-fs)}" x2="${X(L+fs)}" y1="${Y(0)}" y2="${Y(0)}" stroke="#18212b" stroke-width="${fs*.12}"/>`;
+  return s+'</svg>';
+}
+
+function drawIso(o,r){
+  const L=o.L,W=o.W,ph=o.palletH,h=r.best.h,top=ph+r.usedLayers*h;
+  const corners=[iso(0,0,0),iso(L,0,0),iso(0,W,0),iso(L,W,0),iso(0,0,Math.max(top,o.maxH)),iso(L,W,Math.max(top,o.maxH)),iso(L,0,Math.max(top,o.maxH)),iso(0,W,Math.max(top,o.maxH))];
+  const xs=corners.map(c=>c[0]),ys=corners.map(c=>c[1]);
+  const pad=Math.max(L,W)*.05,x0=Math.min.apply(null,xs)-pad,x1=Math.max.apply(null,xs)+pad,y0=Math.min.apply(null,ys)-pad,y1=Math.max.apply(null,ys)+pad;
+  let s=`<svg viewBox="${x0.toFixed(0)} ${y0.toFixed(0)} ${(x1-x0).toFixed(0)} ${(y1-y0).toFixed(0)}" role="img" aria-label="Vista en 3D del palet cargado">`;
+  const fs=Math.max(L,W)*.03,sw=fs*.09;
+  const box=(x,y,z,dx,dy,dz,top,left,right,stroke,cls,delay)=>{
+    const t=[[x,y,z+dz],[x+dx,y,z+dz],[x+dx,y+dy,z+dz],[x,y+dy,z+dz]].map(p=>iso(...p));
+    const rg=[[x+dx,y,z],[x+dx,y+dy,z],[x+dx,y+dy,z+dz],[x+dx,y,z+dz]].map(p=>iso(...p));
+    const lf=[[x,y+dy,z],[x+dx,y+dy,z],[x+dx,y+dy,z+dz],[x,y+dy,z+dz]].map(p=>iso(...p));
+    return `<g ${cls?`class="${cls}" style="--d:${delay}ms"`:''} stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round"><polygon points="${pts(lf)}" fill="${left}"/><polygon points="${pts(rg)}" fill="${right}"/><polygon points="${pts(t)}" fill="${top}"/></g>`;
+  };
+  // palet: tablero superior, tres tacos y tablero inferior
+  const wood=['#d9b27c','#b98c55','#9d7442'];
+  s+=box(0,0,0,L,W,ph*.16,wood[0],wood[1],wood[2],'#6e4d24','','');
+  const bw=Math.min(100,L/8);
+  [0,(L-bw)/2,L-bw].forEach(bx=>{[0,(W-bw)/2,W-bw].forEach(by=>{s+=box(bx,by,ph*.16,bw,bw,ph*.68,wood[0],wood[1],wood[2],'#6e4d24','','')})});
+  s+=box(0,0,ph*.84,L,W,ph*.16,wood[0],wood[1],wood[2],'#6e4d24','','');
+  const total=r.total;
+  if(total>3000){
+    for(let k=0;k<r.usedLayers;k++){const cnt=k<r.fullLayers?r.perLayer:r.rest,fr=cnt/r.perLayer;s+=box(0,0,ph+k*h,r.bbL,r.bbW*fr,h,'#ecc995','#d2a265','#b98a4f','#7a5628','pop',Math.min(k*(2400/r.usedLayers),2400).toFixed(0))}
+    return s+'</svg>';
+  }
+  const base=r.best.p.rects,mir=mirror(base,L,W);
+  const ordB=paintOrder(base),ordM=o.interlock?paintOrder(mir):null;
+  let idx=0;
+  for(let k=0;k<r.usedLayers;k++){
+    const flip=o.interlock&&k%2,pat=flip?mir:base,ord=flip?ordM:ordB;
+    const cnt=k<r.fullLayers?r.perLayer:r.rest;
+    const keep=new Set();for(let i=0;i<cnt;i++)keep.add(i);
+    // con capa incompleta se conservan las primeras cajas del patrón base
+    const baseIdx=flip?pat.map((q,i)=>i):pat.map((q,i)=>i);
+    ord.forEach(i=>{if(!keep.has(i))return;const q=pat[i];
+      const d=Math.min((idx++)*(2400/(total||1)),2400).toFixed(0);
+      const c=q.r?['#d9aa6c','#c0925a','#a67b45']:['#ecc995','#d2a265','#b98a4f'];
+      s+=box(q.x,q.y,ph+k*h,q.w,q.h,h,c[0],c[1],c[2],'#7a5628','pop',d)});
+  }
+  return s+'</svg>';
+}
+
+/* ---------- tabla y resumen ---------- */
+function kg(n){return nf(n,1)+' kg'}
+function render(){
+  const o=read();
+  const ok=o.l>0&&o.w>0&&o.h>0;
+  const el=id=>$(id);
+  if(!ok){
+    el('headline').innerHTML='Escribe el largo, el ancho y el alto de la caja.';el('subline').textContent='';el('kpis').innerHTML='';el('notes').innerHTML='';
+    el('plan').innerHTML=el('iso').innerHTML=el('front').innerHTML='';el('tbl').innerHTML='';last=null;return;
+  }
+  if(Math.min(o.l,o.w,o.h)<20){el('headline').innerHTML='La caja es demasiado pequeña para dibujarla.';el('subline').textContent='Usa cajas de al menos 20 mm por lado (2 cm).';el('kpis').innerHTML='';el('notes').innerHTML='';el('plan').innerHTML=el('iso').innerHTML=el('front').innerHTML='';el('tbl').innerHTML='';last=null;return}
+  const r=Pack.calculate({L:o.L,W:o.W,palletH:o.palletH,maxH:o.maxH,l:o.l,w:o.w,h:o.h,rotate:o.rotate,anyFace:o.anyFace,boxKg:o.boxKg,maxPayload:o.maxPayload||Infinity,palletKg:o.palletKg});
+  last={o,r};
+  const u=r.best.p.uniform,unit=o.mm===10?'cm':'mm',D=v=>nf(v/o.mm,1);
+  const mixed=r.perLayer>u.n;
+  // titular
+  if(r.total===0){
+    el('headline').innerHTML='<b>No cabe</b> ninguna caja en el palet.';
+    el('subline').textContent=r.layers===0?'La caja es más alta que el espacio libre sobre el palet ('+nf(o.maxH-o.palletH)+' mm).':'La caja es más grande que la superficie del palet.';
+  }else{
+    el('headline').innerHTML=`Caben <b>${nf(r.total)} cajas</b> en un ${esc(o.palName)}`;
+    el('subline').textContent=`${nf(r.perLayer)} por capa × ${nf(r.layers)} capas${r.limitedByWeight?` (limitado por peso a ${nf(r.total)} de ${nf(r.geom)})`:''}. Caja apoyada en ${D(r.best.l)} × ${D(r.best.w)} ${unit}, alto ${D(r.best.h)} ${unit}.`;
+  }
+  // KPI
+  const alongL=!u.n?0:(u.r?Math.floor(o.L/r.best.w):Math.floor(o.L/r.best.l)),alongW=!u.n?0:(u.r?Math.floor(o.W/r.best.l):Math.floor(o.W/r.best.w));
+  el('kpis').innerHTML=
+    `<div class="kpi big"><span>Total de cajas</span><b>${nf(r.total)}</b><small>${r.total?nf(r.usedLayers)+' capas ocupadas':'—'}</small></div>`+
+    `<div class="kpi"><span>Por largo (${nf(o.L)} mm)</span><b>${nf(alongL)}</b><small>${mixed?'en una sola orientación':'cajas en fila'}</small></div>`+
+    `<div class="kpi"><span>Por ancho (${nf(o.W)} mm)</span><b>${nf(alongW)}</b><small>${mixed?'en una sola orientación':'cajas en fila'}</small></div>`+
+    `<div class="kpi"><span>En altura</span><b>${nf(r.layers)}</b><small>capas de ${D(r.best.h)} ${unit}</small></div>`+
+    `<div class="kpi"><span>Por capa</span><b>${nf(r.perLayer)}</b><small>${mixed?'reparto mixto':'una orientación'}</small></div>`;
+  // avisos
+  const notes=[];
+  if(mixed)notes.push(['',`La mejor distribución mezcla cajas giradas: ${nf(r.perLayer)} por capa, frente a ${nf(u.n)} con una sola orientación (${nf(u.nx)} × ${nf(u.ny)}).`]);
+  if(o.anyFace&&r.best.idx!==0)notes.push(['',`Las cajas van apoyadas en otra cara (${D(r.best.l)} × ${D(r.best.w)}, alto ${D(r.best.h)} ${unit}) porque así caben más.`]);
+  if(r.limitedByWeight)notes.push(['bad',`El peso limita la carga: ${nf(o.maxPayload)} kg solo admiten ${nf(r.maxByWeight)} cajas de ${nf(o.boxKg,1)} kg, aunque físicamente caben ${nf(r.geom)}.`]);
+  if(o.palletKg+r.netKg>0&&!r.limitedByWeight&&o.maxPayload&&r.netKg>o.maxPayload)notes.push(['bad','La carga supera el máximo del palet.']);
+  if(r.total&&o.maxPayload&&!r.limitedByWeight&&o.boxKg>0){const spare=o.maxPayload-r.netKg;notes.push(['ok',`Margen de peso: puedes añadir ${kg(spare)} más antes de llegar a la carga máxima de ${nf(o.maxPayload)} kg.`])}
+  if(r.total&&r.rest)notes.push(['',`La última capa queda incompleta (${nf(r.rest)} de ${nf(r.perLayer)} cajas).`]);
+  if(r.total&&!r.best.p.exact)notes.push(['',`Caja muy pequeña: he usado un reparto de una sola orientación para no ralentizar el cálculo.`]);
+  el('notes').innerHTML=notes.map(n=>`<li class="${n[0]}">${esc(n[1])}</li>`).join('');
+  // dibujos
+  el('plan').innerHTML=drawPlan(o,r);
+  el('planNote').textContent=r.total?`capa inferior · ${nf(Math.min(r.total,r.perLayer))} cajas${o.interlock&&r.usedLayers>1?' · las capas pares giran 180°':''}`:'';
+  el('iso').innerHTML=drawIso(o,r);
+  el('isoNote').textContent=r.total>3000?'vista simplificada por capas':'';
+  el('front').innerHTML=drawFront(o,r);
+  // tabla
+  const row=(a,b,c)=>`<tr${c?' class="hl"':''}><th scope="row">${a}</th><td>${b}</td></tr>`;
+  const volBox=r.best.l*r.best.w*r.best.h/1e6;
+  el('tbl').innerHTML=
+    row('Caja (posición usada)',`${D(r.best.l)} × ${D(r.best.w)} × ${D(r.best.h)} ${unit}<br><small>${nf(volBox,2)} litros · ${nf(o.boxKg,2)} kg</small>`)+
+    row('Palet vacío',`${nf(o.L)} × ${nf(o.W)} × ${nf(o.palletH)} mm<br><small>${nf(o.palletKg,1)} kg</small>`)+
+    row('Cajas',`${nf(r.total)} <small>(${nf(r.perLayer)} por capa × ${nf(r.usedLayers)} capas)</small>`,1)+
+    row('Medidas totales de la carga (largo × ancho × alto)',`${nf(r.bbL)} × ${nf(r.bbW)} × ${nf(r.loadH)} mm<br><small>${nf(r.bbL/10,1)} × ${nf(r.bbW/10,1)} × ${nf(r.loadH/10,1)} cm con palet</small>`,1)+
+    row('Altura solo de las cajas',`${nf(r.usedLayers*r.best.h)} mm`)+
+    row('Peso de las cajas',kg(r.netKg),1)+
+    row('Peso total con palet',kg(r.grossKg),1)+
+    row('Peso por capa',kg(r.perLayer*o.boxKg))+
+    row('Volumen ocupado',`${nf(r.volM3,3)} m³`)+
+    row('Aprovechamiento de la superficie',`${nf(r.areaPct,1)} %`)+
+    row('Aprovechamiento del volumen',`${nf(r.volPct,1)} %`);
+  save();
+}
+
+/* ---------- eventos ---------- */
+function play(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const b=document.body;b.classList.remove('anim');void b.offsetWidth;b.classList.add('anim');
+  clearTimeout(play.t);play.t=setTimeout(()=>b.classList.remove('anim'),3200);
+}
+function summary(){
+  if(!last)return '';const {o,r}=last,unit=o.mm===10?'cm':'mm',D=v=>nf(v/o.mm,1);
+  return [`Palet ${o.palName} ${o.L}×${o.W} mm`,`Caja ${D(r.best.l)}×${D(r.best.w)}×${D(r.best.h)} ${unit}, ${nf(o.boxKg,2)} kg`,
+    `Cajas: ${nf(r.total)} (${nf(r.perLayer)} por capa × ${nf(r.usedLayers)} capas)`,
+    `Medidas de la carga: ${nf(r.bbL)}×${nf(r.bbW)}×${nf(r.loadH)} mm`,`Peso cajas: ${kg(r.netKg)} · Peso total con palet: ${kg(r.grossKg)}`].join('\n');
+}
+let tm;
+function schedule(){clearTimeout(tm);tm=setTimeout(render,90)}
+document.querySelectorAll('input,select').forEach(e=>e.addEventListener('input',schedule));
+document.querySelectorAll('select,input[type=checkbox],input[type=radio]').forEach(e=>e.addEventListener('change',schedule));
+$('pal').addEventListener('change',()=>{const p=PRESETS[$('pal').value];$('palKg').value=p.kg;$('maxKg').value=p.max;render()});
+document.querySelectorAll('input[name=unit]').forEach(e=>e.addEventListener('change',()=>{ // convierte los valores al cambiar de unidad
+  const toMm=e.value==='mm';['l','w','h'].forEach(id=>{const v=parseFloat(String($(id).value).replace(',','.'));if(isFinite(v))$(id).value=+(toMm?v*10:v/10).toFixed(2)});render()}));
+$('play').addEventListener('click',play);
+$('copy').addEventListener('click',async()=>{const t=summary(),m=$('copied');if(!t)return;
+  try{await navigator.clipboard.writeText(t);m.textContent='Resumen copiado.'}catch(_){m.textContent='No he podido copiar. Selecciona el texto de la tabla.'}
+  setTimeout(()=>{m.textContent=''},3500)});
+load();render();
+})();
+</script>
+</body>
+</html>
