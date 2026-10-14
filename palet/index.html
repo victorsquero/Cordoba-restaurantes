@@ -99,6 +99,27 @@ footer.wrap{padding-block:0 30px;color:var(--mute);font-size:13px}
 .anim .pop{animation:pop .32s ease-out both;animation-delay:var(--d,0ms)}
 @media(max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero svg.sym{display:none}header.site nav{display:none}main.wrap{grid-template-columns:1fr}.inputs{position:static}.views{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.anim .pop{animation:none}}
+@media print{
+@page{size:A4;margin:12mm}
+body{background:#fff;font-size:12px}
+header.site nav,.hero,section.tool-head,.inputs,footer.site .wrap>img+small{display:none}
+header.site{position:static;border-bottom:2px solid var(--slate)}
+header.site .wrap,main.wrap{padding-inline:0}
+main.wrap{display:block;padding-block:8px}
+.printonly{display:block!important}
+.headline{font-size:26px}
+.kpis{grid-template-columns:repeat(5,1fr)}.kpi b{font-size:28px}
+.views{grid-template-columns:1fr 1fr;gap:8px}.view,.panel,.kpi,.notes li{break-inside:avoid}
+.view svg{max-height:300px}.view.wide svg{max-height:200px}
+.views{margin:8px 0}.kpis{margin-bottom:8px}.notes{margin-bottom:8px}
+.panel{border:1px solid var(--line);padding:8px 10px}
+footer.site{background:none;color:var(--mute);margin:0}footer.site .wrap{padding:6px 0}footer.site img{display:none}
+footer.site small{display:block!important;font-size:10px}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.anim .pop{animation:none}
+}
+.printonly{display:none}
+
 </style>
 </head>
 <body>
@@ -159,11 +180,13 @@ footer.wrap{padding-block:0 30px;color:var(--mute);font-size:13px}
     <div class="row">
       <button class="btn go" id="play" type="button">Rellenar palet ▶</button>
       <button class="btn alt" id="copy" type="button">Copiar resumen</button>
+      <button class="btn alt" id="pdf" type="button">Exportar PDF</button>
     </div>
     <p id="copied" role="status" style="min-height:20px;margin:6px 0 0;font-size:14px;color:var(--ok)"></p>
   </section>
 
   <section aria-label="Resultados">
+    <p class="printonly sub" id="printmeta"></p>
     <p class="headline" id="headline" aria-live="polite"></p>
     <p class="sub" id="subline"></p>
     <div class="kpis" id="kpis"></div>
@@ -414,6 +437,11 @@ $('pal').addEventListener('change',()=>{const p=PRESETS[$('pal').value];$('palKg
 document.querySelectorAll('input[name=unit]').forEach(e=>e.addEventListener('change',()=>{ // convierte los valores al cambiar de unidad
   const toMm=e.value==='mm';['l','w','h'].forEach(id=>{const v=parseFloat(String($(id).value).replace(',','.'));if(isFinite(v))$(id).value=+(toMm?v*10:v/10).toFixed(2)});render()}));
 $('play').addEventListener('click',play);
+$('pdf').addEventListener('click',()=>{
+  const sel=$('pal'),u=document.querySelector('input[name=unit]:checked').value;
+  $('printmeta').textContent='Informe de carga · '+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})+' · Caja '+$('l').value+' × '+$('w').value+' × '+$('h').value+' '+u+', '+$('boxKg').value+' kg · '+sel.options[sel.selectedIndex].text;
+  const t=document.title;document.title='Fase Rem · Informe de palet';window.print();document.title=t;
+});
 $('copy').addEventListener('click',async()=>{const t=summary(),m=$('copied');if(!t)return;
   try{await navigator.clipboard.writeText(t);m.textContent='Resumen copiado.'}catch(_){m.textContent='No he podido copiar. Selecciona el texto de la tabla.'}
   setTimeout(()=>{m.textContent=''},3500)});
