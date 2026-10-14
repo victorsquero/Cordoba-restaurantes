@@ -47,6 +47,8 @@ h2{font-size:22px;margin:34px 0 14px}
 .photo .tag{position:absolute;left:12px;bottom:10px;background:rgba(0,0,0,.45);color:#fff;font-size:12px;padding:2px 10px;border-radius:99px}
 .banner{margin:30px 0 0;border-radius:18px;overflow:hidden;position:relative;min-height:170px;background:linear-gradient(120deg,#3b0d0d,#b3380a 60%,#f59f00);color:#fff;display:flex;align-items:center;padding:24px 28px}
 .banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.banner::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,4,16,.85),rgba(10,4,16,.35) 60%,transparent);z-index:1}
+.banner{min-height:230px}
 .banner div{position:relative;z-index:2;max-width:560px}
 .banner h2{margin:0 0 6px;color:#fff}
 .banner p{margin:0}
@@ -66,7 +68,7 @@ h2{font-size:22px;margin:34px 0 14px}
 </header>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="casa" viewBox="0 0 96 96"><path d="M8 46 48 12l40 34" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 42v40h60V42" fill="rgba(255,255,255,.18)" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><rect x="40" y="56" width="16" height="26" rx="2" fill="#fff"/><rect x="24" y="50" width="11" height="11" rx="2" fill="#fff"/><rect x="61" y="50" width="11" height="11" rx="2" fill="#fff"/><path d="M64 14v14h10V22" fill="none" stroke="#fff" stroke-width="5"/></symbol></svg><main>
-<section class="banner"><img src="img/luminarias.jpg" alt="Luminarias de San Antón" loading="lazy" onerror="this.remove()"><div><h2>Las Luminarias de San Antón</h2><p>Cada 16 de enero, víspera de San Antón, San Bartolomé de Pinares enciende cientos de hogueras y los vecinos saltan a caballo entre las llamas, una tradición para purificar a los animales y proteger su salud.</p></div></section>
+<section class="banner"><img src="img/luminarias.svg" alt="Luminarias de San Antón" loading="lazy" onerror="this.remove()"><div><h2>Las Luminarias de San Antón</h2><p>Cada 16 de enero, víspera de San Antón, San Bartolomé de Pinares enciende cientos de hogueras y los vecinos saltan a caballo entre las llamas, una tradición para purificar a los animales y proteger su salud.</p></div></section>
 <h2>👨‍👩‍👧‍👦 Distribución del grupo</h2>
 <div class="grid">
   <div class="card">
@@ -88,7 +90,7 @@ h2{font-size:22px;margin:34px 0 14px}
 
 <h2>🏡 Casas donde cabe todo el grupo</h2>
 <div class="grid">
-  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#7c2d12,#f08c00)"><svg><use href="#casa"/></svg><img src="img/casa-rural-el-molino-i-y-ii.jpg" alt="Casa Rural El Molino I y II" loading="lazy" onerror="this.remove()"></div><h3>Casa Rural El Molino I y II</h3>
+  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#7c2d12,#f08c00)"><svg><use href="#casa"/></svg><img src="img/casa-rural-el-molino-i-y-ii.svg" alt="Casa Rural El Molino I y II" loading="lazy" onerror="this.remove()"></div><h3>Casa Rural El Molino I y II</h3>
     <div>C/ La Iglesia 14 · San Bartolomé de Pinares</div>
     <div class="chips"><span class="chip">12 personas</span><span class="chip">6 dormitorios</span><span class="chip">Molino I: 5 hab.</span><span class="chip">Molino II: 1 hab.</span></div>
     <div class="price">19 – 31 € <small>por persona y noche (orientativo)</small></div>
@@ -98,7 +100,7 @@ h2{font-size:22px;margin:34px 0 14px}
     <a class="btn alt" href="https://www.casasrurales.net/casas-rurales/casa-rural-el-molino--c57250">Casasrurales.net</a>
     <a class="btn alt" href="https://www.escapadarural.com/casa-rural/avila/casa-rural-el-molino-i">EscapadaRural</a>
   </div>
-  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#3b4a6b,#7aa2c9)"><svg><use href="#casa"/></svg><img src="img/casa-rural-cascorro.jpg" alt="Casa Rural Cascorro" loading="lazy" onerror="this.remove()"></div><h3>Casa Rural Cascorro</h3>
+  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#3b4a6b,#7aa2c9)"><svg><use href="#casa"/></svg><img src="img/casa-rural-cascorro.svg" alt="Casa Rural Cascorro" loading="lazy" onerror="this.remove()"></div><h3>Casa Rural Cascorro</h3>
     <div>San Bartolomé de Pinares · casa completa</div>
     <div class="chips"><span class="chip">12 personas</span><span class="chip">6 dormitorios</span><span class="chip">9 camas</span><span class="chip">Piscina</span><span class="chip">Chimenea</span><span class="chip">Barbacoa</span></div>
     <div class="price">desde 25 € <small>por persona y noche (orientativo)</small></div>
@@ -107,7 +109,7 @@ h2{font-size:22px;margin:34px 0 14px}
     <a class="btn alt" href="https://www.escapadarural.com/casa-rural/avila/casa-rural-cascorro">EscapadaRural</a>
     <a class="btn alt" href="https://www.travelocity.com/es/San-Bartolome-De-Pinares-Hoteles.d553248633901330628.Guia-Viajes-Hoteles">Travelocity</a>
   </div>
-  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#14532d,#65a30d)"><svg><use href="#casa"/></svg><img src="img/casa-rural-braulio.jpg" alt="Casa Rural Braulio" loading="lazy" onerror="this.remove()"></div><h3>Casa Rural Braulio</h3>
+  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#14532d,#65a30d)"><svg><use href="#casa"/></svg><img src="img/casa-rural-braulio.svg" alt="Casa Rural Braulio" loading="lazy" onerror="this.remove()"></div><h3>Casa Rural Braulio</h3>
     <div>A unos 7 km de San Bartolomé · casa privada de 325 m²</div>
     <div class="chips"><span class="chip">12 personas</span><span class="chip">Casa completa</span></div>
     <div class="price">Precio por consultar <small>según fechas</small></div>
@@ -115,14 +117,14 @@ h2{font-size:22px;margin:34px 0 14px}
     <a class="btn" href="https://www.clubrural.com/casas-rurales/avila/san-bartolome-de-pinares">Clubrural</a>
     <a class="btn alt" href="https://www.tuscasasrurales.com/casas-rurales-san-bartolome-de-pinares-745.htm">TusCasasRurales</a>
   </div>
-  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#6b2d5c,#d6336c)"><svg><use href="#casa"/></svg><img src="img/el-magnolio.jpg" alt="El Magnolio" loading="lazy" onerror="this.remove()"></div><h3>El Magnolio</h3>
+  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#6b2d5c,#d6336c)"><svg><use href="#casa"/></svg><img src="img/el-magnolio.svg" alt="El Magnolio" loading="lazy" onerror="this.remove()"></div><h3>El Magnolio</h3>
     <div>Santa Cruz de Pinares · a unos 3 km</div>
     <div class="chips"><span class="chip">12 plazas</span><span class="chip">6 dormitorios</span><span class="chip">8 camas</span></div>
     <div class="price">Precio por consultar <small>según fechas</small></div>
     <a class="btn" href="https://www.zonasrurales.com/casas-rurales/avila/santa-cruz-de-pinares/">Zonasrurales</a>
     <a class="btn alt" href="https://www.casasrurales.net/casas-rurales/avila/santa-cruz-de-pinares">Casasrurales.net</a>
   </div>
-  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#7a3e12,#c2410c)"><svg><use href="#casa"/></svg><img src="img/casa-rural-los-guindales.jpg" alt="Casa Rural Los Guindales" loading="lazy" onerror="this.remove()"></div><h3>Casa Rural Los Guindales</h3>
+  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#7a3e12,#c2410c)"><svg><use href="#casa"/></svg><img src="img/casa-rural-los-guindales.svg" alt="Casa Rural Los Guindales" loading="lazy" onerror="this.remove()"></div><h3>Casa Rural Los Guindales</h3>
     <div>Santa Cruz de Pinares · a unos 3 km</div>
     <div class="chips"><span class="chip">10 – 12 personas</span><span class="chip">Casa completa</span></div>
     <div class="price">Precio por consultar <small>según fechas</small></div>
@@ -130,7 +132,7 @@ h2{font-size:22px;margin:34px 0 14px}
     <a class="btn" href="https://www.zonasrurales.com/casas-rurales/avila/santa-cruz-de-pinares/">Zonasrurales</a>
     <a class="btn alt" href="https://www.casasrurales.net/casas-rurales/avila/santa-cruz-de-pinares">Casasrurales.net</a>
   </div>
-  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#1e3a5f,#0ea5a4)"><svg><use href="#casa"/></svg><img src="img/cantogordo.jpg" alt="Cantogordo" loading="lazy" onerror="this.remove()"></div><h3>Cantogordo</h3>
+  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#1e3a5f,#0ea5a4)"><svg><use href="#casa"/></svg><img src="img/cantogordo.svg" alt="Cantogordo" loading="lazy" onerror="this.remove()"></div><h3>Cantogordo</h3>
     <div>Navaluenga · Valle del Alberche</div>
     <div class="chips"><span class="chip">10 + 2 supletorias</span><span class="chip">Jardín</span><span class="chip">Barbacoa</span><span class="chip">Zona infantil</span></div>
     <div class="price">desde 22 € <small>por persona y noche (orientativo)</small></div>
@@ -141,13 +143,13 @@ h2{font-size:22px;margin:34px 0 14px}
 
 <h2>🧩 Mezclando casas (plan B)</h2>
 <div class="grid">
-  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#7c2d12,#f08c00)"><svg><use href="#casa"/></svg><img src="img/tio-peguero-el-cielo-de-cebreros.jpg" alt="Tío Peguero + El Cielo de Cebreros" loading="lazy" onerror="this.remove()"></div><h3>Tío Peguero + El Cielo de Cebreros</h3>
+  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#7c2d12,#f08c00)"><svg><use href="#casa"/></svg><img src="img/tio-peguero-el-cielo-de-cebreros.svg" alt="Tío Peguero + El Cielo de Cebreros" loading="lazy" onerror="this.remove()"></div><h3>Tío Peguero + El Cielo de Cebreros</h3>
     <div class="chips"><span class="chip">9 + 6 plazas = 15</span><span class="chip">Cebreros a 12 km</span></div>
     <p><b>Casa Tío Peguero</b> (casco histórico, 9 personas) para las 3 parejas y los niños pequeños, y <b>El Cielo de Cebreros</b> (3 hab., 6 personas) para el resto. Los dos grupos quedan separados por unos 12 km.</p>
     <a class="btn" href="https://www.casasrurales.net/casas-rurales/casa-tio-peguero--c59480">Tío Peguero</a>
     <a class="btn alt" href="https://www.casasrurales.net/casas-rurales/avila/san-bartolome-de-pinares">Listado</a>
   </div>
-  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#3b4a6b,#7aa2c9)"><svg><use href="#casa"/></svg><img src="img/tio-peguero-casa-del-medico.jpg" alt="Tío Peguero + Casa del Médico" loading="lazy" onerror="this.remove()"></div><h3>Tío Peguero + Casa del Médico</h3>
+  <div class="card house"><div class="photo" style="background:linear-gradient(135deg,#3b4a6b,#7aa2c9)"><svg><use href="#casa"/></svg><img src="img/tio-peguero-casa-del-medico.svg" alt="Tío Peguero + Casa del Médico" loading="lazy" onerror="this.remove()"></div><h3>Tío Peguero + Casa del Médico</h3>
     <div class="chips"><span class="chip">9 plazas + Casa del Médico I y II</span><span class="chip">Herradón, a 2,8 km</span></div>
     <p><b>Casa Tío Peguero</b> más <b>La Casa del Médico I y II</b>, a solo 2,8 km. Es la combinación más cercana; falta confirmar la capacidad de la Casa del Médico (desde 18–26 € por persona y noche, orientativo).</p>
     <a class="btn" href="https://www.casasrurales.net/casas-rurales/avila/san-bartolome-de-pinares">Ver casas</a>
